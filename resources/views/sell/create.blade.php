@@ -79,7 +79,6 @@
 						</div>
 					</div>
 				@endif
-				<div class="clearfix"></div>
 				<div class="@if(!empty($commission_agent)) col-sm-3 @else col-sm-4 @endif">
 					<div class="form-group">
 						{!! Form::label('contact_id', __('contact.customer') . ':*') !!}
@@ -229,9 +228,136 @@
 							</td>
 						</tr>
 					</table>
-					</div>
+					</div
+					<!--Event Menu Add-->
+					<!--<div class="clearfix"></div>-->
 				</div>
 			@endcomponent
+
+			@component('components.widget', ['class' => 'box-primary'])
+							<div class="row col-sm-12" style="min-height: 0">
+				        <div class="col-sm-3">
+                            <div class="form-group">
+                                {!! Form::label('menu_id', 'Menu Type' . ':*') !!}
+                                {!! Form::select('menu_id', $menus, 1,['class' => 'form-control select2', 'placeholder' =>'Select Menu Type','required']); !!}
+                            </div>
+                        </div>
+                        
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                {!! Form::label('type', 'Event Type' . ':*') !!}
+                                {!! Form::select('type',  ['Wedding' => 'Wedding', 'Reception' => 'Reception', 'Holud' => 'Holud'], null, ['class' => 'form-control select2', 'placeholder' =>'Select Event Type', 'required']); !!}
+                            </div>
+                        </div>
+                    
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                {!! Form::label('venu', 'Venue Type' . ':*') !!}
+                                {!! Form::select('venue', ['Sena Maloncho' => __('Sena Maloncho'), 'PSC' => 'PSC', 'RAWA' => 'RAWA'], null, ['class' => 'form-control select2', 'placeholder' => 'Select Event Type', 'required']); !!}
+                            </div>
+                        </div>
+                    
+                        <div class="clearfix"></div>
+                    
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                    
+                                {!! Form::label('add_extra_item', 'Add Extra item (exclusive to the event)', ['class' => 'control-label']) !!}
+                                {!! Form::text('add_extra_item', null,
+                                [
+                                'class' => 'form-control input-lg',
+                                'placeholder' => 'add extra item'
+                                ])
+                                !!}
+                            </div>
+                        </div>
+                    
+                    
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                    
+                                {!! Form::label('event_name', 'Event Name', ['class' => 'control-label']) !!}
+                                {!! Form::text('event_name', null,
+                                [
+                                'class' => 'form-control input-lg',
+                                'placeholder' => 'Event Name'
+                                ])
+                                !!}
+                            </div>
+                        </div>
+                    
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                {!! Form::label('attendences', 'Attendence', ['class' => 'control-label']) !!}
+                                {!! Form::text('attendences', null,
+                                [
+                                'class' => 'form-control input-lg',
+                                'placeholder' => 'attendences'
+                                ])
+                                !!}
+                            </div>
+                        </div>
+                    
+                        <div class="clearfix"></div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                {!! Form::label('booking_time', 'Booking Time'. ':*') !!}
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    {!! Form::text('booking_time', $default_datetime, ['class' => 'form-control', 'readonly', 'required']); !!}
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                {!! Form::label('event_time', 'Event Time'. ':*') !!}
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    {!! Form::text('event_time', null, ['class' => 'form-control', 'readonly', 'required']); !!}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-3 col-md-offset-2">
+                            <table class="table table-striped table-hover ">
+                                <thead>
+                                    <tr class="info">
+                                        <th>ID </th>
+                                        <th>Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="items-list" name="items-list">
+                    
+                                </tbody>
+                            </table>
+                        </div>
+                    
+                        <div class="col-md-3 col-md-offset-2">
+                            <table class="table table-striped table-hover ">
+                                <thead>
+                                    <tr class="info">
+                                        <th>ID </th>
+                                        <th>Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="added-items-list" name="added-items-list">
+                    
+                                </tbody>
+                            </table>
+                        </div>                        
+                </div>
+
+            @endcomponent
+
+
 
 			@component('components.widget', ['class' => 'box-primary'])
 				<div class="col-md-4">
@@ -386,6 +512,7 @@
 @stop
 
 @section('javascript')
+    <script src="{{ asset('js/event.js')}}"></script>
 	<script src="{{ asset('js/pos.js?v=' . $asset_v) }}"></script>
 	<script src="{{ asset('js/product.js?v=' . $asset_v) }}"></script>
 	<script src="{{ asset('js/opening_stock.js?v=' . $asset_v) }}"></script>
