@@ -53,6 +53,13 @@ use App\Variation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+
+use App\EventMenu;
+use App\Menu;
+use App\CacheItem;
+use App\Item;
+use App\EventMenuItem;
+
 use Yajra\DataTables\Facades\DataTables;
 
 class SellPosController extends Controller
@@ -242,8 +249,110 @@ class SellPosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+     
+      public function action(Request $request){
+        $items = null;
+        $newMenuId = null;
+        $newMenuName = null;
+        $addedItems = null;
+        
+   
+        if($request->add && $request->menu_id ){
+            $menu_id = $request->menu_id;
+            $add_id = $request->add;
+            $item = Item::find($add_id);
+            $newItemToMenu = new CacheItem();
+            $newItemToMenu->name = $item->name;
+            $newItemToMenu->save();
+            $items = Menu::find($menu_id)->items;
+            if(CacheItem::all()){
+                $addedItems = CacheItem::all();
+            }
+            $cacheItemsFetch = CacheItem::pluck('name');
+            $items = $items->diff(Item::whereIn('name',$cacheItemsFetch)->get());
+        }
+        elseif($request->delete && $request->menu_id ){
+            $menu_id = $request->menu_id;
+            $delete_id = $request->delete;
+            $cacheitem = CacheItem::find($delete_id);
+            $cacheitem->delete();
+
+            $items = Menu::find($menu_id)->items;
+            if(CacheItem::all()){
+                $addedItems = CacheItem::all();
+            }
+            $cacheItemsFetch = CacheItem::pluck('name');
+            $items = $items->diff(Item::whereIn('name',$cacheItemsFetch)->get());
+        }
+        elseif($request->add_extra_item && $request->menu_id){
+            $menu_id = $request->menu_id;
+            $add_extra_item = $request->add_extra_item;
+            $newItemToMenu = new CacheItem();
+            $newItemToMenu->name = $add_extra_item;
+            $newItemToMenu->save();
+            $items = Menu::find($menu_id)->items;
+            if(CacheItem::all()){
+                $addedItems = CacheItem::all();
+            }
+            $cacheItemsFetch = CacheItem::pluck('name');
+            $items = $items->diff(Item::whereIn('name',$cacheItemsFetch)->get());
+        }
+        else if ($request->menu_id) {
+            $menu_id = $request->menu_id;
+            $items = Menu::find($menu_id)->items;
+            if(CacheItem::all()){
+                $addedItems = CacheItem::all();
+            }
+            $cacheItemsFetch = CacheItem::pluck('name');
+            $items = $items->diff(Item::whereIn('name',$cacheItemsFetch)->get());
+        }
+        if($items){
+            foreach ($items as $item) {
+                $items .=    '<tr id="item' . $item->id . ' class="active">
+            <td>' . $item->id . '</td>
+            <td>' . $item->name . '</td>
+            <td width="35%">
+            <button
+            class="btn btn-primary" id = "addItem" value=' . $item->id . '>Add</button>
+            </td>
+          </tr>';
+            }
+        }
+        else{
+            $items .= '<tr id="item' .' class="active">
+            <td> No item to show' .'</td>
+          </tr>';
+        }
+        if($addedItems){
+            foreach ($addedItems as $item) {
+                $addedItems .=    '<tr id="item' . $item->id . ' class="active">
+            <td>' . $item->id . '</td>
+            <td>' . $item->name . '</td>
+            <td width="35%">
+            <button
+            class="btn btn-danger" id = "deleteItem" value=' . $item->id . '>Delete</button>
+            </td>
+          </tr>';
+            }  
+        }
+        else{
+            $addedItems .= '<tr id="item' . ' class="active">
+            <td> No item to show' .'</td>
+          </tr>';
+        }
+
+        $data = array(
+            'items'  => $items,
+            'addedItems' => $addedItems,
+        );
+        return response()->json($data);
+    }
+     
+     
+     
     public function store(Request $request)
     {
+        
         if (!auth()->user()->can('sell.create') && !auth()->user()->can('direct_sell.access')) {
             abort(403, 'Unauthorized action.');
         }
@@ -286,6 +395,7 @@ class SellPosController extends Controller
             }
 
             if (!empty($input['products'])) {
+          
                 $business_id = $request->session()->get('user.business_id');
 
                 //Check if subscribed or not, then check for users quota
@@ -351,8 +461,9 @@ class SellPosController extends Controller
                 }
 
                 $transaction = $this->transactionUtil->createSellTransaction($business_id, $input, $invoice_total, $user_id);
-
+                
                 $this->transactionUtil->createOrUpdateSellLines($transaction, $input['products'], $input['location_id']);
+
                 
                 if (!$is_direct_sale) {
                     //Add change return
@@ -446,7 +557,30 @@ class SellPosController extends Controller
                 Media::uploadMedia($business_id, $transaction, $request, 'documents');
                 
                 DB::commit();
-                
+            
+            //Event Menu 
+            
+            $eventMenu = new EventMenu();
+            $eventMenu->type = $request->type;
+            $eventMenu->venue = $request->venue;
+            $eventMenu->name = $request->event_name;
+            $eventMenu->attendences = $request->attendences;
+            $eventMenu->booking_time =  $this->productUtil->uf_date($request->booking_time, true);
+            $eventMenu->event_time = $this->productUtil->uf_date($request->event_time, true);
+
+            $eventMenu->transaction_id = $transaction->id;
+            $eventMenu->save(); 
+            $items = CacheItem::all();
+            
+            foreach($items as $item){
+            $eventMenuItem = new EventMenuItem();
+            $eventMenuItem->name = $item->name;
+            $eventMenu->items()->save($eventMenuItem);
+            }
+            DB::table('cache_items')->truncate();
+            
+            //Event Menu
+            
                 $msg = '';
                 $receipt = '';
                 if ($input['status'] == 'draft' && $input['is_quotation'] == 0) {
@@ -1037,7 +1171,30 @@ class SellPosController extends Controller
                 ->withProperties($log_properties)
                 ->log('edited');
 
+          
                 DB::commit();
+                    
+               //Event Menu 
+                $eventMenu = Transaction::find($transaction->id)->eventMenu;
+                $eventMenu->type = $request->type;
+                $eventMenu->venue = $request->venue;
+                $eventMenu->name = $request->event_name;
+                $eventMenu->attendences = $request->attendences;
+                $eventMenu->booking_time =  $this->productUtil->uf_date($request->booking_time, true);
+                $eventMenu->event_time = $this->productUtil->uf_date($request->event_time, true);
+                $eventMenu->save(); 
+                
+                $items = CacheItem::all();
+                $eventMenu->items()->delete();
+                foreach($items as $item){
+                $eventMenuItem = new EventMenuItem();
+                $eventMenuItem->name = $item->name;
+                $eventMenu->items()->save($eventMenuItem);
+                }
+                \DB::table('cache_items')->truncate();
+            
+            //Event Menu                
+                    
                     
                 $msg = '';
                 $receipt = '';
@@ -1167,6 +1324,11 @@ class SellPosController extends Controller
                 AccountTransaction::where('transaction_id', $transaction->id)->delete();
 
                 DB::commit();
+                // $eventMenu = Transaction::find($transaction->id)->eventMenu;
+                // $eventMenu->items()->delete();
+                // $eventMenu()->delete();
+
+
                 $output = [
                     'success' => true,
                     'msg' => __('lang_v1.sale_delete_success')
