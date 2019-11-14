@@ -19,9 +19,9 @@
             <strong><i class="fa fa-briefcase fa-lg" aria-hidden="true"></i></strong>
       </button>
 
-      <button title="@lang('lang_v1.calculator')" id="btnCalculator" type="button" class="btn btn-success btn-flat pull-right m-5 btn-xs mt-10 popover-default" data-toggle="popover" data-trigger="click" data-content='@include("layouts.partials.calculator")' data-html="true" data-placement="bottom">
-            <strong><i class="fa fa-calculator fa-lg" aria-hidden="true"></i></strong>
-        </button>
+      <!--<button title="@lang('lang_v1.calculator')" id="btnCalculator" type="button" class="btn btn-success btn-flat pull-right m-5 btn-xs mt-10 popover-default" data-toggle="popover" data-trigger="click" data-content='@include("layouts.partials.calculator")' data-html="true" data-placement="bottom">-->
+      <!--      <strong><i class="fa fa-calculator fa-lg" aria-hidden="true"></i></strong>-->
+      <!--  </button>-->
 
       <button type="button" title="{{ __('lang_v1.full_screen') }}" data-toggle="tooltip" data-placement="bottom" class="btn btn-primary btn-flat m-6 hidden-xs btn-xs m-5 pull-right" id="full_screen">
             <strong><i class="fa fa-window-maximize fa-lg"></i></strong>

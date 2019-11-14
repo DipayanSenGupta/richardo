@@ -479,6 +479,7 @@ class SellController extends Controller
 
         $invoice_schemes = InvoiceScheme::forDropdown($business_id);
         $default_invoice_schemes = InvoiceScheme::getDefault($business_id);
+        DB::table('cache_items')->truncate();
         $menus = Menu::pluck('name', 'id');
 
         
@@ -562,9 +563,14 @@ class SellController extends Controller
 
         $business_details = $this->businessUtil->getDetails($business_id);
         $pos_settings = empty($business_details->pos_settings) ? $this->businessUtil->defaultPosSettings() : json_decode($business_details->pos_settings, true);
-
+        
+            // event section
+                $eventMenu = Transaction::find($id)->eventMenu;
+                $items = EventMenu::find($eventMenu->id)->items;
+                DB::table('cache_items')->truncate();
+            // event section end
         return view('sale_pos.show')
-            ->with(compact('taxes', 'sell', 'payment_types', 'order_taxes', 'pos_settings'));
+            ->with(compact('taxes', 'sell', 'payment_types', 'order_taxes', 'pos_settings','items','eventMenu'));
     }
 
     /**
@@ -754,6 +760,7 @@ class SellController extends Controller
          foreach($items as $item){
             $cacheItem = new CacheItem();
             $cacheItem->name = $item->name;
+            $cacheItem->quantity = $item->quantity;
             $cacheItem->save();
         }
         return view('sell.edit')

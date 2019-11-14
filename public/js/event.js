@@ -1,27 +1,31 @@
-    $(document).ready(function() {
-
-       $('#booking_time').datetimepicker({
+     $(document).ready(function() {
+         
+        $('#booking_time').datetimepicker({
         format: moment_date_format + ' ' + moment_time_format,
         ignoreReadonly: true,
         });
-    
+        
         $('#event_time').datetimepicker({
         format: moment_date_format + ' ' + moment_time_format,
         ignoreReadonly: true,
-        });        
+        });
         
         function showItem(menu_id = "1") {
             $.ajax({
                 type: 'POST',
-                url:  '/sells/action',
+                 url:  '/sells/action',
                 data: {
-                    menu_id: menu_id
+                    menu_id: menu_id,
                 },
                 success: function(data) {
                     $('#items-list').html(data.items);
                     if (data.addedItems) {
                         $('#added-items-list').html(data.addedItems);
                     }
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR);
+                    // Your error handling logic here..
                 }
             });
         }
@@ -35,10 +39,10 @@
         function addEvent(event_name, menu_id) {
             $.ajax({
                 type: 'POST',
-                url: '/sells/action',
+                 url:  '/sells/action',
                 data: {
                     event_name: event_name,
-                    menu_id: menu_id
+                    menu_id: menu_id,
                 },
                 success: function(data) {}
             });
@@ -53,13 +57,14 @@
             }
         });
 
-        function addItem(item_id, menu_id) {
+        function addItem(item_id, menu_id,quantity) {
             $.ajax({
                 type: 'POST',
-                url: '/sells/action',
-                data: {
+                  url:  '/sells/action',
+                    data: {
                     add: item_id,
-                    menu_id: menu_id
+                    menu_id: menu_id,
+                    quantity: quantity,
                 },
                 success: function(data) {
                     $('#items-list').html(data.items);
@@ -72,22 +77,24 @@
 
         $(document).on('click', "#addItem", function(e) {
             try {
-                var item_id = $(this).val();;
+                var item_id = $(this).val();
                 var menu_id = $("#menu_id").val();
-                addItem(item_id, menu_id);
+                var quantity = $("#quantity").val();
+                addItem(item_id, menu_id,quantity);
             } catch (ex) {
                 alert('An error occurred and I need to write some code to handle this!');
             }
             e.preventDefault();
         });
 
-        function addExtraItem(add_extra_item, menu_id) {
+        function addExtraItem(add_extra_item, menu_id,quantity) {
             $.ajax({
                 type: 'POST',
-                url: '/sells/action',
+      url:  '/sells/action',
                 data: {
                     add_extra_item: add_extra_item,
-                    menu_id: menu_id
+                    menu_id: menu_id,
+                    quantity: quantity,
                 },
                 success: function(data) {
                     $('#items-list').html(data.items);
@@ -103,8 +110,9 @@
             if (e.which == 13) {
                 var add_extra_item = $(this).val();
                 var menu_id = $("#menu_id").val();
+                var quantity = $("#quantity").val();
                 e.preventDefault();
-                addExtraItem(add_extra_item, menu_id);
+                addExtraItem(add_extra_item, menu_id,quantity);
             }
         });
 
@@ -112,10 +120,10 @@
         function deleteItem(item_id, menu_id) {
             $.ajax({
                 type: 'POST',
-                url: '/sells/action',
+      url:  '/sells/action',
                 data: {
                     delete: item_id,
-                    menu_id: menu_id
+                    menu_id: menu_id,
                 },
                 success: function(data) {
                     $('#items-list').html(data.items);

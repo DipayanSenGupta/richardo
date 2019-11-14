@@ -23,9 +23,12 @@
         <br>
         <b>{{ __('sale.payment_status') }}:</b> {{ ucfirst( $sell->payment_status ) }}<br>
       </div>
+      
       <div class="col-sm-4">
         <b>{{ __('sale.customer_name') }}:</b> {{ $sell->contact->name }}<br>
         <b>{{ __('business.address') }}:</b><br>
+        
+        
         @if(!empty($sell->billing_address()))
           {{$sell->billing_address()}}
         @else
@@ -58,6 +61,8 @@
         
       </div>
       <div class="col-sm-4">
+        <b>Event Address:</b> <br>
+
       @if(in_array('tables' ,$enabled_modules))
          <strong>@lang('restaurant.table'):</strong>
           {{$sell->table->name ?? ''}}<br>
@@ -192,6 +197,60 @@
         </div>
       </div>
     </div>
+    
+    <!--event section add-->
+    <div class="row">
+      <div class="col-sm-12 col-xs-12">
+        <h4>Event:</h4>
+      </div>
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="table-responsive">
+                <table class="table bg-gray">
+                    <tr class="bg-green">
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Venue</th>
+                    <th>Attendences</th>
+                    <th>Booking Time</th>
+                    <th>Event Time</th>
+                    </tr>
+                    <tr>
+                    <td></td>
+                    <td>{{ $eventMenu->name }}</td>
+                    <td>{{ $eventMenu->type }}</td>
+                    <td>{{ $eventMenu->venue }}</td>
+                    <td>{{ $eventMenu->attendences }}</td>
+                    <td>{{ $eventMenu->booking_time }}</td>
+                    <td>{{ $eventMenu->event_time }}</td>
+                    </tr>  
+                
+                </table>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="table-responsive">
+        <table class="table bg-gray">
+            <tr class="bg-green">
+            <th>Event Name</th>
+            <th>Quantity</th>
+
+            </tr>
+            @foreach($items as $item)
+            <tr >
+            <td> {{$item->name}}</td>
+            <td> {{$item->quantity}}</td>
+
+            </tr>
+            @endforeach
+        </table>
+        </div>
+        </div>
+      
+    </div>
+    <!--event section end -->
+    
     <div class="row">
       <div class="col-sm-6">
         <strong>{{ __( 'sale.sell_note')}}:</strong><br>

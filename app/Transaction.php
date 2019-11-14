@@ -15,6 +15,11 @@ class Transaction extends Model
      */
     protected $guarded = ['id'];
     
+    public function eventMenu()
+    {
+     return $this->hasOne(\App\EventMenu::class,'transaction_id');
+    }
+    
     public function purchase_lines()
     {
         return $this->hasMany(\App\PurchaseLine::class);

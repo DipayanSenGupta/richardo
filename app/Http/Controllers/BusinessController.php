@@ -55,21 +55,21 @@ class BusinessController extends Controller
         $this->moduleUtil = $moduleUtil;
 
         $this->avlble_modules = [
-            'tables' => [ 'name' => __('restaurant.tables'),
-                        'tooltip' => __('restaurant.tooltip_tables')
-                    ] ,
-            'modifiers' => [ 'name' => __('restaurant.modifiers'),
-                    'tooltip' => __('restaurant.tooltip_modifiers')
-                ],
-            'service_staff' => [
-                    'name' => __('restaurant.service_staff'),
-                    'tooltip' => __('restaurant.tooltip_service_staff')
-                ],
-            'kitchen' => [
-                'name' => __('restaurant.kitchen_for_restaurant')
-            ],
+            // 'tables' => [ 'name' => __('restaurant.tables'),
+            //             'tooltip' => __('restaurant.tooltip_tables')
+            //         ] ,
+            // 'modifiers' => [ 'name' => __('restaurant.modifiers'),
+            //         'tooltip' => __('restaurant.tooltip_modifiers')
+            //     ],
+            // 'service_staff' => [
+            //         'name' => __('restaurant.service_staff'),
+            //         'tooltip' => __('restaurant.tooltip_service_staff')
+            //     ],
+            // 'kitchen' => [
+            //     'name' => __('restaurant.kitchen_for_restaurant')
+            // ],
             'account' => ['name' => __('lang_v1.account')],
-            'subscription' => ['name' => __('lang_v1.enable_subscription')],
+            // 'subscription' => ['name' => __('lang_v1.enable_subscription')],
             'booking' => ['name' => __('lang_v1.enable_booking')]
         ];
         

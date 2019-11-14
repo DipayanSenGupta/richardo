@@ -51,11 +51,9 @@ class HomeController extends Controller
     public function index()
     {
         $business_id = request()->session()->get('user.business_id');
-
         if (!auth()->user()->can('dashboard.data')) {
             return view('home.index');
         }
-
         $fy = $this->businessUtil->getCurrentFinancialYear($business_id);
         $date_filters['this_fy'] = $fy;
         $date_filters['this_month']['start'] = date('Y-m-01');

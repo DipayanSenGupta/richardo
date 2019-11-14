@@ -6,6 +6,7 @@
     </div> -->
     <!-- Default to the left -->
     <small>
-    	<b>{{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version')}} | Copyright &copy; {{ date('Y') }} All rights reserved.</b>
+    	<b>{{ config('app.name', 'ultimatePOS') }} | Copyright &copy; {{ date('Y') }} All rights reserved. || Developed By <a href="https://www.flytesolutions.com/">Flyte Solutions</a>
+</b>
     </small>
 </footer>

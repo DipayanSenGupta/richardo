@@ -255,7 +255,6 @@ class SellPosController extends Controller
         $newMenuId = null;
         $newMenuName = null;
         $addedItems = null;
-        
    
         if($request->add && $request->menu_id ){
             $menu_id = $request->menu_id;
@@ -263,6 +262,11 @@ class SellPosController extends Controller
             $item = Item::find($add_id);
             $newItemToMenu = new CacheItem();
             $newItemToMenu->name = $item->name;
+            if($request->quantity){
+                $newItemToMenu->quantity =  $request->quantity;
+            }else{
+                $newItemToMenu->quantity = 'n.a';
+            }
             $newItemToMenu->save();
             $items = Menu::find($menu_id)->items;
             if(CacheItem::all()){
@@ -289,6 +293,11 @@ class SellPosController extends Controller
             $add_extra_item = $request->add_extra_item;
             $newItemToMenu = new CacheItem();
             $newItemToMenu->name = $add_extra_item;
+            if($request->quantity){
+                $newItemToMenu->quantity =  $request->quantity;
+            }else{
+                $newItemToMenu->quantity = 'n.a';
+            }
             $newItemToMenu->save();
             $items = Menu::find($menu_id)->items;
             if(CacheItem::all()){
@@ -328,6 +337,7 @@ class SellPosController extends Controller
                 $addedItems .=    '<tr id="item' . $item->id . ' class="active">
             <td>' . $item->id . '</td>
             <td>' . $item->name . '</td>
+            <td>' . $item->quantity . '</td>
             <td width="35%">
             <button
             class="btn btn-danger" id = "deleteItem" value=' . $item->id . '>Delete</button>
@@ -575,6 +585,7 @@ class SellPosController extends Controller
             foreach($items as $item){
             $eventMenuItem = new EventMenuItem();
             $eventMenuItem->name = $item->name;
+            $eventMenuItem->quantity = $item->quantity;
             $eventMenu->items()->save($eventMenuItem);
             }
             DB::table('cache_items')->truncate();
@@ -1189,6 +1200,7 @@ class SellPosController extends Controller
                 foreach($items as $item){
                 $eventMenuItem = new EventMenuItem();
                 $eventMenuItem->name = $item->name;
+                $eventMenuItem->quantity = $item->quantity;
                 $eventMenu->items()->save($eventMenuItem);
                 }
                 \DB::table('cache_items')->truncate();
@@ -1269,7 +1281,6 @@ class SellPosController extends Controller
         if (!auth()->user()->can('sell.delete')) {
             abort(403, 'Unauthorized action.');
         }
-
         if (request()->ajax()) {
             try {
                 //Check if return exist then not allowed
@@ -1287,6 +1298,7 @@ class SellPosController extends Controller
                             ->where('type', 'sell')
                             ->with(['sell_lines'])
                             ->first();
+                
 
                 //Begin transaction
                 DB::beginTransaction();
@@ -1315,7 +1327,13 @@ class SellPosController extends Controller
 
                         //Delete Cash register transactions
                         $transaction->cash_register_payments()->delete();
-
+                        
+                        // Event Menu
+                            $eventMenu =Transaction::find($id)->eventMenu;
+                            $eventMenu->items()->delete();
+                            $eventMenu->delete();
+                        //EventMenu
+                        
                         $transaction->delete();
                     }
                 }
@@ -1324,10 +1342,6 @@ class SellPosController extends Controller
                 AccountTransaction::where('transaction_id', $transaction->id)->delete();
 
                 DB::commit();
-                // $eventMenu = Transaction::find($transaction->id)->eventMenu;
-                // $eventMenu->items()->delete();
-                // $eventMenu()->delete();
-
 
                 $output = [
                     'success' => true,
@@ -1337,7 +1351,7 @@ class SellPosController extends Controller
                 DB::rollBack();
                 \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
 
-                $output['success'] = false;
+                $output['success'] = $id;
                 $output['msg'] = trans("messages.something_went_wrong");
             }
 

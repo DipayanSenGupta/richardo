@@ -218,7 +218,7 @@
 				</div>
 			@endcomponent
 		@component('components.widget', ['class' => 'box-primary'])
-							<div class="row col-sm-12" style="min-height: 0">
+										<div class="row col-sm-12" style="min-height: 0">
 				        <div class="col-sm-3">
                             <div class="form-group">
                                 {!! Form::label('menu_id', 'Menu Type' . ':*') !!}
@@ -226,6 +226,46 @@
                             </div>
                         </div>
                         
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                            
+                                {!! Form::label('quantity', 'Add Quantity', ['class' => 'control-label']) !!}
+                                {!! Form::text('quantity', null,
+                                [
+                                'class' => 'form-control input-lg',
+                                'placeholder' => 'add quantity'
+                                ])
+                                !!}
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                            
+                                {!! Form::label('add_extra_item', 'Add Extra item', ['class' => 'control-label']) !!}
+                                {!! Form::text('add_extra_item', null,
+                                [
+                                'class' => 'form-control input-lg',
+                                'placeholder' => 'add extra item'
+                                ])
+                                !!}
+                            </div>
+                        </div>
+                        
+                        <div class="clearfix"></div>
+
+                       <div class="col-sm-3">
+                            <div class="form-group">
+                    
+                                {!! Form::label('event_name', 'Event Name', ['class' => 'control-label']) !!}
+                                {!! Form::text('event_name', $eventMenu->name,
+                                [
+                                'class' => 'form-control input-lg',
+                                'placeholder' => 'Event Name', 'required'
+                                ])
+                                !!}
+                            </div>
+                        </div>                        
 
                         <div class="col-sm-3">
                             <div class="form-group">
@@ -237,38 +277,11 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 {!! Form::label('venu', 'Venue Type' . ':*') !!}
-                                {!! Form::select('venue', ['Sena Maloncho' => __('Sena Maloncho'), 'PSC' => 'PSC', 'RAWA' => 'RAWA'], $eventMenu->venue, ['class' => 'form-control select2', 'placeholder' => 'Select Event Type', 'required']); !!}
+                                {!! Form::select('venue', ['Sena Maloncho' =>'Sena Maloncho', 'PSC' => 'PSC', 'RAWA' => 'RAWA'], $eventMenu->venue, ['class' => 'form-control select2', 'placeholder' => 'Select Event Type', 'required']); !!}
                             </div>
                         </div>
                     
                         <div class="clearfix"></div>
-                    
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                    
-                                {!! Form::label('add_extra_item', 'Add Extra item (exclusive to the event)', ['class' => 'control-label']) !!}
-                                {!! Form::text('add_extra_item', null,
-                                [
-                                'class' => 'form-control input-lg',
-                                'placeholder' => 'add extra item'
-                                ])
-                                !!}
-                            </div>
-                        </div>
-                    
-                    
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                    
-                                {!! Form::label('event_name', 'Event Name', ['class' => 'control-label']) !!}
-                                {!! Form::text('event_name', $eventMenu->name,
-                                [
-                                'class' => 'form-control input-lg',
-                                'placeholder' => 'Event Name'
-                                ])
-                                !!}
-                            </div>
-                        </div>
                     
                         <div class="col-sm-3">
                             <div class="form-group">
@@ -276,13 +289,12 @@
                                 {!! Form::text('attendences', $eventMenu->attendences,
                                 [
                                 'class' => 'form-control input-lg',
-                                'placeholder' => 'attendences'
+                                'placeholder' => 'attendences', 'required'
                                 ])
                                 !!}
                             </div>
                         </div>
                     
-                        <div class="clearfix"></div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('booking_time', 'Booking Time'. ':*') !!}
@@ -290,7 +302,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </span>
-                                    {!! Form::text('booking_time', $eventMenu->booking_time, ['class' => 'form-control', 'readonly', 'required']); !!}
+                                    {!! Form::text('booking_time',$eventMenu->booking_time, ['class' => 'form-control', 'readonly', 'required']); !!}
                                 </div>
                             </div>
                         </div>
@@ -302,7 +314,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </span>
-                                    {!! Form::text('event_time', $eventMenu->event_time, ['class' => 'form-control', 'readonly', 'required']); !!}
+                                    {!! Form::text('event_time',$eventMenu->event_time, ['class' => 'form-control', 'readonly', 'required']); !!}
                                 </div>
                             </div>
                         </div>
@@ -328,6 +340,7 @@
                                     <tr class="info">
                                         <th>ID </th>
                                         <th>Name</th>
+                                        <th>Quantity</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -337,6 +350,7 @@
                             </table>
                         </div>                        
                 </div>
+
 
             @endcomponent
 			@component('components.widget', ['class' => 'box-primary'])

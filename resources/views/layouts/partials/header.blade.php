@@ -24,9 +24,9 @@
           @includeIf('essentials::layouts.partials.header_part')
         @endif
 
-        <button id="btnCalculator" title="@lang('lang_v1.calculator')" type="button" class="btn btn-success btn-flat pull-left m-8 hidden-xs btn-sm mt-10 popover-default" data-toggle="popover" data-trigger="click" data-content='@include("layouts.partials.calculator")' data-html="true" data-placement="bottom">
-            <strong><i class="fa fa-calculator fa-lg" aria-hidden="true"></i></strong>
-        </button>
+        <!--<button id="btnCalculator" title="@lang('lang_v1.calculator')" type="button" class="btn btn-success btn-flat pull-left m-8 hidden-xs btn-sm mt-10 popover-default" data-toggle="popover" data-trigger="click" data-content='@include("layouts.partials.calculator")' data-html="true" data-placement="bottom">-->
+        <!--    <strong><i class="fa fa-calculator fa-lg" aria-hidden="true"></i></strong>-->
+        <!--</button>-->
         
         @if($request->segment(1) == 'pos')
           <button type="button" id="register_details" title="{{ __('cash_register.register_details') }}" data-toggle="tooltip" data-placement="bottom" class="btn btn-success btn-flat pull-left m-8 hidden-xs btn-sm mt-10 btn-modal" data-container=".register_details_modal" 
@@ -44,18 +44,18 @@
             <strong><i class="fa fa-th-large"></i> &nbsp; @lang('sale.pos_sale')</strong>
           </a>
         @endcan
-        @can('profit_loss_report.view')
-          <button type="button" id="view_todays_profit" title="{{ __('home.todays_profit') }}" data-toggle="tooltip" data-placement="bottom" class="btn btn-success btn-flat pull-left m-8 hidden-xs btn-sm mt-10">
-            <strong><i class="fa fa-money fa-lg"></i></strong>
-          </button>
-        @endcan
+        <!--@can('profit_loss_report.view')-->
+        <!--  <button type="button" id="view_todays_profit" title="{{ __('home.todays_profit') }}" data-toggle="tooltip" data-placement="bottom" class="btn btn-success btn-flat pull-left m-8 hidden-xs btn-sm mt-10">-->
+        <!--    <strong><i class="fa fa-money fa-lg"></i></strong>-->
+        <!--  </button>-->
+        <!--@endcan-->
 
         <!-- Help Button -->
-        @if(auth()->user()->hasRole('Admin#' . auth()->user()->business_id))
-          <button type="button" id="start_tour" title="@lang('lang_v1.application_tour')" data-toggle="tooltip" data-placement="bottom" class="btn btn-success btn-flat pull-left m-8 hidden-xs btn-sm mt-10">
-            <strong><i class="fa fa-question-circle fa-lg" aria-hidden="true"></i></strong>
-          </button>
-        @endif
+        <!--@if(auth()->user()->hasRole('Admin#' . auth()->user()->business_id))-->
+        <!--  <button type="button" id="start_tour" title="@lang('lang_v1.application_tour')" data-toggle="tooltip" data-placement="bottom" class="btn btn-success btn-flat pull-left m-8 hidden-xs btn-sm mt-10">-->
+        <!--    <strong><i class="fa fa-question-circle fa-lg" aria-hidden="true"></i></strong>-->
+        <!--  </button>-->
+        <!--@endif-->
 
         <div class="m-8 pull-left mt-15 hidden-xs" style="color: #fff;"><strong>{{ @format_date('now') }}</strong></div>
 

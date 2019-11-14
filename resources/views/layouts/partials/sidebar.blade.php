@@ -79,16 +79,16 @@
                   </a>
                 </li>
               @endcan
-              @can('user.create')
-                <li class="{{ $request->segment(1) == 'sales-commission-agents' ? 'active active-sub' : '' }}">
-                  <a href="{{action('SalesCommissionAgentController@index')}}">
-                      <i class="fa fa-handshake-o"></i>
-                      <span class="title">
-                        @lang('lang_v1.sales_commission_agents')
-                      </span>
-                  </a>
-                </li>
-              @endcan
+              <!--@can('user.create')-->
+              <!--  <li class="{{ $request->segment(1) == 'sales-commission-agents' ? 'active active-sub' : '' }}">-->
+              <!--    <a href="{{action('SalesCommissionAgentController@index')}}">-->
+              <!--        <i class="fa fa-handshake-o"></i>-->
+              <!--        <span class="title">-->
+              <!--          @lang('lang_v1.sales_commission_agents')-->
+              <!--        </span>-->
+              <!--    </a>-->
+              <!--  </li>-->
+              <!--@endcan-->
             </ul>
         </li>
         @endif
@@ -143,7 +143,7 @@
                 <li class="{{ $request->segment(1) == 'labels' && $request->segment(2) == 'show' ? 'active' : '' }}"><a href="{{action('LabelsController@show')}}"><i class="fa fa-barcode"></i>@lang('barcode.print_labels')</a></li>
               @endcan
               @can('product.create')
-                <li class="{{ $request->segment(1) == 'variation-templates' ? 'active' : '' }}"><a href="{{action('VariationTemplateController@index')}}"><i class="fa fa-circle-o"></i><span>@lang('product.variations')</span></a></li>
+                <!--<li class="{{ $request->segment(1) == 'variation-templates' ? 'active' : '' }}"><a href="{{action('VariationTemplateController@index')}}"><i class="fa fa-circle-o"></i><span>@lang('product.variations')</span></a></li>-->
               @endcan
               @can('product.create')
                 <li class="{{ $request->segment(1) == 'import-products' ? 'active' : '' }}"><a href="{{action('ImportProductsController@index')}}"><i class="fa fa-download"></i><span>@lang('product.import_products')</span></a></li>
@@ -217,14 +217,21 @@
               @can('direct_sell.access')
                 <li class="{{ $request->segment(1) == 'sells' && $request->segment(2) == 'create' ? 'active' : '' }}"><a href="{{action('SellController@create')}}"><i class="fa fa-plus-circle"></i>@lang('sale.add_sale')</a></li>
               @endcan
+              
+            @can('sell.create')
+            <li class="{{ $request->segment(1) == 'sells' && $request->segment(2) == 'drafts' ? 'active' : '' }}" ><a href="{{action('SellController@getDrafts')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>@lang('lang_v1.list_drafts')</a></li>
+            
+            <li class="{{ $request->segment(1) == 'sells' && $request->segment(2) == 'quotations' ? 'active' : '' }}" ><a href="{{action('SellController@getQuotations')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>@lang('lang_v1.list_quotations')</a></li>
+            @endcan
+              
               @can('sell.view')
                 <li class="{{ $request->segment(1) == 'pos' && $request->segment(2) == null ? 'active' : '' }}" ><a href="{{action('SellPosController@index')}}"><i class="fa fa-list"></i>@lang('sale.list_pos')</a></li>
               @endcan
               @can('sell.create')
                 <li class="{{ $request->segment(1) == 'pos' && $request->segment(2) == 'create' ? 'active' : '' }}"><a href="{{action('SellPosController@create')}}"><i class="fa fa-plus-circle"></i>@lang('sale.pos_sale')</a></li>
-                <li class="{{ $request->segment(1) == 'sells' && $request->segment(2) == 'drafts' ? 'active' : '' }}" ><a href="{{action('SellController@getDrafts')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>@lang('lang_v1.list_drafts')</a></li>
+                <!--<li class="{{ $request->segment(1) == 'sells' && $request->segment(2) == 'drafts' ? 'active' : '' }}" ><a href="{{action('SellController@getDrafts')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>@lang('lang_v1.list_drafts')</a></li>-->
 
-                <li class="{{ $request->segment(1) == 'sells' && $request->segment(2) == 'quotations' ? 'active' : '' }}" ><a href="{{action('SellController@getQuotations')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>@lang('lang_v1.list_quotations')</a></li>
+                <!--<li class="{{ $request->segment(1) == 'sells' && $request->segment(2) == 'quotations' ? 'active' : '' }}" ><a href="{{action('SellController@getQuotations')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>@lang('lang_v1.list_quotations')</a></li>-->
               @endcan
               @can('sell.view')
                 <li class="{{ $request->segment(1) == 'sell-return' && $request->segment(2) == null ? 'active' : '' }}" ><a href="{{action('SellReturnController@index')}}"><i class="fa fa-undo"></i>@lang('lang_v1.list_sell_return')</a></li>
@@ -399,9 +406,9 @@
                 <li class="{{ $request->segment(2) == 'register-report' ? 'active' : '' }}" ><a href="{{action('ReportController@getRegisterReport')}}"><i class="fa fa-briefcase"></i>@lang('report.register_report')</a></li>
               @endcan
 
-              @can('sales_representative.view')
-                <li class="{{ $request->segment(2) == 'sales-representative-report' ? 'active' : '' }}" ><a href="{{action('ReportController@getSalesRepresentativeReport')}}"><i class="fa fa-user" aria-hidden="true"></i>@lang('report.sales_representative')</a></li>
-              @endcan
+              <!--@can('sales_representative.view')-->
+              <!--  <li class="{{ $request->segment(2) == 'sales-representative-report' ? 'active' : '' }}" ><a href="{{action('ReportController@getSalesRepresentativeReport')}}"><i class="fa fa-user" aria-hidden="true"></i>@lang('report.sales_representative')</a></li>-->
+              <!--@endcan-->
 
               @if(in_array('tables', $enabled_modules))
                 @can('purchase_n_sell_report.view')
@@ -446,10 +453,10 @@
         @endif
 
         @can('send_notifications')
-          <li class="treeview {{  $request->segment(1) == 'notification-templates' ? 'active active-sub' : '' }}">
-              <a href="{{action('NotificationTemplateController@index')}}"><i class="fa fa-envelope"></i> <span>@lang('lang_v1.notification_templates')</span>
-              </a>
-          </li>
+          <!--<li class="treeview {{  $request->segment(1) == 'notification-templates' ? 'active active-sub' : '' }}">-->
+          <!--    <a href="{{action('NotificationTemplateController@index')}}"><i class="fa fa-envelope"></i> <span>@lang('lang_v1.notification_templates')</span>-->
+          <!--    </a>-->
+          <!--</li>-->
         @endrole
         
         @if(auth()->user()->can('business_settings.access') || 

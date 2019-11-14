@@ -305,6 +305,11 @@ Route::middleware(['IsInstalled', 'auth', 'SetSessionData', 'language', 'timezon
 
     Route::get('bookings/get-todays-bookings', 'Restaurant\BookingController@getTodaysBookings');
     Route::resource('bookings', 'Restaurant\BookingController');
+    // Event route added
+   
+    Route::post('/sells/action', 'SellPosController@action')->name('eventMenus.action');
+
+    //Event route finished
 });
 
 Route::middleware(['EcomApi'])->prefix('api/ecom')->group(function () {
