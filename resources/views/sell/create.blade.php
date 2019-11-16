@@ -158,7 +158,7 @@
 			@endcomponent
 
 			@component('components.widget', ['class' => 'box-primary'])
-				<div class="col-sm-10 col-sm-offset-1">
+	            <div class="col-md-5 col-md-offset-1 col-sm-10 col-sm-offset-1">
 					<div class="form-group">
 						<div class="input-group">
 							<span class="input-group-addon">
@@ -173,6 +173,11 @@
 							</span>
 						</div>
 					</div>
+				</div>
+				<div class="col-md-5 col-md-offset-1 col-sm-12">
+				
+					@include('sale_pos.partials.right_div')
+				
 				</div>
 
 				<div class="row col-sm-12 pos_product_div" style="min-height: 0">
@@ -302,6 +307,22 @@
                                 </div>
                             </div>
                         </div>
+                                               <div class="col-md-3">
+                            <div class="form-group">
+                                {!! Form::label('documents', __('purchase.attach_document') . ':') !!}
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                    </span>
+                                </div>    
+                            {!! Form::file('documents', ['id' => 'upload_document']); !!}
+                            </div>
+                        </div>
+                     <div class="col-md-12">
+			    	<div class="form-group">
+						{!! Form::label('sell_note','Event Note') !!}
+						{!! Form::textarea('sale_note', null, ['class' => 'form-control', 'rows' => 3]); !!}
+					</div>
+			    </div>     
                           
                 </div>
 

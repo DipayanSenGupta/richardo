@@ -22,8 +22,10 @@ use App\Menu;
 use App\CacheItem;
 use App\Item;
 use App\EventMenuItem;
-
 // Event addition end
+
+use App\Category;
+use App\Brands;
 
 use App\Utils\ProductUtil;
 use App\Utils\TransactionUtil;
@@ -454,6 +456,11 @@ class SellController extends Controller
         } elseif ($commsn_agnt_setting == 'cmsn_agnt') {
             $commission_agent = User::saleCommissionAgentsDropdown($business_id);
         }
+        
+        $categories = (request()->session()->get('business.enable_category') == 1) ? Category::catAndSubCategories($business_id) : false;
+        $brands = (request()->session()->get('business.enable_brand') == 1) ? Brands::where('business_id', $business_id)
+                    ->pluck('name', 'id')
+                    ->prepend(__('lang_v1.all_brands'), 'all') : false;
 
         $types = [];
         if (auth()->user()->can('supplier.create')) {
@@ -501,7 +508,9 @@ class SellController extends Controller
                 'pos_settings',
                 'invoice_schemes',
                 'default_invoice_schemes',
-                'menus'
+                'menus',
+                'categories',
+                'brands'
             ));
     }
 
@@ -708,6 +717,13 @@ class SellController extends Controller
             $commission_agent = User::saleCommissionAgentsDropdown($business_id);
         }
 
+        $categories = (request()->session()->get('business.enable_category') == 1) ? Category::catAndSubCategories($business_id) : false;
+        $brands = (request()->session()->get('business.enable_brand') == 1) ? Brands::where('business_id', $business_id)
+                    ->pluck('name', 'id')
+                    ->prepend(__('lang_v1.all_brands'), 'all') : false;
+
+
+
         $types = [];
         if (auth()->user()->can('supplier.create')) {
             $types['supplier'] = __('report.supplier');
@@ -764,7 +780,7 @@ class SellController extends Controller
             $cacheItem->save();
         }
         return view('sell.edit')
-            ->with(compact('business_details', 'taxes', 'sell_details', 'transaction', 'commission_agent', 'types', 'customer_groups', 'price_groups', 'pos_settings', 'waiters', 'invoice_schemes', 'default_invoice_schemes', 'redeem_details', 'edit_discount', 'edit_price','menus','eventMenu'));
+            ->with(compact('business_details', 'taxes', 'sell_details', 'transaction', 'commission_agent', 'types', 'customer_groups', 'price_groups', 'pos_settings', 'waiters', 'invoice_schemes', 'default_invoice_schemes', 'redeem_details', 'edit_discount', 'edit_price','menus','eventMenu','categories','brands'));
     }
 
     /**
