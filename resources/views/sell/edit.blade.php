@@ -165,15 +165,7 @@
 					</div>
 				</div>
 
-<div class="col-md-3">
-<div class="form-group">
-{!! Form::label('documents', __('purchase.attach_document') . ':') !!}
-<div class="input-group">
 
-</div>    
-{!! Form::file('documents', ['id' => 'upload_document']); !!}
-</div>
-</div>
 
 <div class="clearfix"></div>
 
@@ -185,13 +177,7 @@
 </div>
 </div>
 				<div class="clearfix"></div>
-				<!-- Call restaurant module if defined -->
-		        @if(in_array('tables' ,$enabled_modules) || in_array('service_staff' ,$enabled_modules))
-		        	<span id="restaurant_module_span" 
-		        		data-transaction_id="{{$transaction->id}}">
-		          		<div class="col-md-3"></div>
-		        	</span>
-		        @endif
+
 			@endcomponent
 			
 			@component('components.widget', ['class' => 'box-primary'])

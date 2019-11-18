@@ -36,7 +36,7 @@
 </div>
 @endif
 <input type="hidden" id="item_addition_method" value="{{$business_details->item_addition_method}}">
-{!! Form::open(['url' => action('SellPosController@store'), 'method' => 'post', 'id' => 'add_sell_form' ]) !!}
+{!! Form::open(['url' => action('SellPosController@store'), 'method' => 'post', 'id' => 'add_sell_form','enctype' => 'multipart/form-data' ]) !!}
 <div class="row">
 <div class="col-md-12 col-sm-12">
 @component('components.widget', ['class' => 'box-primary'])
@@ -193,15 +193,7 @@ $commission_agent, null, ['class' => 'form-control select2']); !!}
 </div>
 </div>
 
-<div class="col-md-3">
-<div class="form-group">
-{!! Form::label('documents', __('purchase.attach_document') . ':') !!}
-<div class="input-group">
 
-</div>    
-{!! Form::file('documents', ['id' => 'upload_document']); !!}
-</div>
-</div>
 
 <div class="clearfix"></div>
 <!-- Call restaurant module if defined -->
@@ -215,11 +207,7 @@ $commission_agent, null, ['class' => 'form-control select2']); !!}
 </div>
 </div>  
 
-@if(in_array('tables' ,$enabled_modules) || in_array('service_staff' ,$enabled_modules))
-<span id="restaurant_module_span">
-<div class="col-md-3"></div>
-</span>
-@endif
+
 @endcomponent
 
 @component('components.widget', ['class' => 'box-primary'])

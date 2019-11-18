@@ -5,7 +5,8 @@
 
 <!-- Content Header (Page header) -->
 <section class="content-header no-print">
-    <h1>@lang( 'sale.sells')
+    <!--Change Sell to Event-->
+    <h1>Events
         <small></small>
     </h1>
 </section>
@@ -27,7 +28,8 @@
             </div>
         @endif
     @endcomponent
-    @component('components.widget', ['class' => 'box-primary', 'title' => __( 'lang_v1.all_sales')])
+        <!--Change Sell to Event-->
+    @component('components.widget', ['class' => 'box-primary', 'title' => 'All Events'])
         @can('sell.create')
             @slot('tool')
                 <div class="box-tools">
