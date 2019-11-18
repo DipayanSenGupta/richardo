@@ -23,9 +23,9 @@
       <!--      <strong><i class="fa fa-calculator fa-lg" aria-hidden="true"></i></strong>-->
       <!--  </button>-->
 
-      <button type="button" title="{{ __('lang_v1.full_screen') }}" data-toggle="tooltip" data-placement="bottom" class="btn btn-primary btn-flat m-6 hidden-xs btn-xs m-5 pull-right" id="full_screen">
-            <strong><i class="fa fa-window-maximize fa-lg"></i></strong>
-      </button>
+      <!--<button type="button" title="{{ __('lang_v1.full_screen') }}" data-toggle="tooltip" data-placement="bottom" class="btn btn-primary btn-flat m-6 hidden-xs btn-xs m-5 pull-right" id="full_screen">-->
+      <!--      <strong><i class="fa fa-window-maximize fa-lg"></i></strong>-->
+      <!--</button>-->
 
       <button type="button" id="view_suspended_sales" title="{{ __('lang_v1.view_suspended_sales') }}" data-toggle="tooltip" data-placement="bottom" class="btn bg-yellow btn-flat m-6 btn-xs m-5 btn-modal pull-right" data-container=".view_modal" 
           data-href="{{ action('SellController@index')}}?suspended=1">
