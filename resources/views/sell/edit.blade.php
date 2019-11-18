@@ -52,7 +52,8 @@
 					</div>
 				@endif
 				<div class="clearfix"></div>
-				<div class="@if(!empty($commission_agent)) col-sm-3 @else col-sm-4 @endif">
+<!--customer name -->
+		<div class="@if(!empty($commission_agent)) col-sm-3 @else col-sm-3 @endif">
 					<div class="form-group">
 						{!! Form::label('contact_id', __('contact.customer') . ':*') !!}
 						<div class="input-group">
@@ -64,7 +65,7 @@
 							<input type="hidden" id="default_customer_name" 
 							value="{{ $transaction->contact->name }}" >
 							{!! Form::select('contact_id', 
-								[], null, ['class' => 'form-control mousetrap', 'id' => 'customer_id', 'placeholder' => 'Enter Customer name / phone', 'required']); !!}
+								[], $transaction->contact->name, ['class' => 'form-control mousetrap', 'id' => 'customer_id', 'placeholder' => 'Enter Customer name / phone', 'required']); !!}
 							<span class="input-group-btn">
 								<button type="button" class="btn btn-default bg-white btn-flat add_new_customer" data-name=""><i class="fa fa-plus-circle text-primary fa-lg"></i></button>
 							</span>
@@ -72,63 +73,117 @@
 					</div>
 				</div>
 
-				<div class="col-md-3">
-		          <div class="form-group">
-		            <div class="multi-input">
-		              {!! Form::label('pay_term_number', __('contact.pay_term') . ':') !!} @show_tooltip(__('tooltip.pay_term'))
-		              <br/>
-		              {!! Form::number('pay_term_number', $transaction->pay_term_number, ['class' => 'form-control width-40 pull-left', 'placeholder' => __('contact.pay_term')]); !!}
 
-		              {!! Form::select('pay_term_type', 
-		              	['months' => __('lang_v1.months'), 
-		              		'days' => __('lang_v1.days')], 
-		              		$transaction->pay_term_type, 
-		              	['class' => 'form-control width-60 pull-left','placeholder' => __('messages.please_select')]); !!}
-		            </div>
-		          </div>
-		        </div>
+<!--Event Name-->
+<div class="col-sm-3">
+<div class="form-group">
 
-				@if(!empty($commission_agent))
-				<div class="col-sm-3">
-					<div class="form-group">
-					{!! Form::label('commission_agent', __('lang_v1.commission_agent') . ':') !!}
-					{!! Form::select('commission_agent', 
-								$commission_agent, $transaction->commission_agent, ['class' => 'form-control select2']); !!}
-					</div>
-				</div>
-				@endif
-				<div class="@if(!empty($commission_agent)) col-sm-3 @else col-sm-4 @endif">
-					<div class="form-group">
-						{!! Form::label('transaction_date', __('sale.sale_date') . ':*') !!}
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="fa fa-calendar"></i>
-							</span>
-							{!! Form::text('transaction_date', $transaction->transaction_date, ['class' => 'form-control', 'readonly', 'required']); !!}
-						</div>
-					</div>
-				</div>
-				@php
+{!! Form::label('event_name', 'Event Name' . ':*', ['class' => 'control-label']) !!}
+{!! Form::text('event_name',  $eventMenu->name,
+[
+'class' => 'form-control',
+'placeholder' => 'Add Event Name', 'required'
+])
+!!}
+</div>
+</div>
+<!--Event Time-->
+<div class="col-md-3">
+<div class="form-group">
+{!! Form::label('event_time', 'Event Time'. ':*') !!}
+<div class="input-group">
+<span class="input-group-addon">
+<i class="fa fa-calendar"></i>
+</span>
+{!! Form::text('event_time',  $eventMenu->event_time, ['class' => 'form-control', 'readonly', 'required']); !!}
+</div>
+</div>
+</div>
+<div class="clearfix"></div> 
+<!--Event Venue-->
+<div class="col-sm-3">
+<div class="form-group">
+{!! Form::label('venu', 'Event venue ' . ':*') !!}
+{!! Form::text('venue',  $eventMenu->venue,
+[
+'class' => 'form-control',
+'placeholder' => 'Add Event Venue', 'required'
+])
+!!}                        
+</div>
+</div>
+
+<!--Event Type-->
+<div class="col-sm-3">
+<div class="form-group">
+{!! Form::label('type', 'Event Type' . ':*') !!}
+{!! Form::text('type', $eventMenu->type,
+[
+'class' => 'form-control',
+'placeholder' => 'Add Event Type', 'required'
+])
+!!}                    </div>
+</div>
+<!--attendence-->
+<div class="col-sm-3">
+<div class="form-group">
+{!! Form::label('attendences', 'Attendence'. ':*', ['class' => 'control-label']) !!}
+{!! Form::text('attendences',  $eventMenu->attendences,
+[
+'class' => 'form-control',
+'placeholder' => 'Add attendences', 'required'
+])
+!!}
+</div>
+</div>   
+<div class="clearfix"></div>
+<!--Booking-->
+<div class="col-md-3">
+<div class="form-group">
+{!! Form::label('booking_time', 'Booking Time'. ':*') !!}
+<div class="input-group">
+<span class="input-group-addon">
+<i class="fa fa-calendar"></i>
+</span>
+{!! Form::text('booking_time',  $eventMenu->booking_time, ['class' => 'form-control', 'readonly', 'required']); !!}
+</div>
+</div>
+</div>
+
+<!--status-->
+		@php
 					if($transaction->status == 'draft' && $transaction->is_quotation == 1){
 						$status = 'quotation';
 					} else {
 						$status = $transaction->status;
 					}
 				@endphp
-				<div class="@if(!empty($commission_agent)) col-sm-3 @else col-sm-4 @endif">
+				<div class="@if(!empty($commission_agent)) col-sm-3 @else col-sm-3 @endif">
 					<div class="form-group">
 						{!! Form::label('status', __('sale.status') . ':*') !!}
 						{!! Form::select('status', ['final' => __('sale.final'), 'draft' => __('sale.draft'), 'quotation' => __('lang_v1.quotation')], $status, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required']); !!}
 					</div>
 				</div>
-				@if($transaction->status == 'draft')
-				<div class="col-sm-3">
-					<div class="form-group">
-						{!! Form::label('invoice_scheme_id', __('invoice.invoice_scheme') . ':') !!}
-						{!! Form::select('invoice_scheme_id', $invoice_schemes, $default_invoice_schemes->id, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select')]); !!}
-					</div>
-				</div>
-				@endif
+
+<div class="col-md-3">
+<div class="form-group">
+{!! Form::label('documents', __('purchase.attach_document') . ':') !!}
+<div class="input-group">
+
+</div>    
+{!! Form::file('documents', ['id' => 'upload_document']); !!}
+</div>
+</div>
+
+<div class="clearfix"></div>
+
+
+<div class="col-md-12">
+<div class="form-group">
+{!! Form::label('sell_note','Event Note') !!}
+{!! Form::textarea('sale_note', null, ['class' => 'form-control', 'rows' => 3]); !!}
+</div>
+</div>
 				<div class="clearfix"></div>
 				<!-- Call restaurant module if defined -->
 		        @if(in_array('tables' ,$enabled_modules) || in_array('service_staff' ,$enabled_modules))
@@ -223,98 +278,7 @@
 					</div>
 				</div>
 			@endcomponent
-	@component('components.widget', ['class' => 'box-primary'])
-				<div class="row col-sm-12" style="min-height: 0">
-                        
-                        <div class="col-sm-3">
-                        <div class="form-group">
-                        
-                        {!! Form::label('event_name', 'Event Name', ['class' => 'control-label']) !!}
-                        {!! Form::text('event_name', $eventMenu->name,
-                        [
-                        'class' => 'form-control input-lg',
-                        'placeholder' => 'Event Name', 'required'
-                        ])
-                        !!}
-                        </div>
-                        </div> 
-                        
-                        <div class="col-md-3">
-                        <div class="form-group">
-                        {!! Form::label('event_time', 'Event Time'. ':*') !!}
-                        <div class="input-group">
-                        <span class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                        </span>
-                        {!! Form::text('event_time', $eventMenu->event_time, ['class' => 'form-control', 'readonly', 'required']); !!}
-                        </div>
-                        </div>
-                        </div>
-                        
-                        <div class="col-sm-3">
-                        <div class="form-group">
-                        {!! Form::label('venu', 'Event venue ' . ':*') !!}
-                        {!! Form::select('venue', ['Sena Maloncho' => __('Sena Maloncho'), 'PSC' => 'PSC', 'RAWA' => 'RAWA'], $eventMenu->venue, ['class' => 'form-control select2', 'placeholder' => 'Select Event Type', 'required']); !!}
-                        </div>
-                        </div>
-                        
-                        
-                        <div class="col-sm-3">
-                    <div class="form-group">
-                    {!! Form::label('type', 'Event Type' . ':*') !!}
-                    {!! Form::select('type',  ['Wedding' => 'Wedding', 'Reception' => 'Reception', 'Holud' => 'Holud'], $eventMenu->type, ['class' => 'form-control select2', 'placeholder' =>'Select Event Type', 'required']); !!}
-                    </div>
-                    </div>
-                        
-                                                <div class="clearfix"></div>
 
-                      <div class="col-sm-3">
-                            <div class="form-group">
-                                {!! Form::label('attendences', 'Attendence', ['class' => 'control-label']) !!}
-                                {!! Form::text('attendences', $eventMenu->attendences,
-                                [
-                                'class' => 'form-control input-lg',
-                                'placeholder' => 'attendences', 'required'
-                                ])
-                                !!}
-                            </div>
-                        </div>                        
-
-                    
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                {!! Form::label('booking_time', 'Booking Time'. ':*') !!}
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </span>
-                                    {!! Form::text('booking_time', $eventMenu->booking_time, ['class' => 'form-control', 'readonly', 'required']); !!}
-                                </div>
-                            </div>
-                        </div>
-                        
-                    <div class="col-md-3">
-                        <div class="form-group">
-                        {!! Form::label('document', __('purchase.attach_document') . ':') !!}
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                </span>
-                            </div>    
-                        {!! Form::file('document', ['id' => 'upload_document']); !!}
-                        </div>
-                    </div>
-                        
-                    <div class="col-md-12">
-			    	<div class="form-group">
-						{!! Form::label('sell_note','Event Note') !!}
-						{!! Form::textarea('sale_note', null, ['class' => 'form-control', 'rows' => 3]); !!}
-					</div>
-			    </div>    
-                        
-                          
-                </div>
-
-            @endcomponent
             
             
 <!--Default value sent -->
