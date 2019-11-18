@@ -2,7 +2,8 @@
   <div class="modal-content">
     <div class="modal-header">
     <button type="button" class="close no-print" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title" id="modalTitle"> @lang('sale.sell_details') (<b>@lang('sale.invoice_no'):</b> {{ $sell->invoice_no }})
+    <!--sell to event-->
+    <h4 class="modal-title" id="modalTitle"> Event Details(<b>@lang('sale.invoice_no'):</b> {{ $sell->invoice_no }})
     </h4>
 </div>
 <div class="modal-body">
@@ -12,7 +13,8 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-4">
+        <div class="col-sm-6 col-xs-6">
+        <div class="pull-left">
         <b>{{ __('sale.invoice_no') }}:</b> #{{ $sell->invoice_no }}<br>
         <b>{{ __('sale.status') }}:</b> 
           @if($sell->status == 'draft' && $sell->is_quotation == 1)
@@ -23,11 +25,9 @@
         <br>
         <b>{{ __('sale.payment_status') }}:</b> {{ ucfirst( $sell->payment_status ) }}<br>
       </div>
-      
-      <div class="col-sm-4">
+        <div class="pull-right">
         <b>{{ __('sale.customer_name') }}:</b> {{ $sell->contact->name }}<br>
         <b>{{ __('business.address') }}:</b><br>
-        
         
         @if(!empty($sell->billing_address()))
           {{$sell->billing_address()}}
@@ -59,9 +59,13 @@
           @endif
         @endif
         
-      </div>
-      <div class="col-sm-4">
-        <b>Event Address:</b> <br>
+      </div> 
+        </div>
+
+      <div class="col-sm-6 col-xs-6">
+        <b>Event Address: </b>{{$eventMenu->venue}} <br>
+        <b>Event Time: </b>{{$eventMenu->event_time}} <br>
+        <b>Booking Time: </b>{{$eventMenu->booking_time}} <br>
 
       @if(in_array('tables' ,$enabled_modules))
          <strong>@lang('restaurant.table'):</strong>
@@ -80,175 +84,95 @@
     </div>
     <br>
     <div class="row">
-      <div class="col-sm-12 col-xs-12">
-        <h4>{{ __('sale.products') }}:</h4>
-      </div>
+        <div class="col-sm-6 col-xs-6">
+            <h4>{{ __('sale.products') }}:</h4>
+        <div class="table-responsive">
+        <table class="table bg-gray">
+        <tr class="bg-green">
+        <th>#</th>
+        <th>{{ __('sale.product') }}</th>
+        @if( session()->get('business.enable_lot_number') == 1)
+            <th>{{ __('lang_v1.lot_n_expiry') }}</th>
+        @endif
+        <th>{{ __('sale.qty') }}</th>
+        @if(!empty($pos_settings['inline_service_staff']))
+            <th>
+                @lang('restaurant.service_staff')
+            </th>
+        @endif
+        <th>Image</th>
 
-      <div class="col-sm-12 col-xs-12">
-        <div class="table-responsive">
-          @include('sale_pos.partials.sale_line_details')
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-12 col-xs-12">
-        <h4>{{ __('sale.payment_info') }}:</h4>
-      </div>
-      <div class="col-md-6 col-sm-12 col-xs-12">
-        <div class="table-responsive">
-          <table class="table bg-gray">
-            <tr class="bg-green">
-              <th>#</th>
-              <th>{{ __('messages.date') }}</th>
-              <th>{{ __('purchase.ref_no') }}</th>
-              <th>{{ __('sale.amount') }}</th>
-              <th>{{ __('sale.payment_mode') }}</th>
-              <th>{{ __('sale.payment_note') }}</th>
-            </tr>
-            @php
-              $total_paid = 0;
-            @endphp
-            @foreach($sell->payment_lines as $payment_line)
-              @php
-                if($payment_line->is_return == 1){
-                  $total_paid -= $payment_line->amount;
-                } else {
-                  $total_paid += $payment_line->amount;
-                }
-              @endphp
-              <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ @format_date($payment_line->paid_on) }}</td>
-                <td>{{ $payment_line->payment_ref_no }}</td>
-                <td><span class="display_currency" data-currency_symbol="true">{{ $payment_line->amount }}</span></td>
-                <td>
-                  {{ $payment_types[$payment_line->method] ?? $payment_line->method }}
-                  @if($payment_line->is_return == 1)
-                    <br/>
-                    ( {{ __('lang_v1.change_return') }} )
-                  @endif
-                </td>
-                <td>@if($payment_line->note) 
-                  {{ ucfirst($payment_line->note) }}
-                  @else
-                  --
-                  @endif
-                </td>
-              </tr>
-            @endforeach
-          </table>
-        </div>
-      </div>
-      <div class="col-md-6 col-sm-12 col-xs-12">
-        <div class="table-responsive">
-          <table class="table bg-gray">
-            <tr>
-              <th>{{ __('sale.total') }}: </th>
-              <td></td>
-              <td><span class="display_currency pull-right" data-currency_symbol="true">{{ $sell->total_before_tax }}</span></td>
-            </tr>
-            <tr>
-              <th>{{ __('sale.discount') }}:</th>
-              <td><b>(-)</b></td>
-              <td><span class="pull-right">{{ $sell->discount_amount }} @if( $sell->discount_type == 'percentage') {{ '%'}} @endif</span></td>
-            </tr>
-            @if(session('business.enable_rp') == 1 && !empty($sell->rp_redeemed) )
-              <tr>
-                <th>{{session('business.rp_name')}}:</th>
-                <td><b>(-)</b></td>
-                <td> <span class="display_currency pull-right" data-currency_symbol="true">{{ $sell->rp_redeemed_amount }}</span></td>
-              </tr>
-            @endif
-            <tr>
-              <th>{{ __('sale.order_tax') }}:</th>
-              <td><b>(+)</b></td>
-              <td class="text-right">
-                @if(!empty($order_taxes))
-                  @foreach($order_taxes as $k => $v)
-                    <strong><small>{{$k}}</small></strong> - <span class="display_currency pull-right" data-currency_symbol="true">{{ $v }}</span><br>
-                  @endforeach
-                @else
-                0.00
+    </tr>
+    @foreach($sell->sell_lines as $sell_line)
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td>
+                {{ $sell_line->product->name }}
+                @if( $sell_line->product->type == 'variable')
+                - {{ $sell_line->variations->product_variation->name ?? ''}}
+                - {{ $sell_line->variations->name ?? ''}},
                 @endif
-              </td>
-            </tr>
-            <tr>
-              <th>{{ __('sale.shipping') }}: @if($sell->shipping_details)({{$sell->shipping_details}}) @endif</th>
-              <td><b>(+)</b></td>
-              <td><span class="display_currency pull-right" data-currency_symbol="true">{{ $sell->shipping_charges }}</span></td>
-            </tr>
-            <tr>
-              <th>{{ __('sale.total_payable') }}: </th>
-              <td></td>
-              <td><span class="display_currency pull-right" data-currency_symbol="true">{{ $sell->final_total }}</span></td>
-            </tr>
-            <tr>
-              <th>{{ __('sale.total_paid') }}:</th>
-              <td></td>
-              <td><span class="display_currency pull-right" data-currency_symbol="true" >{{ $total_paid }}</span></td>
-            </tr>
-            <tr>
-              <th>{{ __('sale.total_remaining') }}:</th>
-              <td></td>
-              <td><span class="display_currency pull-right" data-currency_symbol="true" >{{ $sell->final_total - $total_paid }}</span></td>
-            </tr>
-          </table>
+                {{ $sell_line->variations->sub_sku ?? ''}}
+                @php
+                $brand = $sell_line->product->brand;
+                @endphp
+                @if(!empty($brand->name))
+                , {{$brand->name}}
+                @endif
+
+                @if(!empty($sell_line->sell_line_note))
+                <br> {{$sell_line->sell_line_note}}
+                @endif
+            </td>
+            @if( session()->get('business.enable_lot_number') == 1)
+                <td>{{ $sell_line->lot_details->lot_number ?? '--' }}
+                    @if( session()->get('business.enable_product_expiry') == 1 && !empty($sell_line->lot_details->exp_date))
+                    ({{@format_date($sell_line->lot_details->exp_date)}})
+                    @endif
+                </td>
+            @endif
+            <td>
+                <span class="display_currency" data-currency_symbol="false" data-is_quantity="true">{{ $sell_line->quantity }}</span> @if(!empty($sell_line->sub_unit)) {{$sell_line->sub_unit->short_name}} @else {{$sell_line->product->unit->short_name}} @endif
+            </td>
+            <td>
+            <img src="{{$sell_line->product->image_url}}" alt="Product image" class="product-thumbnail-small">
+            </td>
+        </tr>
+    @endforeach
+</table>
         </div>
       </div>
-    </div>
+    
+
+    <!--Payment Info section-->
     
     <!--event section add-->
-    <div class="row">
-      <div class="col-sm-12 col-xs-12">
-        <h4>Event:</h4>
-      </div>
-        <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="col-sm-6 col-xs-6">
+                    <h4>Event:</h4>
             <div class="table-responsive">
                 <table class="table bg-gray">
                     <tr class="bg-green">
                     <th>#</th>
                     <th>Name</th>
                     <th>Type</th>
-                    <th>Venue</th>
                     <th>Attendences</th>
-                    <th>Booking Time</th>
-                    <th>Event Time</th>
                     </tr>
                     <tr>
                     <td></td>
                     <td>{{ $eventMenu->name }}</td>
                     <td>{{ $eventMenu->type }}</td>
-                    <td>{{ $eventMenu->venue }}</td>
                     <td>{{ $eventMenu->attendences }}</td>
-                    <td>{{ $eventMenu->booking_time }}</td>
-                    <td>{{ $eventMenu->event_time }}</td>
+
                     </tr>  
                 
                 </table>
             </div>
         </div>
+        </div>
         
-        <div class="col-md-6 col-sm-12 col-xs-12">
-        <div class="table-responsive">
-        <table class="table bg-gray">
-            <tr class="bg-green">
-            <th>Event Name</th>
-            <th>Quantity</th>
-
-            </tr>
-            @foreach($items as $item)
-            <tr >
-            <td> {{$item->name}}</td>
-            <td> {{$item->quantity}}</td>
-
-            </tr>
-            @endforeach
-        </table>
-        </div>
-        </div>
+        <!--dynamic event menu item-->
       
-    </div>
+    
     <!--event section end -->
     
     <div class="row">
@@ -262,16 +186,7 @@
           @endif
         </p>
       </div>
-      <div class="col-sm-6">
-        <strong>{{ __( 'sale.staff_note')}}:</strong><br>
-        <p class="well well-sm no-shadow bg-gray">
-          @if($sell->staff_note)
-            {{ $sell->staff_note }}
-          @else
-            --
-          @endif
-        </p>
-      </div>
+    <!--staff-note-->
     </div>
   </div>
   <div class="modal-footer">
