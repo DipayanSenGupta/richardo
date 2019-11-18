@@ -20,10 +20,10 @@ Route::middleware(['IsInstalled', 'bootstrap'])->group(function () {
 
     Auth::routes();
 
-    Route::get('/business/register', 'BusinessController@getRegister')->name('business.getRegister');
-    Route::post('/business/register', 'BusinessController@postRegister')->name('business.postRegister');
-    Route::post('/business/register/check-username', 'BusinessController@postCheckUsername')->name('business.postCheckUsername');
-    Route::post('/business/register/check-email', 'BusinessController@postCheckEmail')->name('business.postCheckEmail');
+    // Route::get('/business/register', 'BusinessController@getRegister')->name('business.getRegister');
+    // Route::post('/business/register', 'BusinessController@postRegister')->name('business.postRegister');
+    // Route::post('/business/register/check-username', 'BusinessController@postCheckUsername')->name('business.postCheckUsername');
+    // Route::post('/business/register/check-email', 'BusinessController@postCheckEmail')->name('business.postCheckEmail');
 
     Route::get('/invoice/{token}', 'SellPosController@showInvoice')
         ->name('show_invoice');
@@ -49,7 +49,7 @@ Route::middleware(['IsInstalled', 'auth', 'SetSessionData', 'language', 'timezon
 
     Route::resource('brands', 'BrandController');
     
-    // Route::resource('payment-account', 'PaymentAccountController');
+    Route::resource('payment-account', 'PaymentAccountController');
 
     Route::resource('tax-rates', 'TaxRateController');
 
