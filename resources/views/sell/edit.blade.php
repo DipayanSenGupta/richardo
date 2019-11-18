@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', __('sale.edit_sale'))
+@section('title', 'Edit Event')
 
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>@lang('sale.edit_sale') <small>(@lang('sale.invoice_no'): <span class="text-success">#{{$transaction->invoice_no}})</span></small></h1>
+    <h1>Edit Event <small>(@lang('sale.invoice_no'): <span class="text-success">#{{$transaction->invoice_no}})</span></small></h1>
 </section>
 <!-- Main content -->
 <section class="content">

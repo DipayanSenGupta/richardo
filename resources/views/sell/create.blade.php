@@ -1,11 +1,11 @@
 @extends('layouts.app')
 <!--Changed from Add Sale to Add Event-->
-@section('title', __('Add Event'))
+@section('title','Add Event')
 
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
-<h1>@lang('sale.add_sale')</h1>
+<h1>Add Event</h1>
 </section>
 <!-- Main content -->
 <section class="content no-print">
