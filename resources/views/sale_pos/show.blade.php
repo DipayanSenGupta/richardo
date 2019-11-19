@@ -176,7 +176,25 @@
     <!--event section end -->
     
     <div class="row">
-      <div class="col-sm-6">
+         <div class="col-sm-6 col-xs-6">
+                    <h4>Grocery:</h4>
+            <div class="table-responsive">
+                <table class="table bg-gray">
+                    <tr class="bg-green">
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    </tr>
+                    @foreach($groceries as $grocery)
+                    <tr>
+                    <td>{{ $grocery->name }}</td>
+                    <td>{{ $grocery->quantity }}</td>
+                    </tr>
+                    @endforeach 
+                </table>
+            </div>
+        </div>    
+      <div class="col-sm-6 col-xs-6">
         <strong>{{ __( 'sale.sell_note')}}:</strong><br>
         <p class="well well-sm no-shadow bg-gray">
           @if($sell->additional_notes)

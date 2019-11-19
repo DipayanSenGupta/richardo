@@ -22,6 +22,7 @@ use App\Menu;
 use App\CacheItem;
 use App\Item;
 use App\EventMenuItem;
+use App\Grocery;
 // Event addition end
 
 use App\Category;
@@ -486,8 +487,8 @@ class SellController extends Controller
 
         $invoice_schemes = InvoiceScheme::forDropdown($business_id);
         $default_invoice_schemes = InvoiceScheme::getDefault($business_id);
-        DB::table('cache_items')->truncate();
-        $menus = Menu::pluck('name', 'id');
+        // DB::table('cache_items')->truncate();
+        // $menus = Menu::pluck('name', 'id');
 
         
         return view('sell.create')
@@ -508,7 +509,7 @@ class SellController extends Controller
                 'pos_settings',
                 'invoice_schemes',
                 'default_invoice_schemes',
-                'menus',
+                // 'menus',
                 'categories',
                 'brands'
             ));
@@ -577,9 +578,18 @@ class SellController extends Controller
                 $eventMenu = Transaction::find($id)->eventMenu;
                 $items = EventMenu::find($eventMenu->id)->items;
                 DB::table('cache_items')->truncate();
+                $groceries = Grocery::where('event_menu_id', $eventMenu->id)
+               ->get();
+               if($groceries){
+                return view('sale_pos.show')
+                    ->with(compact('taxes', 'sell', 'payment_types', 'order_taxes', 'pos_settings','items','eventMenu','groceries')); 
+               }
+               else{
+                return view('sale_pos.show')
+                    ->with(compact('taxes', 'sell', 'payment_types', 'order_taxes', 'pos_settings','items','eventMenu'));  
+               }
             // event section end
-        return view('sale_pos.show')
-            ->with(compact('taxes', 'sell', 'payment_types', 'order_taxes', 'pos_settings','items','eventMenu'));
+ 
     }
 
     /**
@@ -620,6 +630,7 @@ class SellController extends Controller
         $location_id = $transaction->location_id;
         $location_printer_type = BusinessLocation::find($location_id)->receipt_printer_type;
 
+        
         $sell_details = TransactionSellLine::
                         join(
                             'products AS p',
@@ -767,7 +778,7 @@ class SellController extends Controller
         $edit_discount = auth()->user()->can('edit_product_discount_from_sale_screen');
         $edit_price = auth()->user()->can('edit_product_price_from_sale_screen');
         $menus = Menu::pluck('name', 'id');
-        
+
         $eventMenu = Transaction::find($transaction->id)->eventMenu;
         $eventMenu->booking_time = $this->transactionUtil->format_date($eventMenu->booking_time, true);
         $eventMenu->event_time = $this->transactionUtil->format_date($eventMenu->event_time, true);

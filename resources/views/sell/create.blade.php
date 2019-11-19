@@ -36,7 +36,7 @@
 </div>
 @endif
 <input type="hidden" id="item_addition_method" value="{{$business_details->item_addition_method}}">
-{!! Form::open(['url' => action('SellPosController@store'), 'method' => 'post', 'id' => 'add_sell_form','enctype' => 'multipart/form-data' ]) !!}
+{!! Form::open(['url' => action('SellPosController@store'), 'method' => 'post', 'id' => 'add_sell_form', 'enctype' => 'multipart/form-data']) !!}
 <div class="row">
 <div class="col-md-12 col-sm-12">
 @component('components.widget', ['class' => 'box-primary'])
@@ -186,11 +186,19 @@ $commission_agent, null, ['class' => 'form-control select2']); !!}
 </div>
 
 <!--status-->
-<div class="@if(!empty($commission_agent)) col-sm-3 @else col-sm-4 @endif">
-<div class="form-group">
+<div class="@if(!empty($commission_agent)) col-sm-3 @else col-sm-3 @endif">
+    <div class="form-group">
 {!! Form::label('status', __('sale.status') . ':*') !!}
 {!! Form::select('status', ['final' => __('sale.final'), 'draft' => __('sale.draft'), 'quotation' => __('lang_v1.quotation')], null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required']); !!}
 </div>
+</div>
+
+<div class="col-sm-3">
+    <div class="form-group">
+        {!! Form::label('name','Event Csv upload' . ':') !!}
+        @show_tooltip('Add event csv/ xls')
+        {!! Form::file('events_csv', ['required' => 'required']); !!}
+      </div>
 </div>
 
 

@@ -14,4 +14,8 @@ class EventMenu extends Model
         return $this->belongsTo('App\Transaction');    
         
     }
+    public function groceries()
+    {
+       return $this->hasMany(\App\Grocery::class,'event_menu_id');
+    }
 }

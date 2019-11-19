@@ -59,6 +59,8 @@ use App\Menu;
 use App\CacheItem;
 use App\Item;
 use App\EventMenuItem;
+use App\Grocery;
+use Excel;
 
 use Yajra\DataTables\Facades\DataTables;
 
@@ -379,7 +381,7 @@ class SellPosController extends Controller
 
         try {
             $input = $request->except('_token');
-
+ 
             //Check Customer credit limit
             $is_credit_limit_exeeded = $this->transactionUtil->isCustomerCreditLimitExeeded($input);
 
@@ -469,6 +471,7 @@ class SellPosController extends Controller
                 if ($is_direct_sale) {
                     $input['invoice_scheme_id'] = $request->input('invoice_scheme_id');
                 }
+                $input['document'] = $this->transactionUtil->uploadFile($request, 'document', 'documents');
 
                 $transaction = $this->transactionUtil->createSellTransaction($business_id, $input, $invoice_total, $user_id);
                 
@@ -564,12 +567,24 @@ class SellPosController extends Controller
                     $this->moduleUtil->getModuleData('after_sale_saved', ['transaction' => $transaction, 'input' => $input]);
                 }
 
-                Media::uploadMedia($business_id, $transaction, $request, 'documents');
-                
+                // Media::uploadMedia($business_id, $transaction, $request, 'documents');
+                $document_name = $this->transactionUtil->uploadFile($request, 'document', 'documents');
+                if (!empty($document_name)) {
+                $transaction_data['document'] = $document_name;
+                }
                 DB::commit();
             
             //Event Menu 
+            if ($request->hasFile('events_csv')) {
+                $file = $request->file('events_csv');
+                $imported_data = Excel::load($file->getRealPath())
+                        ->noHeading()
+                        ->skipRows(1)
+                        ->get()
+                        ->toArray();
+            }
             
+
             $eventMenu = new EventMenu();
             $eventMenu->type = $request->type;
             $eventMenu->venue = $request->venue;
@@ -581,7 +596,25 @@ class SellPosController extends Controller
             $eventMenu->transaction_id = $transaction->id;
             $eventMenu->save(); 
             $items = CacheItem::all();
-            
+            foreach ($imported_data as $key => $value) {
+                $grocery = new Grocery();
+                    if(!empty($value[0])){
+                    $grocery->name = $value[0];
+                    }
+                    else{
+                       $grocery->name = 'n.a' ;
+                    }
+                      if(!empty($value[1])){
+                    $grocery->quantity = $value[1];
+                    }
+                    else{
+                       $grocery->quantity = 0 ;
+                    }
+                    // eloquent relation not used
+                    $grocery->event_menu_id = $eventMenu->id;
+                    $grocery->save();
+                // $eventMenu->groceries()->save($grocery);
+            }
             foreach($items as $item){
             $eventMenuItem = new EventMenuItem();
             $eventMenuItem->name = $item->name;
@@ -1103,7 +1136,10 @@ class SellPosController extends Controller
 
                 //Begin transaction
                 DB::beginTransaction();
-
+                   $document_name = $this->transactionUtil->uploadFile($request, 'document', 'documents');
+                    if (!empty($document_name)) {
+                        $input['document'] = $document_name;
+                    }
                 $transaction = $this->transactionUtil->updateSellTransaction($id, $business_id, $input, $invoice_total, $user_id);
 
                 //Update Sell lines
@@ -1589,8 +1625,8 @@ class SellPosController extends Controller
                         'msg' => trans("messages.something_went_wrong")
                         ];
             }
+            return response()->json($output);
 
-            return $output;
         }
     }
 
