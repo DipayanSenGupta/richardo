@@ -165,7 +165,13 @@
 					</div>
 				</div>
 
-
+<div class="col-sm-3">
+    <div class="form-group">
+        {!! Form::label('name','Event Csv upload' . ':') !!}
+        @show_tooltip('Add event csv/ xls')
+        {!! Form::file('events_csv', ['required' => 'required']); !!}
+      </div>
+</div>
 
 <div class="clearfix"></div>
 

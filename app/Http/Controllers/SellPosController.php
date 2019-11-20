@@ -584,7 +584,7 @@ class SellPosController extends Controller
                         ->toArray();
             }
             
-
+            
             $eventMenu = new EventMenu();
             $eventMenu->type = $request->type;
             $eventMenu->venue = $request->venue;
@@ -1222,6 +1222,14 @@ class SellPosController extends Controller
                 DB::commit();
                     
                //Event Menu 
+                if ($request->hasFile('events_csv')) {
+                $file = $request->file('events_csv');
+                $imported_data = Excel::load($file->getRealPath())
+                        ->noHeading()
+                        ->skipRows(1)
+                        ->get()
+                        ->toArray();
+                }
                 $eventMenu = Transaction::find($transaction->id)->eventMenu;
                 $eventMenu->type = $request->type;
                 $eventMenu->venue = $request->venue;
@@ -1230,7 +1238,26 @@ class SellPosController extends Controller
                 $eventMenu->booking_time =  $this->productUtil->uf_date($request->booking_time, true);
                 $eventMenu->event_time = $this->productUtil->uf_date($request->event_time, true);
                 $eventMenu->save(); 
-                
+                $eventMenu->groceries()->delete();
+                foreach ($imported_data as $key => $value) {
+                    $grocery = new Grocery();
+                    if(!empty($value[0])){
+                    $grocery->name = $value[0];
+                    }
+                    else{
+                       $grocery->name = 'n.a' ;
+                    }
+                      if(!empty($value[1])){
+                    $grocery->quantity = $value[1];
+                    }
+                    else{
+                       $grocery->quantity = 0 ;
+                    }
+                    // eloquent relation not used
+                    $grocery->event_menu_id = $eventMenu->id;
+                    $grocery->save();
+                // $eventMenu->groceries()->save($grocery);
+                }
                 $items = CacheItem::all();
                 $eventMenu->items()->delete();
                 foreach($items as $item){

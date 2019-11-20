@@ -1,0 +1,9 @@
+[16-Nov-2019 14:56:29 Asia/Kolkata] PHP Fatal error:  Cannot use temporary expression in write context in /home/fv8slr48sobv/public_html/app/Http/Controllers/SellPosController.php on line 472
+[16-Nov-2019 14:56:42 Asia/Kolkata] PHP Fatal error:  Cannot use temporary expression in write context in /home/fv8slr48sobv/public_html/app/Http/Controllers/SellPosController.php on line 472
+[16-Nov-2019 14:56:55 Asia/Kolkata] PHP Fatal error:  Cannot use temporary expression in write context in /home/fv8slr48sobv/public_html/app/Http/Controllers/SellPosController.php on line 472
+[16-Nov-2019 14:56:59 Asia/Kolkata] PHP Fatal error:  Cannot use temporary expression in write context in /home/fv8slr48sobv/public_html/app/Http/Controllers/SellPosController.php on line 472
+[16-Nov-2019 14:57:04 Asia/Kolkata] PHP Fatal error:  Cannot use temporary expression in write context in /home/fv8slr48sobv/public_html/app/Http/Controllers/SellPosController.php on line 472
+[16-Nov-2019 14:57:11 Asia/Kolkata] PHP Fatal error:  Cannot use temporary expression in write context in /home/fv8slr48sobv/public_html/app/Http/Controllers/SellPosController.php on line 472
+[16-Nov-2019 14:57:34 Asia/Kolkata] PHP Fatal error:  Cannot use temporary expression in write context in /home/fv8slr48sobv/public_html/app/Http/Controllers/SellPosController.php on line 472
+[16-Nov-2019 14:57:36 Asia/Kolkata] PHP Fatal error:  Cannot use temporary expression in write context in /home/fv8slr48sobv/public_html/app/Http/Controllers/SellPosController.php on line 472
+[20-Nov-2019 16:56:19 Asia/Kolkata] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/fv8slr48sobv/public_html/app/Http/Controllers/SellPosController.php on line 28
