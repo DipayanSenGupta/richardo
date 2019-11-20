@@ -254,6 +254,14 @@ class SellController extends Controller
             }
 
             $datatable = Datatables::of($sells)
+                ->addColumn('grocery', function ($row) {
+                        $grocery_html =
+                                        '<button type="button" class="btn btn-info btn-xs"><a href="#" data-href="' . action("SellPosController@groceryModalShow", [$row->id]) . '" 
+                                        class="btn-modal" data-container=".view_modal" style="color:white;"> 
+                                         '. "grocery" . '</a></button>';
+                
+                    return $grocery_html;
+                })
                 ->addColumn(
                     'action',
                     function ($row) {
@@ -387,7 +395,7 @@ class SellController extends Controller
                         }
                     }]);
 
-            $rawColumns = ['final_total', 'action', 'total_paid', 'total_remaining', 'payment_status', 'invoice_no', 'discount_amount', 'tax_amount', 'total_before_tax'];
+            $rawColumns = ['final_total', 'action','grocery', 'total_paid', 'total_remaining', 'grocery', 'payment_status', 'invoice_no', 'discount_amount', 'tax_amount', 'total_before_tax'];
                 
             return $datatable->rawColumns($rawColumns)
                       ->make(true);

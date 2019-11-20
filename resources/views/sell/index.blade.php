@@ -51,6 +51,7 @@
                             <th>@lang('sale.total_amount')</th>
                             <th>@lang('sale.total_paid')</th>
                             <th>@lang('purchase.payment_due')</th>
+                            <th>Grocery</th>
                             <th>@lang('messages.action')</th>
                         </tr>
                     </thead>
@@ -61,6 +62,7 @@
                             <td><span class="display_currency" id="footer_sale_total" data-currency_symbol ="true"></span></td>
                             <td><span class="display_currency" id="footer_total_paid" data-currency_symbol ="true"></span></td>
                             <td class="text-left"><small>@lang('lang_v1.sell_due') - <span class="display_currency" id="footer_total_remaining" data-currency_symbol ="true"></span><br>@lang('lang_v1.sell_return_due') - <span class="display_currency" id="footer_total_sell_return_due" data-currency_symbol ="true"></span></small></td>
+                            <td></td>
                             <td></td>
                         </tr>
                     </tfoot>
@@ -143,6 +145,7 @@ $(document).ready( function(){
             { data: 'final_total', name: 'final_total'},
             { data: 'total_paid', name: 'total_paid', "searchable": false},
             { data: 'total_remaining', name: 'total_remaining'},
+            { data: 'grocery', name: 'grocery'},
             { data: 'action', name: 'action'}
         ],
         "fnDrawCallback": function (oSettings) {

@@ -78,10 +78,11 @@ class ImportOpeningStockController extends Controller
         }
 
         try {
+            //  return response()->json($request);
             //Set maximum php execution time
             ini_set('max_execution_time', 0);
 
-            if ($request->hasFile('products_csv')) {
+            if ($request->hasFile('_csv')) {
                 $file = $request->file('products_csv');
                 $imported_data = Excel::load($file->getRealPath())
                                 ->noHeading()
@@ -95,7 +96,7 @@ class ImportOpeningStockController extends Controller
 
                 $is_valid = true;
                 $error_msg = '';
-                
+                dd($imported_data);
                 DB::beginTransaction();
                 foreach ($imported_data as $key => $value) {
                     $row_no = $key + 1;

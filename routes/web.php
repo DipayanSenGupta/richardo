@@ -20,10 +20,10 @@ Route::middleware(['IsInstalled', 'bootstrap'])->group(function () {
 
     Auth::routes();
 
-    // Route::get('/business/register', 'BusinessController@getRegister')->name('business.getRegister');
-    // Route::post('/business/register', 'BusinessController@postRegister')->name('business.postRegister');
-    // Route::post('/business/register/check-username', 'BusinessController@postCheckUsername')->name('business.postCheckUsername');
-    // Route::post('/business/register/check-email', 'BusinessController@postCheckEmail')->name('business.postCheckEmail');
+    Route::get('/business/register', 'BusinessController@getRegister')->name('business.getRegister');
+    Route::post('/business/register', 'BusinessController@postRegister')->name('business.postRegister');
+    Route::post('/business/register/check-username', 'BusinessController@postCheckUsername')->name('business.postCheckUsername');
+    Route::post('/business/register/check-email', 'BusinessController@postCheckEmail')->name('business.postCheckEmail');
 
     Route::get('/invoice/{token}', 'SellPosController@showInvoice')
         ->name('show_invoice');
@@ -32,9 +32,12 @@ Route::middleware(['IsInstalled', 'bootstrap'])->group(function () {
 //Routes for authenticated users only
 Route::middleware(['IsInstalled', 'auth', 'SetSessionData', 'language', 'timezone', 'bootstrap'])->group(function () {
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
-
+    Route::get('/artisan-command-call', 'HomeController@artisanCall');
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/home/get-totals', 'HomeController@getTotals');
+    // Event totals route add 
+    Route::get('/home/get-event-totals', 'HomeController@getEventTotals');
+
     Route::get('/home/product-stock-alert', 'HomeController@getProductStockAlert');
     Route::get('/home/purchase-payment-dues', 'HomeController@getPurchasePaymentDues');
     Route::get('/home/sales-payment-dues', 'HomeController@getSalesPaymentDues');
@@ -103,6 +106,7 @@ Route::middleware(['IsInstalled', 'auth', 'SetSessionData', 'language', 'timezon
     Route::get('/toggle-subscription/{id}', 'SellPosController@toggleRecurringInvoices');
     Route::get('/sells/subscriptions', 'SellPosController@listSubscriptions');
     Route::get('/sells/invoice-url/{id}', 'SellPosController@showInvoiceUrl');
+    Route::get('/sells/grocery-modal/{id}', 'SellPosController@groceryModalShow');
     Route::get('/sells/duplicate/{id}', 'SellController@duplicateSell');
     Route::get('/sells/drafts', 'SellController@getDrafts');
     Route::get('/sells/quotations', 'SellController@getQuotations');

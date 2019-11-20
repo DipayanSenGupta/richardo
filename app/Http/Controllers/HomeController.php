@@ -11,8 +11,9 @@ use App\Utils\ModuleUtil;
 
 use App\Utils\TransactionUtil;
 use App\VariationLocationDetails;
-
+use App\EventMenu;
 use Charts;
+use Artisan;
 
 use Datatables;
 use DB;
@@ -240,6 +241,8 @@ class HomeController extends Controller
             $output['total_sell'] = $total_sell_inc_tax - $total_sell_return_inc_tax;
 
             $output['invoice_due'] = $sell_details['invoice_due'];
+            $output['total_events'] = count(EventMenu::all());
+
 
             return $output;
         }
@@ -507,4 +510,6 @@ class HomeController extends Controller
 
         return view('layouts.partials.notification_list', compact('notifications_data'));
     }
+    
+
 }

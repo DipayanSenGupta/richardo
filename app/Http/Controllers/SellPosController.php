@@ -2101,4 +2101,37 @@ class SellPosController extends Controller
 
         return $variation_details;
     }
+    
+    
+    public function groceryModalShow($id){
+      $business_id = request()->session()->get('user.business_id');
+        $taxes = TaxRate::where('business_id', $business_id)
+                            ->pluck('name', 'id');
+        $query = Transaction::where('business_id', $business_id)
+                    ->where('id', $id)
+                    ->with(['contact', 'sell_lines' => function ($q) {
+                        $q->whereNull('parent_sell_line_id');
+                    },'sell_lines.product', 'sell_lines.product.unit', 'sell_lines.variations', 'sell_lines.variations.product_variation', 'payment_lines', 'sell_lines.modifiers', 'sell_lines.lot_details', 'tax', 'sell_lines.sub_unit', 'table', 'service_staff', 'sell_lines.service_staff']);
+
+        if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
+            $query->where('transactions.created_by', request()->session()->get('user.id'));
+        }
+
+        $sell = $query->firstOrFail();
+
+        foreach ($sell->sell_lines as $key => $value) {
+            if (!empty($value->sub_unit_id)) {
+                $formated_sell_line = $this->transactionUtil->recalculateSellLineTotals($business_id, $value);
+                $sell->sell_lines[$key] = $formated_sell_line;
+            }
+        }
+      
+      
+        $eventMenu = Transaction::find($id)->eventMenu;
+        $groceries = Grocery::where('event_menu_id', $eventMenu->id)
+               ->get();        
+               
+        return view('sale_pos.grocery')
+                    ->with(compact('groceries','sell','eventMenu'));      
+    }
 }

@@ -85,6 +85,8 @@ class TransactionUtil extends Util
             'rp_redeemed' => !empty($input['rp_redeemed']) ? $input['rp_redeemed'] : 0,
             'rp_redeemed_amount' => !empty($input['rp_redeemed_amount']) ? $input['rp_redeemed_amount'] : 0,
             'is_created_from_api' => !empty($input['is_created_from_api']) ? 1 : 0,
+            'document' => !empty($input['document']) ? $input['document'] : null,
+
         ]);
 
         return $transaction;
@@ -149,6 +151,8 @@ class TransactionUtil extends Util
             'rp_earned' => $input['status'] == 'final' ? $this->calculateRewardPoints($business_id, $final_total) : 0,
             'rp_redeemed' => !empty($input['rp_redeemed']) ? $input['rp_redeemed'] : 0,
             'rp_redeemed_amount' => !empty($input['rp_redeemed_amount']) ? $input['rp_redeemed_amount'] : 0,
+            'document' => !empty($input['document']) ? $input['document'] : null,
+
         ];
 
         if (!empty($input['transaction_date'])) {

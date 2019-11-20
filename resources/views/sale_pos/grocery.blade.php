@@ -84,106 +84,30 @@
     </div>
     <br>
     
-        <!--event section add-->
-        <div class ="row">
-        <div class="col-xs-12">
-                    <h4>Event:</h4>
+    <div class="row">
+         <div class="col-sm-6 col-xs-6">
+                    <h4>Grocery:</h4>
             <div class="table-responsive">
                 <table class="table bg-gray">
                     <tr class="bg-green">
                     <th>#</th>
                     <th>Name</th>
-                    <th>Type</th>
-                    <th>Attendences</th>
+                    <th>Quantity</th>
                     </tr>
+                    @foreach($groceries as $grocery)
                     <tr>
-                    <td></td>
-                    <td>{{ $eventMenu->name }}</td>
-                    <td>{{ $eventMenu->type }}</td>
-                    <td>{{ $eventMenu->attendences }}</td>
-
-                    </tr>  
-                
+                    <td>{{$loop->iteration}}</td>
+                    <td>{{ $grocery->name }}</td>
+                    <td>{{ $grocery->quantity }}</td>
+                    </tr>
+                    @endforeach 
                 </table>
             </div>
-        </div>
-        </div>
-        
-        <!--dynamic event menu item-->
-      
-    
-    <!--event section end -->
-    
-    
-    <div class="row">
-        <div class="col-xs-12">
-            <h4>{{ __('sale.products') }}:</h4>
-        <div class="table-responsive">
-        <table class="table bg-gray">
-        <tr class="bg-green">
-        <th>#</th>
-        <th>{{ __('sale.product') }}</th>
-        @if( session()->get('business.enable_lot_number') == 1)
-            <th>{{ __('lang_v1.lot_n_expiry') }}</th>
-        @endif
-        <th>{{ __('sale.qty') }}</th>
-        @if(!empty($pos_settings['inline_service_staff']))
-            <th>
-                @lang('restaurant.service_staff')
-            </th>
-        @endif
-        <th>Image</th>
+        </div>    
 
-    </tr>
-    @foreach($sell->sell_lines as $sell_line)
-        <tr>
-            <td>{{ $loop->iteration }}</td>
-            <td>
-                {{ $sell_line->product->name }}
-                @if( $sell_line->product->type == 'variable')
-                - {{ $sell_line->variations->product_variation->name ?? ''}}
-                - {{ $sell_line->variations->name ?? ''}},
-                @endif
-                {{ $sell_line->variations->sub_sku ?? ''}}
-                @php
-                $brand = $sell_line->product->brand;
-                @endphp
-                @if(!empty($brand->name))
-                , {{$brand->name}}
-                @endif
-
-                @if(!empty($sell_line->sell_line_note))
-                <br> {{$sell_line->sell_line_note}}
-                @endif
-            </td>
-            @if( session()->get('business.enable_lot_number') == 1)
-                <td>{{ $sell_line->lot_details->lot_number ?? '--' }}
-                    @if( session()->get('business.enable_product_expiry') == 1 && !empty($sell_line->lot_details->exp_date))
-                    ({{@format_date($sell_line->lot_details->exp_date)}})
-                    @endif
-                </td>
-            @endif
-            <td>
-                <span class="display_currency" data-currency_symbol="false" data-is_quantity="true">{{ $sell_line->quantity }}</span> @if(!empty($sell_line->sub_unit)) {{$sell_line->sub_unit->short_name}} @else {{$sell_line->product->unit->short_name}} @endif
-            </td>
-            <td>
-            <img src="{{$sell_line->product->image_url}}" alt="Product image" class="product-thumbnail-small">
-            </td>
-        </tr>
-    @endforeach
-</table>
-        </div>
-      </div>
     </div>
-
-    <!--Payment Info section-->
-    
-
   </div>
-  <div class="modal-footer">
-    <a href="#" class="print-invoice btn btn-primary" data-href="{{route('sell.printInvoice', [$sell->id])}}"><i class="fa fa-print" aria-hidden="true"></i> @lang("messages.print")</a>
-      <button type="button" class="btn btn-default no-print" data-dismiss="modal">@lang( 'messages.close' )</button>
-    </div>
+
   </div>
 </div>
 
