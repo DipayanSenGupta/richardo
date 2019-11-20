@@ -898,6 +898,14 @@ class SellController extends Controller
             $sells->groupBy('transactions.id');
 
             return Datatables::of($sells)
+                ->addColumn('grocery', function ($row) {
+                    $grocery_html =
+                                    '<button type="button" class="btn btn-info btn-xs"><a href="#" data-href="' . action("SellPosController@groceryModalShow", [$row->id]) . '" 
+                                    class="btn-modal" data-container=".view_modal" style="color:white;"> 
+                                     '. "grocery" . '</a></button>';
+            
+                return $grocery_html;
+                })
                 ->addColumn(
                     'action',
                     '<a href="#" data-href="{{action(\'SellController@show\', [$id])}}" class="btn btn-xs btn-success btn-modal" data-container=".view_modal"><i class="fa fa-external-link" aria-hidden="true"></i> @lang("messages.view")</a>
@@ -924,7 +932,7 @@ class SellController extends Controller
                             return '';
                         }
                     }])
-                ->rawColumns(['action', 'invoice_no', 'transaction_date'])
+                ->rawColumns(['action', 'invoice_no', 'transaction_date','grocery'])
                 ->make(true);
         }
     }

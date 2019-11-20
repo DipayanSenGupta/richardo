@@ -36,6 +36,7 @@
                         <th>@lang('purchase.ref_no')</th>
                         <th>@lang('sale.customer_name')</th>
                         <th>@lang('sale.location')</th>
+                        <th>Grocery</th>
                         <th>@lang('messages.action')</th>
                     </tr>
                 </thead>
@@ -63,6 +64,7 @@ $(document).ready( function(){
             { data: 'invoice_no', name: 'invoice_no'},
             { data: 'name', name: 'contacts.name'},
             { data: 'business_location', name: 'bl.name'},
+            { data: 'grocery', name: 'grocery'},
             { data: 'action', name: 'action'}
         ],
         "fnDrawCallback": function (oSettings) {
