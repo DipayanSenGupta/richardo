@@ -16,6 +16,6 @@ class EventMenu extends Model
     }
     public function groceries()
     {
-       return $this->hasMany(\App\Grocery::class,'event_menu_id');
+       return $this->hasMany(Grocery::class,'event_menu_id');
     }
 }

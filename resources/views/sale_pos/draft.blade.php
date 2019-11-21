@@ -30,14 +30,16 @@
         <div class="table-responsive">
             <table class="table table-bordered table-striped ajax_view" id="sell_table">
                 <thead>
-                    <tr>
-                        <th>@lang('messages.date')</th>
-                        <th>@lang('purchase.ref_no')</th>
-                        <th>@lang('sale.customer_name')</th>
-                        <th>@lang('sale.location')</th>
-                        <th>Grocery</th>
-                        <th>@lang('messages.action')</th>
-                    </tr>
+                <tr>
+                <th>Invoice no</th>
+                <th>Customer name</th>
+                <th>Booking date</th>
+                <th>Event date</th>
+                <th>Event Venue</th>
+                <th>Attendence</th>
+                <th>Grocery</th>
+                <th>Action</th>
+                </tr>
                 </thead>
             </table>
         </div>
@@ -54,21 +56,21 @@ $(document).ready( function(){
         aaSorting: [[0, 'desc']],
         ajax: '/sells/draft-dt?is_quotation=0',
         columnDefs: [ {
-            "targets": 4,
+            "targets": 6,
             "orderable": false,
             "searchable": false
         } ],
         columns: [
-            { data: 'transaction_date', name: 'transaction_date'  },
             { data: 'invoice_no', name: 'invoice_no'},
             { data: 'name', name: 'contacts.name'},
-            { data: 'business_location', name: 'bl.name'},
+            { data: 'booking_time', name: 'eventMenu.booking_time'  },
+            { data: 'event_time', name: 'eventMenu.event_time'  },
+            { data: 'venue', name: 'eventMenu.venue'  },
+            { data: 'attendences', name: 'eventMenu.attendences'  },
             { data: 'grocery', name: 'grocery'},
             { data: 'action', name: 'action'}
-        ],
-        "fnDrawCallback": function (oSettings) {
-            __currency_convert_recursively($('#purchase_table'));
-        }
+        ]
+
     });
     //Date range as a button
     $('#daterange-btn').daterangepicker(

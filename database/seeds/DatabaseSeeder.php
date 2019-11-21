@@ -11,9 +11,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([BarcodesTableSeeder::class,
-                    PermissionsTableSeeder::class,
-                    CurrenciesTableSeeder::class
-                    ]);
+        // $this->call([BarcodesTableSeeder::class,
+        //             PermissionsTableSeeder::class,
+        //             CurrenciesTableSeeder::class
+        //             ]);
+        // Model::unguard();
+        // foreach($this->toTruncate as $table) {
+        //     DB::table($table)->truncate();
+        // }
+        $this->call(GrocariesTableSeeder::class);
+        // Model::reguard();  
     }
 }

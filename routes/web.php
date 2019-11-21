@@ -31,6 +31,15 @@ Route::middleware(['IsInstalled', 'bootstrap'])->group(function () {
 
 //Routes for authenticated users only
 Route::middleware(['IsInstalled', 'auth', 'SetSessionData', 'language', 'timezone', 'bootstrap'])->group(function () {
+    
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    return "cleared";
+});
+    
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
     Route::get('/artisan-command-call', 'HomeController@artisanCall');
     Route::get('/home', 'HomeController@index')->name('home');

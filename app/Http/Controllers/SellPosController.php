@@ -584,7 +584,9 @@ class SellPosController extends Controller
                         ->toArray();
             }
             
-            
+            $transaction = Transaction::find($transaction->id);
+            $transaction->document = $request->file('events_csv');
+            $transaction->save();
             $eventMenu = new EventMenu();
             $eventMenu->type = $request->type;
             $eventMenu->venue = $request->venue;
@@ -592,7 +594,7 @@ class SellPosController extends Controller
             $eventMenu->attendences = $request->attendences;
             $eventMenu->booking_time =  $this->productUtil->uf_date($request->booking_time, true);
             $eventMenu->event_time = $this->productUtil->uf_date($request->event_time, true);
-
+            
             $eventMenu->transaction_id = $transaction->id;
             $eventMenu->save(); 
             $items = CacheItem::all();
@@ -1239,6 +1241,7 @@ class SellPosController extends Controller
                 $eventMenu->event_time = $this->productUtil->uf_date($request->event_time, true);
                 $eventMenu->save(); 
                 $eventMenu->groceries()->delete();
+                if ($request->hasFile('events_csv')) {
                 foreach ($imported_data as $key => $value) {
                     $grocery = new Grocery();
                     if(!empty($value[0])){
@@ -1254,9 +1257,10 @@ class SellPosController extends Controller
                        $grocery->quantity = 0 ;
                     }
                     // eloquent relation not used
-                    $grocery->event_menu_id = $eventMenu->id;
-                    $grocery->save();
-                // $eventMenu->groceries()->save($grocery);
+                    // $grocery->event_menu_id = $eventMenu->id;
+                    // $grocery->save();
+                $eventMenu->groceries()->save($grocery);
+                }
                 }
                 $items = CacheItem::all();
                 $eventMenu->items()->delete();
@@ -1394,7 +1398,9 @@ class SellPosController extends Controller
                         // Event Menu
                             $eventMenu =Transaction::find($id)->eventMenu;
                             $eventMenu->items()->delete();
+                            $eventMenu->groceries()->delete();
                             $eventMenu->delete();
+                            
                         //EventMenu
                         
                         $transaction->delete();

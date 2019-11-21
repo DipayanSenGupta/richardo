@@ -295,7 +295,7 @@ class SellController extends Controller
                         if (auth()->user()->can("sell.create")) {
                             $html .= '<li><a href="' . action('SellController@duplicateSell', [$row->id]) . '"><i class="fa fa-copy"></i> ' . __("lang_v1.duplicate_sell") . '</a></li>
 
-                            <li><a href="' . action('SellReturnController@add', [$row->id]) . '"><i class="fa fa-undo"></i> ' . __("lang_v1.sell_return") . '</a></li>
+                            <li><a href="' . action('SellReturnController@add', [$row->id]) . '"><i class="fa fa-undo"></i> ' ."Event Return". '</a></li>
 
                             <li><a href="' . action('SellPosController@showInvoiceUrl', [$row->id]) . '" class="view_invoice_url"><i class="fa fa-external-link"></i> ' . __("lang_v1.view_invoice_url") . '</a></li>';
                         }
@@ -806,7 +806,6 @@ class SellController extends Controller
              if (request()->ajax()) {
             $business_id = request()->session()->get('user.business_id');
             $is_quotation = request()->only('is_quotation', 0);
-
             $sells = Transaction::leftJoin('contacts', 'transactions.contact_id', '=', 'contacts.id')
                 ->join(
                     'business_locations AS bl',
@@ -814,15 +813,24 @@ class SellController extends Controller
                     '=',
                     'bl.id'
                 )
+                ->join(
+                    'event_menus as ev',
+                    'transactions.id',
+                    '=',
+                    'ev.transaction_id'
+                )
                 ->where('transactions.business_id', $business_id)
                 ->where('transactions.type', 'sell')
                 ->where('transactions.status', 'draft')
                 ->where('is_quotation', $is_quotation)
                 ->select(
                     'transactions.id',
-                    'transaction_date',
-                    'invoice_no',
+                    'transactions.invoice_no',
                     'contacts.name',
+                    'ev.booking_time',
+                    'ev.event_time',
+                    'ev.venue',
+                    'ev.attendences',
                     'bl.name as business_location',
                     'is_direct_sale'
                 );
@@ -835,8 +843,8 @@ class SellController extends Controller
             if (!empty(request()->start_date) && !empty(request()->end_date)) {
                 $start = request()->start_date;
                 $end =  request()->end_date;
-                $sells->whereDate('transaction_date', '>=', $start)
-                            ->whereDate('transaction_date', '<=', $end);
+                $sells->whereDate('ev.booking_time', '>=', $start)
+                            ->whereDate('ev.booking_time', '<=', $end);
             }
             $sells->groupBy('transactions.id');
 
@@ -866,7 +874,6 @@ class SellController extends Controller
                     '
                 )
                 ->removeColumn('id')
-                ->editColumn('transaction_date', '{{@format_date($transaction_date)}}')
                 ->setRowAttr([
                     'data-href' => function ($row) {
                         if (auth()->user()->can("sell.view")) {

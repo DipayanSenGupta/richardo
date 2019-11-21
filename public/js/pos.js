@@ -1,4 +1,15 @@
 $(document).ready(function() {
+// Event time picker
+        $('#booking_time').datetimepicker({
+        format: moment_date_format + ' ' + moment_time_format,
+        ignoreReadonly: true,
+        });
+        
+        $('#event_time').datetimepicker({
+        format: moment_date_format + ' ' + moment_time_format,
+        ignoreReadonly: true,
+        });
+// Event time picker
 
     customer_set = false;
     //Prevent enter key function except texarea

@@ -16,7 +16,7 @@
     <input type="hidden" id="reward_point_enabled">
 @endif
 <input type="hidden" id="item_addition_method" value="{{$business_details->item_addition_method}}">
-	{!! Form::open(['url' => action('SellPosController@update', ['id' => $transaction->id ]), 'method' => 'put', 'id' => 'edit_sell_form' ]) !!}
+	{!! Form::open(['url' => action('SellPosController@update', ['id' => $transaction->id ]), 'method' => 'put', 'id' => 'edit_sell_form',  'enctype' => 'multipart/form-data']) !!}
 
 	{!! Form::hidden('location_id', $transaction->location_id, ['id' => 'location_id', 'data-receipt_printer_type' => !empty($location_printer_type) ? $location_printer_type : 'browser']); !!}
 	<div class="row">
@@ -169,12 +169,16 @@
     <div class="form-group">
         {!! Form::label('name','Event Csv upload' . ':') !!}
         @show_tooltip('Add event csv/ xls')
-        {!! Form::file('events_csv', ['required' => 'required']); !!}
+        {!! Form::file('events_csv'); !!}
       </div>
 </div>
 
 <div class="clearfix"></div>
 
+<div class="col-sm-4">
+    <a href="{{ asset('files/groceries.xlsx') }}" class="btn btn-success" download><i class="fa fa-download"></i> Download template grocery</a>
+</div>
+<div class="clearfix"></div>
 
 <div class="col-md-12">
 <div class="form-group">

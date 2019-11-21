@@ -200,6 +200,12 @@ $commission_agent, null, ['class' => 'form-control select2']); !!}
         {!! Form::file('events_csv', ['required' => 'required']); !!}
       </div>
 </div>
+<div class="clearfix"></div>
+
+
+<div class="col-sm-4">
+    <a href="{{ asset('files/groceries.xlsx') }}" class="btn btn-success" download><i class="fa fa-download"></i> Download template grocery</a>
+</div>
 
 
 
@@ -361,7 +367,6 @@ aria-labelledby="gridSystemModalLabel">
 @stop
 
 @section('javascript')
-<script src="{{ asset('js/event.js')}}"></script>
 <script src="{{ asset('js/pos.js?v=' . $asset_v) }}"></script>
 <script src="{{ asset('js/product.js?v=' . $asset_v) }}"></script>
 <script src="{{ asset('js/opening_stock.js?v=' . $asset_v) }}"></script>
