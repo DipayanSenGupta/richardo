@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title', __('lang_v1.sell_return'))
+@section('title', 'Event Return')
 
 @section('content')
 
 <!-- Content Header (Page header) -->
 <section class="content-header no-print">
-    <h1>@lang('lang_v1.sell_return')</h1>
+    <h1>Event Return</h1>
 </section>
 
 <!-- Main content -->
@@ -24,10 +24,15 @@
 				<div class="col-sm-4">
 					<strong>@lang('sale.invoice_no'):</strong> {{ $sell->invoice_no }} <br>
 					<strong>@lang('messages.date'):</strong> {{@format_date($sell->transaction_date)}}
-				</div>
-				<div class="col-sm-4">
 					<strong>@lang('contact.customer'):</strong> {{ $sell->contact->name }} <br>
 					<strong>@lang('purchase.business_location'):</strong> {{ $sell->location->name }}
+				</div>
+				<div class="col-sm-4">
+					<strong>Event Name:</strong> {{ $sell->eventMenu->name}}  <br>
+					<strong>Event Date & Time:</strong> {{@format_date($sell->eventMenu->event_time)}}  <br>
+					<strong>Booking Date & Time:</strong> {{@format_date($sell->eventMenu->booking_time)}}  <br>
+					<strong>Event Venue:</strong> {{ $sell->eventMenu->venue}}  <br>
+					<strong>Number of Guests:</strong> {{ $sell->eventMenu->attendences}}
 				</div>
 			</div>
 		</div>
@@ -58,13 +63,14 @@
 				<div class="col-sm-12">
 					<table class="table bg-gray" id="sell_return_table">
 			          	<thead>
+			          	    <!--Event edit-->
 				            <tr class="bg-green">
 				              	<th>#</th>
 				              	<th>@lang('product.product_name')</th>
 				              	<th>@lang('sale.unit_price')</th>
-				              	<th>@lang('lang_v1.sell_quantity')</th>
-				              	<th>@lang('lang_v1.return_quantity')</th>
-				              	<th>@lang('lang_v1.return_subtotal')</th>
+				              	<th>Product Quantity</th>
+				              	<th>Breakage Quantity</th>
+				              	<th>Breakage Subtotal</th>
 				            </tr>
 				        </thead>
 				        <tbody>
@@ -157,7 +163,8 @@
 					&nbsp;(+) <span id="total_return_tax"></span>
 				</div>
 				<div class="col-sm-12 text-right">
-					<strong>@lang('lang_v1.return_total'): </strong>&nbsp;
+				    <!--Event edit-->
+					<strong>Breakage Summary </strong>&nbsp;
 					<span id="net_return">0</span> 
 				</div>
 			</div>

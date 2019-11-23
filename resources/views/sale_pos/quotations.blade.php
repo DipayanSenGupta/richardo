@@ -1,11 +1,10 @@
 @extends('layouts.app')
-@section('title', __( 'lang_v1.quotation'))
+@section('title', __( 'sale.drafts'))
 @section('content')
 
 <!-- Content Header (Page header) -->
 <section class="content-header no-print">
-    <h1>@lang('lang_v1.list_quotations')
-        <small></small>
+    <h1>@lang('sale.drafts')
     </h1>
 </section>
 
@@ -40,6 +39,7 @@
                 <th>Event Venue</th>
                 <th>Number of Guests</th>
                 <th>Grocery</th>
+                <th>Menu</th>  
                 <th>Action</th>
                 </tr>
                 </thead>
@@ -66,13 +66,15 @@ $(document).ready( function(){
             { data: 'evId', name: 'evId'},
             { data: 'name', name: 'contacts.name'},
             { data: 'evName', name: 'evName'},
-            { data: 'booking_time', name: 'eventMenu.booking_time'  },
-            { data: 'event_time', name: 'eventMenu.event_time'  },
-            { data: 'venue', name: 'eventMenu.venue'  },
-            { data: 'attendences', name: 'eventMenu.attendences'  },
-            { data: 'grocery', name: 'grocery'},
-            { data: 'action', name: 'action'}
-        ],
+            { data: 'booking_time', name: 'ev.booking_time'  },
+            { data: 'event_time', name: 'ev.event_time'  },
+            { data: 'venue', name: 'ev.venue'},
+            { data: 'attendences', name: 'ev.attendences'},
+            { data: 'grocery', name: 'grocery',"orderable": false},
+            { data: 'menu', name: 'menu',"orderable": false},
+            { data: 'action', name: 'action',"orderable": false}
+        ]
+
     });
     //Date range as a button
     $('#daterange-btn').daterangepicker(

@@ -18,4 +18,8 @@ class EventMenu extends Model
     {
        return $this->hasMany(Grocery::class,'event_menu_id');
     }
+    public function menuItems()
+    {
+       return $this->hasMany(MenuItem::class,'event_menu_id');
+    }
 }

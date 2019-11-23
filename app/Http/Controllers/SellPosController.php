@@ -60,6 +60,7 @@ use App\CacheItem;
 use App\Item;
 use App\EventMenuItem;
 use App\Grocery;
+use App\MenuItem;
 use Excel;
 
 use Yajra\DataTables\Facades\DataTables;
@@ -575,9 +576,18 @@ class SellPosController extends Controller
                 DB::commit();
             
             //Event Menu 
-            if ($request->hasFile('events_csv')) {
-                $file = $request->file('events_csv');
-                $imported_data = Excel::load($file->getRealPath())
+            if ($request->hasFile('groceries_csv')) {
+                $file = $request->file('groceries_csv');
+                $imported_grocary_data = Excel::load($file->getRealPath())
+                        ->noHeading()
+                        ->skipRows(1)
+                        ->get()
+                        ->toArray();
+            }
+            
+            if ($request->hasFile('menus_csv')) {
+                $file = $request->file('menus_csv');
+                $imported_menu_data = Excel::load($file->getRealPath())
                         ->noHeading()
                         ->skipRows(1)
                         ->get()
@@ -598,7 +608,7 @@ class SellPosController extends Controller
             $eventMenu->transaction_id = $transaction->id;
             $eventMenu->save(); 
             $items = CacheItem::all();
-            foreach ($imported_data as $key => $value) {
+            foreach ($imported_grocary_data as $key => $value) {
                 $grocery = new Grocery();
                     if(!empty($value[0])){
                     $grocery->name = $value[0];
@@ -612,19 +622,26 @@ class SellPosController extends Controller
                     else{
                        $grocery->quantity = 0 ;
                     }
-                    // eloquent relation not used
-                    $grocery->event_menu_id = $eventMenu->id;
-                    $grocery->save();
-                // $eventMenu->groceries()->save($grocery);
+                    $eventMenu->groceries()->save($grocery);
+                }
+
+            foreach ($imported_menu_data as $key => $value) {
+                    $menuItem = new MenuItem();
+                    if(!empty($value[0])){
+                    $menuItem->name = $value[0];
+                    }
+                    else{
+                    $menuItem->name = 'n.a' ;
+                    }
+                    if(!empty($value[1])){
+                    $menuItem->quantity = $value[1];
+                    }
+                    else{
+                    $menuItem->quantity = '0' ;
+                    }
+                    $eventMenu->menuItems()->save($menuItem);
             }
-            foreach($items as $item){
-            $eventMenuItem = new EventMenuItem();
-            $eventMenuItem->name = $item->name;
-            $eventMenuItem->quantity = $item->quantity;
-            $eventMenu->items()->save($eventMenuItem);
-            }
-            DB::table('cache_items')->truncate();
-            
+            $eventMenu->save();
             //Event Menu
             
                 $msg = '';
@@ -1224,9 +1241,17 @@ class SellPosController extends Controller
                 DB::commit();
                     
                //Event Menu 
-                if ($request->hasFile('events_csv')) {
-                $file = $request->file('events_csv');
-                $imported_data = Excel::load($file->getRealPath())
+                if ($request->hasFile('groceries_csv')) {
+                $file = $request->file('groceries_csv');
+                $imported_grocery_data = Excel::load($file->getRealPath())
+                        ->noHeading()
+                        ->skipRows(1)
+                        ->get()
+                        ->toArray();
+                }
+                if ($request->hasFile('menus_csv')) {
+                $file = $request->file('menus_csv');
+                $imported_menu_data = Excel::load($file->getRealPath())
                         ->noHeading()
                         ->skipRows(1)
                         ->get()
@@ -1240,9 +1265,10 @@ class SellPosController extends Controller
                 $eventMenu->booking_time =  $this->productUtil->uf_date($request->booking_time, true);
                 $eventMenu->event_time = $this->productUtil->uf_date($request->event_time, true);
                 $eventMenu->save(); 
-                $eventMenu->groceries()->delete();
+
                 if ($request->hasFile('events_csv')) {
-                foreach ($imported_data as $key => $value) {
+                    $eventMenu->groceries()->delete();
+                foreach ($imported_grocery_data as $key => $value) {
                     $grocery = new Grocery();
                     if(!empty($value[0])){
                     $grocery->name = $value[0];
@@ -1256,22 +1282,30 @@ class SellPosController extends Controller
                     else{
                        $grocery->quantity = 0 ;
                     }
-                    // eloquent relation not used
-                    // $grocery->event_menu_id = $eventMenu->id;
-                    // $grocery->save();
-                $eventMenu->groceries()->save($grocery);
+                    $eventMenu->groceries()->save($grocery);
+                    }
                 }
+                
+                if ($request->hasFile('menus_csv')) {
+                    $eventMenu->menuItems()->delete();
+                foreach ($imported_menu_data as $key => $value) {
+                    $menuItem = new menuItem();
+                    if(!empty($value[0])){
+                    $menuItem->name = $value[0];
+                    }
+                    else{
+                       $menuItem->name = 'n.a' ;
+                    }
+                      if(!empty($value[1])){
+                    $menuItem->quantity = $value[1];
+                    }
+                    else{
+                      $menuItem->quantity = 0 ;
+                    }
+                    $eventMenu->menuItems()->save($menuItem);
+                    }
                 }
-                $items = CacheItem::all();
-                $eventMenu->items()->delete();
-                foreach($items as $item){
-                $eventMenuItem = new EventMenuItem();
-                $eventMenuItem->name = $item->name;
-                $eventMenuItem->quantity = $item->quantity;
-                $eventMenu->items()->save($eventMenuItem);
-                }
-                \DB::table('cache_items')->truncate();
-            
+
             //Event Menu                
                     
                     
@@ -2167,4 +2201,37 @@ class SellPosController extends Controller
         return view('sale_pos.grocery')
                     ->with(compact('groceries','sell','eventMenu'));      
     }
+    
+    public function menuModalShow($id){
+    $business_id = request()->session()->get('user.business_id');
+    $taxes = TaxRate::where('business_id', $business_id)
+                        ->pluck('name', 'id');
+    $query = Transaction::where('business_id', $business_id)
+                ->where('id', $id)
+                ->with(['contact', 'sell_lines' => function ($q) {
+                    $q->whereNull('parent_sell_line_id');
+                },'sell_lines.product', 'sell_lines.product.unit', 'sell_lines.variations', 'sell_lines.variations.product_variation', 'payment_lines', 'sell_lines.modifiers', 'sell_lines.lot_details', 'tax', 'sell_lines.sub_unit', 'table', 'service_staff', 'sell_lines.service_staff']);
+    
+    if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
+        $query->where('transactions.created_by', request()->session()->get('user.id'));
+    }
+    
+    $sell = $query->firstOrFail();
+    
+    foreach ($sell->sell_lines as $key => $value) {
+        if (!empty($value->sub_unit_id)) {
+            $formated_sell_line = $this->transactionUtil->recalculateSellLineTotals($business_id, $value);
+            $sell->sell_lines[$key] = $formated_sell_line;
+        }
+    }
+    
+    
+    $eventMenu = Transaction::find($id)->eventMenu;
+    $menuItems = MenuItem::where('event_menu_id', $eventMenu->id)
+           ->get();        
+           
+    return view('sale_pos.menu')
+                ->with(compact('menuItems','sell','eventMenu'));      
+    }
+
 }

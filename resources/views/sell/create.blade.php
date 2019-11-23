@@ -192,19 +192,31 @@ $commission_agent, null, ['class' => 'form-control select2']); !!}
 {!! Form::select('status', ['final' => __('sale.final'), 'draft' => __('sale.draft'), 'quotation' => __('lang_v1.quotation')], null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required']); !!}
 </div>
 </div>
+<div class="clearfix"></div>
 
 <div class="col-sm-3">
     <div class="form-group">
-        {!! Form::label('name','Event Csv upload' . ':') !!}
-        @show_tooltip('Add event csv/ xls')
-        {!! Form::file('events_csv', ['required' => 'required']); !!}
+          {!! Form::label('name','Grocery upload' . ':') !!}
+        @show_tooltip('Add grocery csv / xlsx')
+        {!! Form::file('groceries_csv', ['required' => 'required']); !!}
       </div>
 </div>
+
+<div class="col-sm-3">
+    <div class="form-group">
+          {!! Form::label('name','Menu upload' . ':') !!}
+        @show_tooltip('Add menu csv / xlsx')
+        {!! Form::file('menus_csv', ['required' => 'required']); !!}
+      </div>
+</div>
+
 <div class="clearfix"></div>
 
-
-<div class="col-sm-4">
-    <a href="{{ asset('files/groceries.xlsx') }}" class="btn btn-success" download><i class="fa fa-download"></i> Download template grocery</a>
+<div class="col-sm-3">
+    <a href="{{ asset('files/groceries.xlsx') }}" class="btn btn-success" download><i class="fa fa-download"></i> Download grocery template </a>
+</div>
+<div class="col-sm-3">
+    <a href="{{ asset('files/groceries.xlsx') }}" class="btn btn-success" download><i class="fa fa-download"></i> Download menu template </a>
 </div>
 
 

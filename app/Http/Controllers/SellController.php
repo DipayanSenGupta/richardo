@@ -160,6 +160,10 @@ class SellController extends Controller
                             ->whereDate('ev.booking_time', '<=', $end);
             }
 
+
+             if (!empty(request()->input('created_by'))) {
+                $sells->where('transactions.created_by', request()->input('created_by'));
+            }
             //Check is_direct sell
             if (request()->has('is_direct_sale')) {
                 $is_direct_sale = request()->is_direct_sale;
@@ -252,6 +256,14 @@ class SellController extends Controller
                 
                     return $grocery_html;
                 })
+                ->addColumn('menu', function ($row) {
+                $menu_html =
+                            '<button type="button" class="btn btn-info btn-xs"><a href="#" data-href="' . action("SellPosController@menuModalShow", [$row->id]) . '" 
+                            class="btn-modal" data-container=".view_modal" style="color:white;"> 
+                             '. "Menu" . '</a></button>';
+                
+                return $menu_html;
+                })
                 ->addColumn(
                     'action',
                     function ($row) {
@@ -320,7 +332,7 @@ class SellController extends Controller
                         }
                     }]);
 
-            $rawColumns = ['action','grocery'];
+            $rawColumns = ['action','grocery','menu'];
                 
             return $datatable->rawColumns($rawColumns)
                       ->make(true);
@@ -840,6 +852,14 @@ class SellController extends Controller
                 
                     return $grocery_html;
                 })
+                ->addColumn('menu', function ($row) {
+                    $menu_html =
+                    '<button type="button" class="btn btn-info btn-xs"><a href="#" data-href="' . action("SellPosController@menuModalShow", [$row->id]) . '" 
+                    class="btn-modal" data-container=".view_modal" style="color:white;"> 
+                     '. "Menu" . '</a></button>';
+                    
+                    return $menu_html;
+                })
                 ->addColumn(
                     'action',
                     '<a href="#" data-href="{{action(\'SellController@show\', [$id])}}" class="btn btn-xs btn-success btn-modal" data-container=".view_modal"><i class="fa fa-external-link" aria-hidden="true"></i> @lang("messages.view")</a>
@@ -865,7 +885,7 @@ class SellController extends Controller
                             return '';
                         }
                     }])
-                ->rawColumns(['action','grocery'])
+                ->rawColumns(['action','grocery','menu'])
                 ->make(true);
         }
     }
