@@ -105,13 +105,14 @@ class SellController extends Controller
                 ->where('transactions.status', 'final')
                 ->select(
                     'transactions.id',
-                    'transactions.invoice_no',
                     'transactions.is_direct_sale',
                     'contacts.name',
                     'ev.booking_time',
                     'ev.event_time',
                     'ev.venue',
-                    'ev.attendences'
+                    'ev.attendences',
+                    'ev.id AS evId',
+                    'ev.name AS evName'
                 );
 
 
@@ -310,25 +311,6 @@ class SellController extends Controller
                     }
                 )
                 ->removeColumn('id')
-                 ->editColumn('invoice_no', function ($row) {
-                     $invoice_no = $row->invoice_no;
-                     if (!empty($row->woocommerce_order_id)) {
-                         $invoice_no .= ' <i class="fa fa-wordpress text-primary no-print" title="' . __('lang_v1.synced_from_woocommerce') . '"></i>';
-                     }
-                     if (!empty($row->return_exists)) {
-                         $invoice_no .= ' &nbsp;<small class="label bg-red label-round no-print" title="' . __('lang_v1.some_qty_returned_from_sell') .'"><i class="fa fa-undo"></i></small>';
-                     }
-
-                     if (!empty($row->is_recurring)) {
-                         $invoice_no .= ' &nbsp;<small class="label bg-red label-round no-print" title="' . __('lang_v1.subscribed_invoice') .'"><i class="fa fa-recycle"></i></small>';
-                     }
-
-                     if (!empty($row->recur_parent_id)) {
-                         $invoice_no .= ' &nbsp;<small class="label bg-info label-round no-print" title="' . __('lang_v1.subscription_invoice') .'"><i class="fa fa-recycle"></i></small>';
-                     }
-
-                     return $invoice_no;
-                 })
                 ->setRowAttr([
                     'data-href' => function ($row) {
                         if (auth()->user()->can("sell.view") || auth()->user()->can("view_own_sell_only")) {
@@ -338,7 +320,7 @@ class SellController extends Controller
                         }
                     }]);
 
-            $rawColumns = [ 'action','grocery', 'invoice_no'];
+            $rawColumns = ['action','grocery'];
                 
             return $datatable->rawColumns($rawColumns)
                       ->make(true);
@@ -825,12 +807,13 @@ class SellController extends Controller
                 ->where('is_quotation', $is_quotation)
                 ->select(
                     'transactions.id',
-                    'transactions.invoice_no',
                     'contacts.name',
                     'ev.booking_time',
                     'ev.event_time',
                     'ev.venue',
                     'ev.attendences',
+                    'ev.id AS evId',
+                    'ev.name AS evName',
                     'bl.name as business_location',
                     'is_direct_sale'
                 );
@@ -882,7 +865,7 @@ class SellController extends Controller
                             return '';
                         }
                     }])
-                ->rawColumns(['action', 'invoice_no', 'transaction_date','grocery'])
+                ->rawColumns(['action','grocery'])
                 ->make(true);
         }
     }

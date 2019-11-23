@@ -246,8 +246,13 @@
 <!-- /.content -->
 @stop
 @section('javascript')
+<!--manually have to put links, cant fetch otherwise-->
     <script src="{{ asset('js/home.js?v=' . $asset_v) }}"></script>
-    {!! Charts::assets(['highcharts']) !!}
+    <script src="{{ asset('plugins/chart/highchart/highcharts.js?v=' . $asset_v) }}"></script>
+    <script src="{{ asset('plugins/chart/highchart/offline-exporting.js?v=' . $asset_v) }}"></script>
+    <script src="{{ asset('plugins/chart/highchart/map.js?v=' . $asset_v) }}"></script>
+    <script src="{{ asset('plugins/chart/highchart/data.js?v=' . $asset_v) }}"></script>
+    <script src="{{ asset('plugins/chart/highchart/world.js?v=' . $asset_v) }}"></script>
     {!! $sells_chart_1->script() !!}
     {!! $sells_chart_2->script() !!}
 @endif

@@ -24,6 +24,7 @@
         <title>@yield('title') - {{ Session::get('business.name') }}</title>
         
         @include('layouts.partials.css')
+        @include('layouts.partials.javascripts')
 
         @yield('css')
     </head>
@@ -93,7 +94,6 @@
             </audio>
 
         </div>
-        @include('layouts.partials.javascripts')
 
         <div class="modal fade view_modal" tabindex="-1" role="dialog" 
         aria-labelledby="gridSystemModalLabel"></div>

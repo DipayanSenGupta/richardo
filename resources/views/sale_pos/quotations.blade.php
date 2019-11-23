@@ -32,12 +32,13 @@
             <table class="table table-bordered table-striped ajax_view" id="sell_table">
                 <thead>
                 <tr>
-                <th>Invoice no</th>
-                <th>Customer name</th>
-                <th>Booking date</th>
-                <th>Event date</th>
+                <th>Event Id</th>
+                <th>Customer Name</th>
+                <th>Event Name</th>
+                <th>Booking Date & Time </th>
+                <th>Event Date & Time</th>
                 <th>Event Venue</th>
-                <th>Attendence</th>
+                <th>Number of Guests</th>
                 <th>Grocery</th>
                 <th>Action</th>
                 </tr>
@@ -62,8 +63,9 @@ $(document).ready( function(){
             "searchable": false
         } ],
         columns: [
-            { data: 'invoice_no', name: 'invoice_no'},
+            { data: 'evId', name: 'evId'},
             { data: 'name', name: 'contacts.name'},
+            { data: 'evName', name: 'evName'},
             { data: 'booking_time', name: 'eventMenu.booking_time'  },
             { data: 'event_time', name: 'eventMenu.event_time'  },
             { data: 'venue', name: 'eventMenu.venue'  },
