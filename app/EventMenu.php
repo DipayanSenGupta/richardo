@@ -9,10 +9,13 @@ class EventMenu extends Model
     public function items(){
         return $this->hasMany('App\EventMenuItem');
     }
-    
+    public function eventBooking()
+    {
+     return $this->hasOne(EventBooking::class,'event_menu_id');
+    }
+
     public function transaction(){
-        return $this->belongsTo('App\Transaction');    
-        
+        return $this->belongsTo('App\Transaction');     
     }
     public function groceries()
     {

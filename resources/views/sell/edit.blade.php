@@ -196,7 +196,7 @@
 <div class="col-md-12">
 <div class="form-group">
 {!! Form::label('sell_note','Event Note') !!}
-{!! Form::textarea('sale_note', null, ['class' => 'form-control', 'rows' => 3]); !!}
+{!! Form::textarea('sale_note',$transaction->additional_notes, ['class' => 'form-control', 'rows' => 3]); !!}
 </div>
 </div>
 				<div class="clearfix"></div>

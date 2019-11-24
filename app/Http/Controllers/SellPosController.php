@@ -61,6 +61,7 @@ use App\Item;
 use App\EventMenuItem;
 use App\Grocery;
 use App\MenuItem;
+use App\EventBooking;
 use Excel;
 
 use Yajra\DataTables\Facades\DataTables;
@@ -607,7 +608,19 @@ class SellPosController extends Controller
             
             $eventMenu->transaction_id = $transaction->id;
             $eventMenu->save(); 
-            $items = CacheItem::all();
+           
+            $eventBooking = new EventBooking;
+            $eventBooking->booking_time = $eventMenu->booking_time;
+            $eventBooking->event_time = $eventMenu->event_time;
+               if ($input['status'] == 'draft' && $input['is_quotation'] == 0) {
+            $eventBooking->booking_status = 'Proposed';
+                } elseif ($input['status'] == 'draft' && $input['is_quotation'] == 1) {
+            $eventBooking->booking_status = 'Final';
+                }
+            $eventBooking->booking_note = $eventMenu->transaction->additional_notes;
+            $eventBooking->business_id = $business_id;
+            $eventMenu->eventbooking()->save($eventBooking);
+            
             foreach ($imported_grocary_data as $key => $value) {
                 $grocery = new Grocery();
                     if(!empty($value[0])){
@@ -641,7 +654,7 @@ class SellPosController extends Controller
                     }
                     $eventMenu->menuItems()->save($menuItem);
             }
-            $eventMenu->save();
+            // $eventMenu->save();
             //Event Menu
             
                 $msg = '';
@@ -1265,6 +1278,20 @@ class SellPosController extends Controller
                 $eventMenu->booking_time =  $this->productUtil->uf_date($request->booking_time, true);
                 $eventMenu->event_time = $this->productUtil->uf_date($request->event_time, true);
                 $eventMenu->save(); 
+                
+                $eventMenu->eventbooking()->delete();
+
+                $eventBooking = new EventBooking;
+                $eventBooking->booking_time = $eventMenu->booking_time;
+                $eventBooking->event_time = $eventMenu->event_time;
+                if ($input['status'] == 'draft' && $input['is_quotation'] == 0) {
+                $eventBooking->booking_status = 'Proposed';
+                } elseif ($input['status'] == 'draft' && $input['is_quotation'] == 1) {
+                $eventBooking->booking_status = 'Final';
+                }
+                $eventBooking->booking_note = $eventMenu->transaction->additional_notes;
+                $eventBooking->business_id = $business_id;
+                $eventMenu->eventbooking()->save($eventBooking);
 
                 if ($request->hasFile('events_csv')) {
                     $eventMenu->groceries()->delete();

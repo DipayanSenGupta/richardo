@@ -67,6 +67,13 @@ class Business extends Model
     {
         return $this->belongsTo(\App\Currency::class);
     }
+    /**
+     * Get the Event Bookings.
+     */
+      public function eventBookings()
+    {
+        return $this->hasMany(\App\EventBooking::class);
+    }
 
     /**
      * Get the Business currency.

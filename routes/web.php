@@ -322,7 +322,8 @@ Route::get('/clear-cache', function() {
     // Event route added
    
     Route::post('/sells/action', 'SellPosController@action')->name('eventMenus.action');
-
+    //Route::get('event-bookings/get-todays-bookings', 'EventBookingController@getTodaysBookings');
+    Route::resource('event-bookings', 'EventBookingController');
     //Event route finished
 });
 
