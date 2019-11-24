@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Nov 23, 2019 at 08:18 PM
--- Server version: 5.6.44-cll-lve
--- PHP Version: 7.2.7
+-- Host: 127.0.0.1
+-- Generation Time: Nov 23, 2019 at 08:18 AM
+-- Server version: 10.4.8-MariaDB
+-- PHP Version: 7.1.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `sswarehousesPos`
+-- Database: `sswarehousespos`
 --
 
 -- --------------------------------------------------------
@@ -34,9 +34,9 @@ CREATE TABLE `accounts` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `account_number` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `account_type` enum('saving_current','capital') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `note` text COLLATE utf8mb4_unicode_ci,
+  `note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_by` int(11) NOT NULL,
-  `is_closed` tinyint(1) NOT NULL DEFAULT '0',
+  `is_closed` tinyint(1) NOT NULL DEFAULT 0,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -60,7 +60,7 @@ CREATE TABLE `account_transactions` (
   `transaction_id` int(11) DEFAULT NULL,
   `transaction_payment_id` int(11) DEFAULT NULL,
   `transfer_transaction_id` int(11) DEFAULT NULL,
-  `note` text COLLATE utf8mb4_unicode_ci,
+  `note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -80,7 +80,7 @@ CREATE TABLE `activity_log` (
   `subject_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `causer_id` int(11) DEFAULT NULL,
   `causer_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `properties` text COLLATE utf8mb4_unicode_ci,
+  `properties` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -99,12 +99,7 @@ INSERT INTO `activity_log` (`id`, `log_name`, `description`, `subject_id`, `subj
 (7, 'default', 'edited', 10, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-22 00:33:00', '2019-11-22 00:33:00'),
 (8, 'default', 'edited', 6, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-22 00:36:28', '2019-11-22 00:36:28'),
 (9, 'default', 'edited', 6, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-22 00:38:07', '2019-11-22 00:38:07'),
-(10, 'default', 'edited', 13, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-22 00:53:08', '2019-11-22 00:53:08'),
-(11, 'default', 'edited', 20, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-23 21:07:00', '2019-11-23 21:07:00'),
-(12, 'default', 'edited', 22, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(13, 'default', 'edited', 8, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-23 23:51:43', '2019-11-23 23:51:43'),
-(14, 'default', 'edited', 8, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(15, 'default', 'edited', 9, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-23 23:53:08', '2019-11-23 23:53:08');
+(10, 'default', 'edited', 13, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-22 00:53:08', '2019-11-22 00:53:08');
 
 -- --------------------------------------------------------
 
@@ -115,7 +110,7 @@ INSERT INTO `activity_log` (`id`, `log_name`, `description`, `subject_id`, `subj
 CREATE TABLE `barcodes` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `width` double(22,4) DEFAULT NULL,
   `height` double(22,4) DEFAULT NULL,
   `paper_width` double(22,4) DEFAULT NULL,
@@ -125,8 +120,8 @@ CREATE TABLE `barcodes` (
   `row_distance` double(22,4) DEFAULT NULL,
   `col_distance` double(22,4) DEFAULT NULL,
   `stickers_in_one_row` int(11) DEFAULT NULL,
-  `is_default` tinyint(1) NOT NULL DEFAULT '0',
-  `is_continuous` tinyint(1) NOT NULL DEFAULT '0',
+  `is_default` tinyint(1) NOT NULL DEFAULT 0,
+  `is_continuous` tinyint(1) NOT NULL DEFAULT 0,
   `stickers_in_one_sheet` int(11) DEFAULT NULL,
   `business_id` int(10) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -163,7 +158,7 @@ CREATE TABLE `bookings` (
   `booking_end` datetime NOT NULL,
   `created_by` int(10) UNSIGNED NOT NULL,
   `booking_status` enum('booked','completed','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `booking_note` text COLLATE utf8mb4_unicode_ci,
+  `booking_note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -178,7 +173,7 @@ CREATE TABLE `brands` (
   `id` int(10) UNSIGNED NOT NULL,
   `business_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_by` int(10) UNSIGNED NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -208,64 +203,64 @@ CREATE TABLE `business` (
   `tax_number_2` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tax_label_2` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `default_sales_tax` int(10) UNSIGNED DEFAULT NULL,
-  `default_profit_percent` double(5,2) NOT NULL DEFAULT '0.00',
+  `default_profit_percent` double(5,2) NOT NULL DEFAULT 0.00,
   `owner_id` int(10) UNSIGNED NOT NULL,
   `time_zone` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Asia/Kolkata',
-  `fy_start_month` tinyint(4) NOT NULL DEFAULT '1',
+  `fy_start_month` tinyint(4) NOT NULL DEFAULT 1,
   `accounting_method` enum('fifo','lifo','avco') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'fifo',
   `default_sales_discount` decimal(5,2) DEFAULT NULL,
   `sell_price_tax` enum('includes','excludes') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'includes',
   `logo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sku_prefix` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `enable_product_expiry` tinyint(1) NOT NULL DEFAULT '0',
+  `enable_product_expiry` tinyint(1) NOT NULL DEFAULT 0,
   `expiry_type` enum('add_expiry','add_manufacturing') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'add_expiry',
   `on_product_expiry` enum('keep_selling','stop_selling','auto_delete') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'keep_selling',
   `stop_selling_before` int(11) NOT NULL COMMENT 'Stop selling expied item n days before expiry',
-  `enable_tooltip` tinyint(1) NOT NULL DEFAULT '1',
-  `purchase_in_diff_currency` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Allow purchase to be in different currency then the business currency',
+  `enable_tooltip` tinyint(1) NOT NULL DEFAULT 1,
+  `purchase_in_diff_currency` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Allow purchase to be in different currency then the business currency',
   `purchase_currency_id` int(10) UNSIGNED DEFAULT NULL,
-  `p_exchange_rate` decimal(20,3) NOT NULL DEFAULT '1.000',
-  `transaction_edit_days` int(10) UNSIGNED NOT NULL DEFAULT '30',
-  `stock_expiry_alert_days` int(10) UNSIGNED NOT NULL DEFAULT '30',
-  `keyboard_shortcuts` text COLLATE utf8mb4_unicode_ci,
-  `pos_settings` text COLLATE utf8mb4_unicode_ci,
-  `enable_brand` tinyint(1) NOT NULL DEFAULT '1',
-  `enable_category` tinyint(1) NOT NULL DEFAULT '1',
-  `enable_sub_category` tinyint(1) NOT NULL DEFAULT '1',
-  `enable_price_tax` tinyint(1) NOT NULL DEFAULT '1',
-  `enable_purchase_status` tinyint(1) DEFAULT '1',
-  `enable_lot_number` tinyint(1) NOT NULL DEFAULT '0',
+  `p_exchange_rate` decimal(20,3) NOT NULL DEFAULT 1.000,
+  `transaction_edit_days` int(10) UNSIGNED NOT NULL DEFAULT 30,
+  `stock_expiry_alert_days` int(10) UNSIGNED NOT NULL DEFAULT 30,
+  `keyboard_shortcuts` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pos_settings` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `enable_brand` tinyint(1) NOT NULL DEFAULT 1,
+  `enable_category` tinyint(1) NOT NULL DEFAULT 1,
+  `enable_sub_category` tinyint(1) NOT NULL DEFAULT 1,
+  `enable_price_tax` tinyint(1) NOT NULL DEFAULT 1,
+  `enable_purchase_status` tinyint(1) DEFAULT 1,
+  `enable_lot_number` tinyint(1) NOT NULL DEFAULT 0,
   `default_unit` int(11) DEFAULT NULL,
-  `enable_sub_units` tinyint(1) NOT NULL DEFAULT '0',
-  `enable_racks` tinyint(1) NOT NULL DEFAULT '0',
-  `enable_row` tinyint(1) NOT NULL DEFAULT '0',
-  `enable_position` tinyint(1) NOT NULL DEFAULT '0',
-  `enable_editing_product_from_purchase` tinyint(1) NOT NULL DEFAULT '1',
+  `enable_sub_units` tinyint(1) NOT NULL DEFAULT 0,
+  `enable_racks` tinyint(1) NOT NULL DEFAULT 0,
+  `enable_row` tinyint(1) NOT NULL DEFAULT 0,
+  `enable_position` tinyint(1) NOT NULL DEFAULT 0,
+  `enable_editing_product_from_purchase` tinyint(1) NOT NULL DEFAULT 1,
   `sales_cmsn_agnt` enum('logged_in_user','user','cmsn_agnt') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `item_addition_method` tinyint(1) NOT NULL DEFAULT '1',
-  `enable_inline_tax` tinyint(1) NOT NULL DEFAULT '1',
+  `item_addition_method` tinyint(1) NOT NULL DEFAULT 1,
+  `enable_inline_tax` tinyint(1) NOT NULL DEFAULT 1,
   `currency_symbol_placement` enum('before','after') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'before',
-  `enabled_modules` text COLLATE utf8mb4_unicode_ci,
+  `enabled_modules` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_format` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'm/d/Y',
   `time_format` enum('12','24') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '24',
-  `ref_no_prefixes` text COLLATE utf8mb4_unicode_ci,
+  `ref_no_prefixes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `theme_color` char(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
-  `enable_rp` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'rp is the short form of reward points',
+  `enable_rp` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'rp is the short form of reward points',
   `rp_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'rp is the short form of reward points',
-  `amount_for_unit_rp` decimal(22,4) NOT NULL DEFAULT '1.0000' COMMENT 'rp is the short form of reward points',
-  `min_order_total_for_rp` decimal(22,4) NOT NULL DEFAULT '1.0000' COMMENT 'rp is the short form of reward points',
+  `amount_for_unit_rp` decimal(22,4) NOT NULL DEFAULT 1.0000 COMMENT 'rp is the short form of reward points',
+  `min_order_total_for_rp` decimal(22,4) NOT NULL DEFAULT 1.0000 COMMENT 'rp is the short form of reward points',
   `max_rp_per_order` int(11) DEFAULT NULL COMMENT 'rp is the short form of reward points',
-  `redeem_amount_per_unit_rp` decimal(22,4) NOT NULL DEFAULT '1.0000' COMMENT 'rp is the short form of reward points',
-  `min_order_total_for_redeem` decimal(22,4) NOT NULL DEFAULT '1.0000' COMMENT 'rp is the short form of reward points',
+  `redeem_amount_per_unit_rp` decimal(22,4) NOT NULL DEFAULT 1.0000 COMMENT 'rp is the short form of reward points',
+  `min_order_total_for_redeem` decimal(22,4) NOT NULL DEFAULT 1.0000 COMMENT 'rp is the short form of reward points',
   `min_redeem_point` int(11) DEFAULT NULL COMMENT 'rp is the short form of reward points',
   `max_redeem_point` int(11) DEFAULT NULL COMMENT 'rp is the short form of reward points',
   `rp_expiry_period` int(11) DEFAULT NULL COMMENT 'rp is the short form of reward points',
   `rp_expiry_type` enum('month','year') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'year' COMMENT 'rp is the short form of reward points',
-  `email_settings` text COLLATE utf8mb4_unicode_ci,
-  `sms_settings` text COLLATE utf8mb4_unicode_ci,
-  `custom_labels` text COLLATE utf8mb4_unicode_ci,
-  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `email_settings` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sms_settings` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `custom_labels` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -288,14 +283,14 @@ CREATE TABLE `business_locations` (
   `business_id` int(10) UNSIGNED NOT NULL,
   `location_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `name` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `landmark` text COLLATE utf8mb4_unicode_ci,
+  `landmark` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `country` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `state` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `city` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `zip_code` char(7) COLLATE utf8mb4_unicode_ci NOT NULL,
   `invoice_scheme_id` int(10) UNSIGNED NOT NULL,
   `invoice_layout_id` int(10) UNSIGNED NOT NULL,
-  `print_receipt_on_invoice` tinyint(1) DEFAULT '1',
+  `print_receipt_on_invoice` tinyint(1) DEFAULT 1,
   `receipt_printer_type` enum('browser','printer') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'browser',
   `printer_id` int(11) DEFAULT NULL,
   `mobile` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -343,10 +338,10 @@ CREATE TABLE `cash_registers` (
   `user_id` int(10) UNSIGNED DEFAULT NULL,
   `status` enum('close','open') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'open',
   `closed_at` datetime DEFAULT NULL,
-  `closing_amount` decimal(22,4) NOT NULL DEFAULT '0.0000',
-  `total_card_slips` int(11) NOT NULL DEFAULT '0',
-  `total_cheques` int(11) NOT NULL DEFAULT '0',
-  `closing_note` text COLLATE utf8mb4_unicode_ci,
+  `closing_amount` decimal(22,4) NOT NULL DEFAULT 0.0000,
+  `total_card_slips` int(11) NOT NULL DEFAULT 0,
+  `total_cheques` int(11) NOT NULL DEFAULT 0,
+  `closing_note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -360,7 +355,7 @@ CREATE TABLE `cash_registers` (
 CREATE TABLE `cash_register_transactions` (
   `id` int(10) UNSIGNED NOT NULL,
   `cash_register_id` int(10) UNSIGNED NOT NULL,
-  `amount` decimal(22,4) NOT NULL DEFAULT '0.0000',
+  `amount` decimal(22,4) NOT NULL DEFAULT 0.0000,
   `pay_method` enum('cash','card','cheque','bank_transfer','custom_pay_1','custom_pay_2','custom_pay_3','other') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `type` enum('debit','credit') COLLATE utf8mb4_unicode_ci NOT NULL,
   `transaction_type` enum('initial','sell','transfer','refund') COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -425,10 +420,10 @@ CREATE TABLE `contacts` (
   `pay_term_type` enum('days','months') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `credit_limit` decimal(22,4) DEFAULT NULL,
   `created_by` int(10) UNSIGNED NOT NULL,
-  `total_rp` int(11) NOT NULL DEFAULT '0' COMMENT 'rp is the short form of reward points',
-  `total_rp_used` int(11) NOT NULL DEFAULT '0' COMMENT 'rp is the short form of reward points',
-  `total_rp_expired` int(11) NOT NULL DEFAULT '0' COMMENT 'rp is the short form of reward points',
-  `is_default` tinyint(1) NOT NULL DEFAULT '0',
+  `total_rp` int(11) NOT NULL DEFAULT 0 COMMENT 'rp is the short form of reward points',
+  `total_rp_used` int(11) NOT NULL DEFAULT 0 COMMENT 'rp is the short form of reward points',
+  `total_rp_expired` int(11) NOT NULL DEFAULT 0 COMMENT 'rp is the short form of reward points',
+  `is_default` tinyint(1) NOT NULL DEFAULT 0,
   `customer_group_id` int(11) DEFAULT NULL,
   `custom_field1` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `custom_field2` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -448,10 +443,7 @@ INSERT INTO `contacts` (`id`, `business_id`, `type`, `supplier_business_name`, `
 (2, 1, 'customer', NULL, 'himel', NULL, 'CO0002', NULL, NULL, NULL, NULL, NULL, '01680037057', NULL, NULL, NULL, NULL, NULL, 1, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-21 22:37:07', '2019-11-21 22:37:07'),
 (3, 1, 'customer', NULL, 'Rahul', NULL, 'CO0003', NULL, NULL, NULL, NULL, NULL, '01680037059', NULL, NULL, NULL, NULL, NULL, 1, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-21 23:46:04', '2019-11-21 23:46:04'),
 (4, 1, 'customer', NULL, 'dip', NULL, 'CO0004', NULL, NULL, NULL, NULL, NULL, '01680037089', NULL, NULL, NULL, NULL, NULL, 1, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-22 00:30:40', '2019-11-22 00:30:40'),
-(5, 1, 'customer', NULL, 'Emon', NULL, 'CO0005', NULL, NULL, NULL, NULL, NULL, '01680037078', NULL, NULL, NULL, NULL, NULL, 1, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-22 00:50:22', '2019-11-22 00:50:22'),
-(6, 1, 'customer', NULL, 'Jahan', NULL, 'CO0006', NULL, NULL, NULL, NULL, NULL, '01680037047', NULL, NULL, NULL, NULL, NULL, 1, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-23 20:34:56', '2019-11-23 20:34:56'),
-(7, 1, 'customer', NULL, 'Nurjanan', NULL, 'CO0007', NULL, NULL, NULL, NULL, NULL, '01680037067', NULL, NULL, NULL, NULL, NULL, 1, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-23 20:43:44', '2019-11-23 20:43:44'),
-(8, 1, 'customer', NULL, 'Karun', NULL, 'CO0008', NULL, NULL, NULL, NULL, NULL, '01680037099', NULL, NULL, NULL, NULL, NULL, 1, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-23 20:54:08', '2019-11-23 20:54:08');
+(5, 1, 'customer', NULL, 'Emon', NULL, 'CO0005', NULL, NULL, NULL, NULL, NULL, '01680037078', NULL, NULL, NULL, NULL, NULL, 1, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-22 00:50:22', '2019-11-22 00:50:22');
 
 -- --------------------------------------------------------
 
@@ -646,12 +638,12 @@ CREATE TABLE `discounts` (
   `location_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `discount_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `discount_amount` decimal(22,4) NOT NULL DEFAULT '0.0000',
+  `discount_amount` decimal(22,4) NOT NULL DEFAULT 0.0000,
   `starts_at` datetime DEFAULT NULL,
   `ends_at` datetime DEFAULT NULL,
-  `is_active` tinyint(1) NOT NULL DEFAULT '1',
-  `applicable_in_spg` tinyint(1) DEFAULT '0',
-  `applicable_in_cg` tinyint(1) DEFAULT '0',
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `applicable_in_spg` tinyint(1) DEFAULT 0,
+  `applicable_in_cg` tinyint(1) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -690,11 +682,7 @@ INSERT INTO `event_menus` (`id`, `name`, `type`, `venue`, `attendences`, `bookin
 (9, 'fateh alis wedding', 'Wedding', 'Emanuels', 900, '2019-11-21 17:51:00', '2019-11-23 17:51:00', 14, '2019-11-22 00:52:40', '2019-11-22 00:52:40'),
 (10, 'rahats reception', 'reception', 'Sena Maloncho', 500, '2019-11-21 17:59:00', '2019-11-28 17:59:00', 15, '2019-11-22 01:00:45', '2019-11-22 01:00:45'),
 (11, 'Himels holud', 'holud', 'Herman', 500, '2019-11-21 18:01:00', '2019-11-30 18:02:00', 16, '2019-11-22 01:02:45', '2019-11-22 01:02:45'),
-(12, 'Dip\'s Wedding', 'Wedding', 'Rawa Convention, Mohakhali, Dhaka', 300, '2019-11-21 18:16:00', '2019-11-22 20:16:00', 17, '2019-11-22 01:21:09', '2019-11-22 01:21:09'),
-(13, 'Jahan\'s Reception', 'Reception', 'ShenaKunjo', 500, '2019-11-23 13:34:00', '2019-11-25 13:35:00', 19, '2019-11-23 20:37:04', '2019-11-23 20:37:04'),
-(14, 'Jahan\'s Reception', 'Reception', 'ShenaKunjo', 500, '2019-11-23 13:34:00', '2019-11-25 13:35:00', 20, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(15, 'Nurjahans holud', 'Holud', 'Emanuels', 500, '2019-11-23 13:43:00', '2019-11-28 13:43:00', 21, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(16, 'Karuns Reception', 'Reception', 'Jatrabi Biye Ghor', 500, '2019-11-23 13:53:00', '2019-11-27 13:54:00', 22, '2019-11-23 20:55:20', '2019-11-23 20:55:20');
+(12, 'Dip\'s Wedding', 'Wedding', 'Rawa Convention, Mohakhali, Dhaka', 300, '2019-11-21 18:16:00', '2019-11-22 20:16:00', 17, '2019-11-22 01:21:09', '2019-11-22 01:21:09');
 
 -- --------------------------------------------------------
 
@@ -2070,75 +2058,7 @@ INSERT INTO `groceries` (`id`, `name`, `quantity`, `event_menu_id`, `created_at`
 (3421, 'n.a', '0', 12, '2019-11-22 01:21:10', '2019-11-22 01:21:10'),
 (3422, 'n.a', '0', 12, '2019-11-22 01:21:10', '2019-11-22 01:21:10'),
 (3423, 'n.a', '0', 12, '2019-11-22 01:21:10', '2019-11-22 01:21:10'),
-(3424, 'n.a', '0', 12, '2019-11-22 01:21:10', '2019-11-22 01:21:10'),
-(3425, 'Eg', '5', 13, '2019-11-23 20:37:04', '2019-11-23 20:37:04'),
-(3426, 'Shelf stable fish and seafood', '5', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3427, 'Rice, pasta, cornmeal\n', '5', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3428, 'Frankfurters\n', '5', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3429, 'Bread', '5', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3430, 'Oranges, including tangerines', '12', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3431, 'Apples', '14', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3432, 'Prescription drugs', '14', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3433, 'Canned vegetables', '12', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3434, 'Pet food', '12', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3435, 'Roasted coffee', '2', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3436, 'Potatoes', '2', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3437, 'Bakery products', '53', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3438, 'Propane, kerosene and firewood', '12', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3439, 'Flour and prepared flour mixes', '12', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3440, 'Bacon and related products', '12', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3441, 'Fresh, whole chicken', '32', 13, '2019-11-23 20:37:05', '2019-11-23 20:37:05'),
-(3442, 'Eg', '5', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3443, 'Shelf stable fish and seafood', '5', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3444, 'Rice, pasta, cornmeal\n', '5', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3445, 'Frankfurters\n', '5', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3446, 'Bread', '5', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3447, 'Oranges, including tangerines', '12', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3448, 'Apples', '14', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3449, 'Prescription drugs', '14', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3450, 'Canned vegetables', '12', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3451, 'Pet food', '12', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3452, 'Roasted coffee', '2', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3453, 'Potatoes', '2', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3454, 'Bakery products', '53', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3455, 'Propane, kerosene and firewood', '12', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3456, 'Flour and prepared flour mixes', '12', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3457, 'Bacon and related products', '12', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3458, 'Fresh, whole chicken', '32', 14, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(3459, 'Eg', '5', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3460, 'Shelf stable fish and seafood', '5', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3461, 'Rice, pasta, cornmeal\n', '5', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3462, 'Frankfurters\n', '5', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3463, 'Bread', '5', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3464, 'Oranges, including tangerines', '12', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3465, 'Apples', '14', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3466, 'Prescription drugs', '14', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3467, 'Canned vegetables', '12', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3468, 'Pet food', '12', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3469, 'Roasted coffee', '2', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3470, 'Potatoes', '2', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3471, 'Bakery products', '53', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3472, 'Propane, kerosene and firewood', '12', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3473, 'Flour and prepared flour mixes', '12', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3474, 'Bacon and related products', '12', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3475, 'Fresh, whole chicken', '32', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3476, 'Eg', '5', 16, '2019-11-23 20:55:20', '2019-11-23 20:55:20'),
-(3477, 'Shelf stable fish and seafood', '5', 16, '2019-11-23 20:55:20', '2019-11-23 20:55:20'),
-(3478, 'Rice, pasta, cornmeal\n', '5', 16, '2019-11-23 20:55:20', '2019-11-23 20:55:20'),
-(3479, 'Frankfurters\n', '5', 16, '2019-11-23 20:55:20', '2019-11-23 20:55:20'),
-(3480, 'Bread', '5', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3481, 'Oranges, including tangerines', '12', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3482, 'Apples', '14', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3483, 'Prescription drugs', '14', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3484, 'Canned vegetables', '12', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3485, 'Pet food', '12', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3486, 'Roasted coffee', '2', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3487, 'Potatoes', '2', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3488, 'Bakery products', '53', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3489, 'Propane, kerosene and firewood', '12', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3490, 'Flour and prepared flour mixes', '12', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3491, 'Bacon and related products', '12', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3492, 'Fresh, whole chicken', '32', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21');
+(3424, 'n.a', '0', 12, '2019-11-22 01:21:10', '2019-11-22 01:21:10');
 
 -- --------------------------------------------------------
 
@@ -2160,7 +2080,7 @@ CREATE TABLE `group_sub_taxes` (
 CREATE TABLE `invoice_layouts` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `header_text` text COLLATE utf8mb4_unicode_ci,
+  `header_text` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `invoice_no_prefix` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `quotation_no_prefix` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `invoice_heading` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -2178,60 +2098,60 @@ CREATE TABLE `invoice_layouts` (
   `total_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `total_due_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `paid_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `show_client_id` tinyint(1) NOT NULL DEFAULT '0',
+  `show_client_id` tinyint(1) NOT NULL DEFAULT 0,
   `client_id_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `client_tax_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_time_format` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `show_time` tinyint(1) NOT NULL DEFAULT '1',
-  `show_brand` tinyint(1) NOT NULL DEFAULT '0',
-  `show_sku` tinyint(1) NOT NULL DEFAULT '1',
-  `show_cat_code` tinyint(1) NOT NULL DEFAULT '1',
-  `show_expiry` tinyint(1) NOT NULL DEFAULT '0',
-  `show_lot` tinyint(1) NOT NULL DEFAULT '0',
-  `show_image` tinyint(1) NOT NULL DEFAULT '0',
-  `show_sale_description` tinyint(1) NOT NULL DEFAULT '0',
+  `show_time` tinyint(1) NOT NULL DEFAULT 1,
+  `show_brand` tinyint(1) NOT NULL DEFAULT 0,
+  `show_sku` tinyint(1) NOT NULL DEFAULT 1,
+  `show_cat_code` tinyint(1) NOT NULL DEFAULT 1,
+  `show_expiry` tinyint(1) NOT NULL DEFAULT 0,
+  `show_lot` tinyint(1) NOT NULL DEFAULT 0,
+  `show_image` tinyint(1) NOT NULL DEFAULT 0,
+  `show_sale_description` tinyint(1) NOT NULL DEFAULT 0,
   `sales_person_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `show_sales_person` tinyint(1) NOT NULL DEFAULT '0',
+  `show_sales_person` tinyint(1) NOT NULL DEFAULT 0,
   `table_product_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `table_qty_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `table_unit_price_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `table_subtotal_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cat_code_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `logo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `show_logo` tinyint(1) NOT NULL DEFAULT '0',
-  `show_business_name` tinyint(1) NOT NULL DEFAULT '0',
-  `show_location_name` tinyint(1) NOT NULL DEFAULT '1',
-  `show_landmark` tinyint(1) NOT NULL DEFAULT '1',
-  `show_city` tinyint(1) NOT NULL DEFAULT '1',
-  `show_state` tinyint(1) NOT NULL DEFAULT '1',
-  `show_zip_code` tinyint(1) NOT NULL DEFAULT '1',
-  `show_country` tinyint(1) NOT NULL DEFAULT '1',
-  `show_mobile_number` tinyint(1) NOT NULL DEFAULT '1',
-  `show_alternate_number` tinyint(1) NOT NULL DEFAULT '0',
-  `show_email` tinyint(1) NOT NULL DEFAULT '0',
-  `show_tax_1` tinyint(1) NOT NULL DEFAULT '1',
-  `show_tax_2` tinyint(1) NOT NULL DEFAULT '0',
-  `show_barcode` tinyint(1) NOT NULL DEFAULT '0',
-  `show_payments` tinyint(1) NOT NULL DEFAULT '0',
-  `show_customer` tinyint(1) NOT NULL DEFAULT '0',
+  `show_logo` tinyint(1) NOT NULL DEFAULT 0,
+  `show_business_name` tinyint(1) NOT NULL DEFAULT 0,
+  `show_location_name` tinyint(1) NOT NULL DEFAULT 1,
+  `show_landmark` tinyint(1) NOT NULL DEFAULT 1,
+  `show_city` tinyint(1) NOT NULL DEFAULT 1,
+  `show_state` tinyint(1) NOT NULL DEFAULT 1,
+  `show_zip_code` tinyint(1) NOT NULL DEFAULT 1,
+  `show_country` tinyint(1) NOT NULL DEFAULT 1,
+  `show_mobile_number` tinyint(1) NOT NULL DEFAULT 1,
+  `show_alternate_number` tinyint(1) NOT NULL DEFAULT 0,
+  `show_email` tinyint(1) NOT NULL DEFAULT 0,
+  `show_tax_1` tinyint(1) NOT NULL DEFAULT 1,
+  `show_tax_2` tinyint(1) NOT NULL DEFAULT 0,
+  `show_barcode` tinyint(1) NOT NULL DEFAULT 0,
+  `show_payments` tinyint(1) NOT NULL DEFAULT 0,
+  `show_customer` tinyint(1) NOT NULL DEFAULT 0,
   `customer_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `show_reward_point` tinyint(1) NOT NULL DEFAULT '0',
+  `show_reward_point` tinyint(1) NOT NULL DEFAULT 0,
   `highlight_color` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `footer_text` text COLLATE utf8mb4_unicode_ci,
-  `module_info` text COLLATE utf8mb4_unicode_ci,
-  `is_default` tinyint(1) NOT NULL DEFAULT '0',
+  `footer_text` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `module_info` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_default` tinyint(1) NOT NULL DEFAULT 0,
   `business_id` int(10) UNSIGNED NOT NULL,
   `design` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT 'classic',
   `cn_heading` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'cn = credit note',
   `cn_no_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cn_amount_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `table_tax_headings` text COLLATE utf8mb4_unicode_ci,
-  `show_previous_bal` tinyint(1) NOT NULL DEFAULT '0',
+  `table_tax_headings` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `show_previous_bal` tinyint(1) NOT NULL DEFAULT 0,
   `prev_bal_label` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `product_custom_fields` text COLLATE utf8mb4_unicode_ci,
-  `contact_custom_fields` text COLLATE utf8mb4_unicode_ci,
-  `location_custom_fields` text COLLATE utf8mb4_unicode_ci,
+  `product_custom_fields` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contact_custom_fields` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location_custom_fields` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2256,9 +2176,9 @@ CREATE TABLE `invoice_schemes` (
   `scheme_type` enum('blank','year') COLLATE utf8mb4_unicode_ci NOT NULL,
   `prefix` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `start_number` int(11) DEFAULT NULL,
-  `invoice_count` int(11) NOT NULL DEFAULT '0',
+  `invoice_count` int(11) NOT NULL DEFAULT 0,
   `total_digits` int(11) DEFAULT NULL,
-  `is_default` tinyint(1) NOT NULL DEFAULT '0',
+  `is_default` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2268,7 +2188,7 @@ CREATE TABLE `invoice_schemes` (
 --
 
 INSERT INTO `invoice_schemes` (`id`, `business_id`, `name`, `scheme_type`, `prefix`, `start_number`, `invoice_count`, `total_digits`, `is_default`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Default', 'blank', '', 1, 11, 4, 1, '2019-11-21 19:18:36', '2019-11-23 20:55:19');
+(1, 1, 'Default', 'blank', '', 1, 7, 4, 1, '2019-11-21 19:18:36', '2019-11-22 01:21:06');
 
 -- --------------------------------------------------------
 
@@ -2327,75 +2247,6 @@ CREATE TABLE `menu_items` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `menu_items`
---
-
-INSERT INTO `menu_items` (`id`, `name`, `quantity`, `event_menu_id`, `created_at`, `updated_at`) VALUES
-(2, 'Eg', '5', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(3, 'Shelf stable fish and seafood', '5', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(4, 'Rice, pasta, cornmeal\n', '5', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(5, 'Frankfurters\n', '5', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(6, 'Bread', '5', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(7, 'Oranges, including tangerines', '12', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(8, 'Apples', '14', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(9, 'Prescription drugs', '14', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(10, 'Canned vegetables', '12', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(11, 'Pet food', '12', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(12, 'Roasted coffee', '2', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(13, 'Potatoes', '2', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(14, 'Bakery products', '53', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(15, 'Propane, kerosene and firewood', '12', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(16, 'Flour and prepared flour mixes', '12', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(17, 'Bacon and related products', '12', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(18, 'Fresh, whole chicken', '32', 15, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(36, 'Bhuna Khichuri', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(37, 'Bread', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(38, 'Rice with Curry', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(39, 'Vorta', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(40, 'Daal', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(41, 'Grilled Chicken with Naan Roti', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(42, 'Haleem', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(43, 'Sheek Kabab', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(44, 'Fuchka', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(45, 'Misti Doi', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(46, 'Doi Chira', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(47, 'Rasmalai', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(48, 'Borhani', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(49, 'Sweet Lassi', '15kg', 16, '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
-(50, 'Bhuna Khichuri', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(51, 'Bread', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(52, 'Rice with Curry', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(53, 'Vorta', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(54, 'Daal', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(55, 'Grilled Chicken with Naan Roti', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(56, 'Haleem', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(57, 'Sheek Kabab', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(58, 'Fuchka', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(59, 'Misti Doi', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(60, 'Doi Chira', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(61, 'Rasmalai', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(62, 'Borhani', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(63, 'Sweet Lassi', '15kg', 3, '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(64, 'Paratha', '15 kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(65, 'Kachchi Biryani', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(66, 'Bhuna Khichuri', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(67, 'Bread', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(68, 'Morog Polao', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(69, 'Rice with Curry', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(70, 'Vorta', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(71, 'Vaji', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(72, 'Daal', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(73, 'Grilled Chicken with Naan Roti', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(74, 'Haleem', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(75, 'Sheek Kabab', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(76, 'Fuchka', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(77, 'Misti Doi', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(78, 'Doi Chira', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(79, 'Rasmalai', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
-(80, 'Borhani', '15kg', 4, '2019-11-23 23:53:09', '2019-11-23 23:53:09'),
-(81, 'Sweet Lassi', '15kg', 4, '2019-11-23 23:53:09', '2019-11-23 23:53:09');
 
 -- --------------------------------------------------------
 
@@ -2675,11 +2526,11 @@ CREATE TABLE `notification_templates` (
   `id` int(10) UNSIGNED NOT NULL,
   `business_id` int(11) NOT NULL,
   `template_for` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email_body` text COLLATE utf8mb4_unicode_ci,
-  `sms_body` text COLLATE utf8mb4_unicode_ci,
+  `email_body` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sms_body` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `subject` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `auto_send` tinyint(1) NOT NULL DEFAULT '0',
-  `auto_send_sms` tinyint(1) NOT NULL DEFAULT '0',
+  `auto_send` tinyint(1) NOT NULL DEFAULT 0,
+  `auto_send_sms` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2838,29 +2689,29 @@ CREATE TABLE `products` (
   `business_id` int(10) UNSIGNED NOT NULL,
   `type` enum('single','variable','modifier','combo') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `unit_id` int(11) UNSIGNED DEFAULT NULL,
-  `sub_unit_ids` text COLLATE utf8mb4_unicode_ci,
+  `sub_unit_ids` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `brand_id` int(10) UNSIGNED DEFAULT NULL,
   `category_id` int(10) UNSIGNED DEFAULT NULL,
   `sub_category_id` int(10) UNSIGNED DEFAULT NULL,
   `tax` int(10) UNSIGNED DEFAULT NULL,
   `tax_type` enum('inclusive','exclusive') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `enable_stock` tinyint(1) NOT NULL DEFAULT '0',
-  `alert_quantity` int(11) NOT NULL DEFAULT '0',
+  `enable_stock` tinyint(1) NOT NULL DEFAULT 0,
+  `alert_quantity` int(11) NOT NULL DEFAULT 0,
   `sku` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `barcode_type` enum('C39','C128','EAN13','EAN8','UPCA','UPCE') COLLATE utf8mb4_unicode_ci DEFAULT 'C128',
   `expiry_period` decimal(4,2) DEFAULT NULL,
   `expiry_period_type` enum('days','months') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `enable_sr_no` tinyint(1) NOT NULL DEFAULT '0',
+  `enable_sr_no` tinyint(1) NOT NULL DEFAULT 0,
   `weight` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_custom_field1` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_custom_field2` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_custom_field3` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_custom_field4` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `product_description` text COLLATE utf8mb4_unicode_ci,
+  `product_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_by` int(10) UNSIGNED NOT NULL,
-  `is_inactive` tinyint(1) NOT NULL DEFAULT '0',
-  `not_for_selling` tinyint(1) NOT NULL DEFAULT '0',
+  `is_inactive` tinyint(1) NOT NULL DEFAULT 0,
+  `not_for_selling` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2905,7 +2756,7 @@ CREATE TABLE `product_variations` (
   `variation_template_id` int(11) DEFAULT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_id` int(10) UNSIGNED NOT NULL,
-  `is_dummy` tinyint(1) NOT NULL DEFAULT '1',
+  `is_dummy` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2933,16 +2784,16 @@ CREATE TABLE `purchase_lines` (
   `product_id` int(10) UNSIGNED NOT NULL,
   `variation_id` int(10) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
-  `pp_without_discount` decimal(22,4) NOT NULL DEFAULT '0.0000' COMMENT 'Purchase price before inline discounts',
-  `discount_percent` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT 'Inline discount percentage',
+  `pp_without_discount` decimal(22,4) NOT NULL DEFAULT 0.0000 COMMENT 'Purchase price before inline discounts',
+  `discount_percent` decimal(5,2) NOT NULL DEFAULT 0.00 COMMENT 'Inline discount percentage',
   `purchase_price` decimal(22,4) NOT NULL,
-  `purchase_price_inc_tax` decimal(22,4) NOT NULL DEFAULT '0.0000',
+  `purchase_price_inc_tax` decimal(22,4) NOT NULL DEFAULT 0.0000,
   `item_tax` decimal(22,4) NOT NULL COMMENT 'Tax for one quantity',
   `tax_id` int(10) UNSIGNED DEFAULT NULL,
-  `quantity_sold` decimal(22,4) NOT NULL DEFAULT '0.0000' COMMENT 'Quanity sold from this purchase line',
-  `quantity_adjusted` decimal(22,4) NOT NULL DEFAULT '0.0000' COMMENT 'Quanity adjusted in stock adjustment from this purchase line',
-  `quantity_returned` decimal(20,4) NOT NULL DEFAULT '0.0000',
-  `mfg_quantity_used` decimal(20,4) NOT NULL DEFAULT '0.0000',
+  `quantity_sold` decimal(22,4) NOT NULL DEFAULT 0.0000 COMMENT 'Quanity sold from this purchase line',
+  `quantity_adjusted` decimal(22,4) NOT NULL DEFAULT 0.0000 COMMENT 'Quanity adjusted in stock adjustment from this purchase line',
+  `quantity_returned` decimal(20,4) NOT NULL DEFAULT 0.0000,
+  `mfg_quantity_used` decimal(20,4) NOT NULL DEFAULT 0.0000,
   `mfg_date` date DEFAULT NULL,
   `exp_date` date DEFAULT NULL,
   `lot_number` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -2956,9 +2807,9 @@ CREATE TABLE `purchase_lines` (
 --
 
 INSERT INTO `purchase_lines` (`id`, `transaction_id`, `product_id`, `variation_id`, `quantity`, `pp_without_discount`, `discount_percent`, `purchase_price`, `purchase_price_inc_tax`, `item_tax`, `tax_id`, `quantity_sold`, `quantity_adjusted`, `quantity_returned`, `mfg_quantity_used`, `mfg_date`, `exp_date`, `lot_number`, `sub_unit_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '15.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:30:00', '2019-11-23 20:37:57'),
-(2, 2, 2, 2, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '12.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:31:26', '2019-11-23 20:55:19'),
-(3, 3, 3, 3, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '12.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:32:05', '2019-11-23 20:55:19'),
+(1, 1, 1, 1, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '13.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:30:00', '2019-11-22 02:00:06'),
+(2, 2, 2, 2, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '9.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:31:26', '2019-11-22 01:21:07'),
+(3, 3, 3, 3, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '8.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:32:05', '2019-11-22 01:21:07'),
 (4, 4, 4, 4, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '0.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:33:02', '2019-11-21 22:33:02'),
 (5, 5, 5, 5, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '7.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:33:46', '2019-11-22 01:21:07'),
 (6, 1, 1, 1, 100, '20.0000', '0.00', '20.0000', '20.0000', '0.0000', NULL, '0.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-22 02:00:06', '2019-11-22 02:00:06');
@@ -2983,9 +2834,9 @@ CREATE TABLE `reference_counts` (
 --
 
 INSERT INTO `reference_counts` (`id`, `ref_type`, `ref_count`, `business_id`, `created_at`, `updated_at`) VALUES
-(1, 'contacts', 8, 1, '2019-11-21 19:18:35', '2019-11-23 20:54:08'),
+(1, 'contacts', 5, 1, '2019-11-21 19:18:35', '2019-11-22 00:50:22'),
 (2, 'business_location', 1, 1, '2019-11-21 19:18:36', '2019-11-21 19:18:36'),
-(3, 'sell_payment', 11, 1, '2019-11-21 22:36:22', '2019-11-23 20:55:19');
+(3, 'sell_payment', 7, 1, '2019-11-21 22:36:22', '2019-11-22 01:21:07');
 
 -- --------------------------------------------------------
 
@@ -3009,7 +2860,7 @@ CREATE TABLE `res_tables` (
   `business_id` int(10) UNSIGNED NOT NULL,
   `location_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_by` int(10) UNSIGNED NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -3027,8 +2878,8 @@ CREATE TABLE `roles` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `guard_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `business_id` int(10) UNSIGNED NOT NULL,
-  `is_default` tinyint(1) NOT NULL DEFAULT '0',
-  `is_service_staff` tinyint(1) NOT NULL DEFAULT '0',
+  `is_default` tinyint(1) NOT NULL DEFAULT 0,
+  `is_service_staff` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3072,7 +2923,7 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 CREATE TABLE `selling_price_groups` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `business_id` int(10) UNSIGNED NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -3089,7 +2940,7 @@ CREATE TABLE `sessions` (
   `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(10) UNSIGNED DEFAULT NULL,
   `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci,
+  `user_agent` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `payload` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3132,7 +2983,7 @@ CREATE TABLE `stock_adjustment_lines` (
 CREATE TABLE `system` (
   `id` int(10) UNSIGNED NOT NULL,
   `key` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` text COLLATE utf8mb4_unicode_ci
+  `value` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -3154,7 +3005,7 @@ CREATE TABLE `tax_rates` (
   `business_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` double(22,4) NOT NULL,
-  `is_tax_group` tinyint(1) NOT NULL DEFAULT '0',
+  `is_tax_group` tinyint(1) NOT NULL DEFAULT 0,
   `created_by` int(10) UNSIGNED NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -3177,7 +3028,7 @@ CREATE TABLE `transactions` (
   `type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sub_type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` enum('received','pending','ordered','draft','final') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_quotation` tinyint(1) NOT NULL DEFAULT '0',
+  `is_quotation` tinyint(1) NOT NULL DEFAULT 0,
   `payment_status` enum('paid','due','partial') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `adjustment_type` enum('normal','abnormal') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `contact_id` int(11) UNSIGNED DEFAULT NULL,
@@ -3186,34 +3037,34 @@ CREATE TABLE `transactions` (
   `ref_no` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `subscription_no` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `transaction_date` datetime NOT NULL,
-  `total_before_tax` decimal(22,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total before the purchase/invoice tax, this includeds the indivisual product tax',
+  `total_before_tax` decimal(22,4) NOT NULL DEFAULT 0.0000 COMMENT 'Total before the purchase/invoice tax, this includeds the indivisual product tax',
   `tax_id` int(10) UNSIGNED DEFAULT NULL,
-  `tax_amount` decimal(22,4) NOT NULL DEFAULT '0.0000',
+  `tax_amount` decimal(22,4) NOT NULL DEFAULT 0.0000,
   `discount_type` enum('fixed','percentage') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `discount_amount` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `rp_redeemed` int(11) NOT NULL DEFAULT '0' COMMENT 'rp is the short form of reward points',
-  `rp_redeemed_amount` decimal(22,4) NOT NULL DEFAULT '0.0000' COMMENT 'rp is the short form of reward points',
+  `rp_redeemed` int(11) NOT NULL DEFAULT 0 COMMENT 'rp is the short form of reward points',
+  `rp_redeemed_amount` decimal(22,4) NOT NULL DEFAULT 0.0000 COMMENT 'rp is the short form of reward points',
   `shipping_details` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `shipping_charges` decimal(22,4) NOT NULL DEFAULT '0.0000',
-  `additional_notes` text COLLATE utf8mb4_unicode_ci,
-  `staff_note` text COLLATE utf8mb4_unicode_ci,
-  `final_total` decimal(22,4) NOT NULL DEFAULT '0.0000',
+  `shipping_charges` decimal(22,4) NOT NULL DEFAULT 0.0000,
+  `additional_notes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `staff_note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `final_total` decimal(22,4) NOT NULL DEFAULT 0.0000,
   `expense_category_id` int(10) UNSIGNED DEFAULT NULL,
   `expense_for` int(10) UNSIGNED DEFAULT NULL,
   `commission_agent` int(11) DEFAULT NULL,
   `document` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_direct_sale` tinyint(1) NOT NULL DEFAULT '0',
-  `is_suspend` tinyint(1) NOT NULL DEFAULT '0',
-  `exchange_rate` decimal(20,3) NOT NULL DEFAULT '1.000',
+  `is_direct_sale` tinyint(1) NOT NULL DEFAULT 0,
+  `is_suspend` tinyint(1) NOT NULL DEFAULT 0,
+  `exchange_rate` decimal(20,3) NOT NULL DEFAULT 1.000,
   `total_amount_recovered` decimal(22,4) DEFAULT NULL COMMENT 'Used for stock adjustment.',
   `transfer_parent_id` int(11) DEFAULT NULL,
   `return_parent_id` int(11) DEFAULT NULL,
   `opening_stock_product_id` int(11) DEFAULT NULL,
   `created_by` int(10) UNSIGNED NOT NULL,
-  `is_created_from_api` tinyint(1) NOT NULL DEFAULT '0',
-  `rp_earned` int(11) NOT NULL DEFAULT '0' COMMENT 'rp is the short form of reward points',
-  `order_addresses` text COLLATE utf8mb4_unicode_ci,
-  `is_recurring` tinyint(1) NOT NULL DEFAULT '0',
+  `is_created_from_api` tinyint(1) NOT NULL DEFAULT 0,
+  `rp_earned` int(11) NOT NULL DEFAULT 0 COMMENT 'rp is the short form of reward points',
+  `order_addresses` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_recurring` tinyint(1) NOT NULL DEFAULT 0,
   `recur_interval` double(22,4) DEFAULT NULL,
   `recur_interval_type` enum('days','months','years') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `recur_repetitions` int(11) DEFAULT NULL,
@@ -3238,8 +3089,8 @@ INSERT INTO `transactions` (`id`, `business_id`, `location_id`, `res_table_id`, 
 (4, 1, 1, NULL, NULL, NULL, 'opening_stock', NULL, 'received', 0, 'paid', NULL, NULL, NULL, NULL, NULL, NULL, '2019-01-01 15:33:02', '12000.0000', NULL, '0.0000', NULL, NULL, 0, '0.0000', NULL, '0.0000', NULL, NULL, '12000.0000', NULL, NULL, NULL, NULL, 0, 0, '1.000', NULL, NULL, NULL, 4, 1, 0, 0, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-21 22:33:02', '2019-11-21 22:33:02'),
 (5, 1, 1, NULL, NULL, NULL, 'opening_stock', NULL, 'received', 0, 'paid', NULL, NULL, NULL, NULL, NULL, NULL, '2019-01-01 15:33:46', '12000.0000', NULL, '0.0000', NULL, NULL, 0, '0.0000', NULL, '0.0000', NULL, NULL, '12000.0000', NULL, NULL, NULL, NULL, 0, 0, '1.000', NULL, NULL, NULL, 5, 1, 0, 0, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-21 22:33:46', '2019-11-21 22:33:46'),
 (6, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'partial', NULL, 1, NULL, '0001', '', NULL, '2019-11-21 15:36:22', '75.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '75.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-21 22:36:22', '2019-11-22 00:38:06'),
-(8, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'draft', 1, 'due', NULL, 1, NULL, 'bvNtG', '', NULL, '2019-11-21 15:39:38', '45.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '45.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-21 22:39:38', '2019-11-23 23:52:44'),
-(9, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'draft', 1, 'due', NULL, 3, NULL, '99MUl', '', NULL, '2019-11-21 16:46:37', '15.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '15.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-21 23:46:37', '2019-11-23 23:53:08'),
+(8, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'draft', 1, NULL, NULL, 1, NULL, 'bvNtG', '', NULL, '2019-11-21 15:39:38', '45.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '45.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-21 22:39:38', '2019-11-21 22:39:38'),
+(9, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'draft', 1, NULL, NULL, 3, NULL, '99MUl', '', NULL, '2019-11-21 16:46:37', '15.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', 'good', NULL, '15.0000', NULL, NULL, NULL, '/tmp/phpRlYAt8', 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-21 23:46:37', '2019-11-21 23:46:39'),
 (10, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 4, NULL, '0002', '', NULL, '2019-11-21 17:29:43', '30.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '30.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-22 00:29:44', '2019-11-22 00:33:00'),
 (11, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 2, NULL, '0003', '', NULL, '2019-11-21 17:29:47', '30.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', 'good', NULL, '30.0000', NULL, NULL, NULL, '/tmp/phpVwWR3J', 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-22 00:29:47', '2019-11-22 00:29:49'),
 (12, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 4, NULL, '0004', '', NULL, '2019-11-21 17:41:14', '30.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '30.0000', NULL, NULL, NULL, '/tmp/phpaeekKa', 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-22 00:41:14', '2019-11-22 00:41:17'),
@@ -3248,11 +3099,7 @@ INSERT INTO `transactions` (`id`, `business_id`, `location_id`, `res_table_id`, 
 (15, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 5, NULL, '0005', '', NULL, '2019-11-21 18:00:36', '15.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', 'good', NULL, '15.0000', NULL, NULL, NULL, '/tmp/phpFIKIfb', 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-22 01:00:37', '2019-11-22 01:00:44'),
 (16, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 4, NULL, '0006', '', NULL, '2019-11-21 18:02:42', '30.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', 'good', NULL, '30.0000', NULL, NULL, NULL, '/tmp/phpDNezQA', 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-22 01:02:43', '2019-11-22 01:02:45'),
 (17, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 4, NULL, '0007', '', NULL, '2019-11-21 18:21:06', '345.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '345.0000', NULL, NULL, NULL, '/tmp/phpZB3s2c', 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-22 01:21:06', '2019-11-22 01:21:09'),
-(18, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'draft', 0, NULL, NULL, 4, NULL, '1mKYf', '', NULL, '2019-11-21 18:49:18', '345.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '345.0000', NULL, NULL, NULL, '/tmp/phpZB3s2c', 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-22 01:49:18', '2019-11-22 01:49:18'),
-(19, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 6, NULL, '0008', '', NULL, '2019-11-23 13:37:01', '30.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', 'good', NULL, '30.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-23 20:37:01', '2019-11-23 20:37:02'),
-(20, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 6, NULL, '0009', '', NULL, '2019-11-23 13:37:56', '30.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '30.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-23 20:37:56', '2019-11-23 21:07:00'),
-(21, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 7, NULL, '0010', '', NULL, '2019-11-23 13:44:35', '45.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', 'good', NULL, '45.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-23 20:44:35', '2019-11-23 20:44:36'),
-(22, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 8, NULL, '0011', '', NULL, '2019-11-23 13:55:19', '30.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '30.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-23 20:55:19', '2019-11-23 21:09:31');
+(18, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'draft', 0, NULL, NULL, 4, NULL, '1mKYf', '', NULL, '2019-11-21 18:49:18', '345.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '345.0000', NULL, NULL, NULL, '/tmp/phpZB3s2c', 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-22 01:49:18', '2019-11-22 01:49:18');
 
 -- --------------------------------------------------------
 
@@ -3264,8 +3111,8 @@ CREATE TABLE `transaction_payments` (
   `id` int(10) UNSIGNED NOT NULL,
   `transaction_id` int(11) UNSIGNED DEFAULT NULL,
   `business_id` int(11) DEFAULT NULL,
-  `is_return` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Used during sales to return the change',
-  `amount` decimal(22,4) NOT NULL DEFAULT '0.0000',
+  `is_return` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Used during sales to return the change',
+  `amount` decimal(22,4) NOT NULL DEFAULT 0.0000,
   `method` enum('cash','card','cheque','bank_transfer','custom_pay_1','custom_pay_2','custom_pay_3','other') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `transaction_no` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `card_transaction_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -3300,11 +3147,7 @@ INSERT INTO `transaction_payments` (`id`, `transaction_id`, `business_id`, `is_r
 (4, 12, 1, 0, '30.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-21 17:41:14', 1, 4, NULL, NULL, NULL, 'SP2019/0004', NULL, '2019-11-22 00:41:14', '2019-11-22 00:41:14'),
 (5, 15, 1, 0, '15.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-21 18:00:39', 1, 5, NULL, NULL, NULL, 'SP2019/0005', NULL, '2019-11-22 01:00:39', '2019-11-22 01:00:39'),
 (6, 16, 1, 0, '30.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-21 18:02:43', 1, 4, NULL, NULL, NULL, 'SP2019/0006', NULL, '2019-11-22 01:02:43', '2019-11-22 01:02:43'),
-(7, 17, 1, 0, '345.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-21 18:21:07', 1, 4, NULL, NULL, NULL, 'SP2019/0007', NULL, '2019-11-22 01:21:07', '2019-11-22 01:21:07'),
-(8, 19, 1, 0, '30.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-23 13:37:02', 1, 6, NULL, NULL, NULL, 'SP2019/0008', NULL, '2019-11-23 20:37:02', '2019-11-23 20:37:02'),
-(9, 20, 1, 0, '30.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-23 13:37:57', 1, 6, NULL, NULL, NULL, 'SP2019/0009', NULL, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(10, 21, 1, 0, '45.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-23 13:44:35', 1, 7, NULL, NULL, NULL, 'SP2019/0010', NULL, '2019-11-23 20:44:35', '2019-11-23 20:44:35'),
-(11, 22, 1, 0, '30.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-23 13:55:19', 1, 8, NULL, NULL, NULL, 'SP2019/0011', NULL, '2019-11-23 20:55:19', '2019-11-23 20:55:19');
+(7, 17, 1, 0, '345.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-21 18:21:07', 1, 4, NULL, NULL, NULL, 'SP2019/0007', NULL, '2019-11-22 01:21:07', '2019-11-22 01:21:07');
 
 -- --------------------------------------------------------
 
@@ -3318,17 +3161,17 @@ CREATE TABLE `transaction_sell_lines` (
   `product_id` int(10) UNSIGNED NOT NULL,
   `variation_id` int(10) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
-  `quantity_returned` decimal(20,4) NOT NULL DEFAULT '0.0000',
-  `unit_price_before_discount` decimal(22,4) NOT NULL DEFAULT '0.0000',
+  `quantity_returned` decimal(20,4) NOT NULL DEFAULT 0.0000,
+  `unit_price_before_discount` decimal(22,4) NOT NULL DEFAULT 0.0000,
   `unit_price` decimal(22,4) DEFAULT NULL COMMENT 'Sell price excluding tax',
   `line_discount_type` enum('fixed','percentage') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `line_discount_amount` decimal(22,4) NOT NULL DEFAULT '0.0000',
+  `line_discount_amount` decimal(22,4) NOT NULL DEFAULT 0.0000,
   `unit_price_inc_tax` decimal(22,4) DEFAULT NULL COMMENT 'Sell price including tax',
   `item_tax` decimal(22,4) NOT NULL COMMENT 'Tax for one quantity',
   `tax_id` int(10) UNSIGNED DEFAULT NULL,
   `discount_id` int(11) DEFAULT NULL,
   `lot_no_line_id` int(11) DEFAULT NULL,
-  `sell_line_note` text COLLATE utf8mb4_unicode_ci,
+  `sell_line_note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `res_service_staff_id` int(11) DEFAULT NULL,
   `res_line_order_status` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `parent_sell_line_id` int(11) DEFAULT NULL,
@@ -3344,10 +3187,10 @@ CREATE TABLE `transaction_sell_lines` (
 
 INSERT INTO `transaction_sell_lines` (`id`, `transaction_id`, `product_id`, `variation_id`, `quantity`, `quantity_returned`, `unit_price_before_discount`, `unit_price`, `line_discount_type`, `line_discount_amount`, `unit_price_inc_tax`, `item_tax`, `tax_id`, `discount_id`, `lot_no_line_id`, `sell_line_note`, `res_service_staff_id`, `res_line_order_status`, `parent_sell_line_id`, `children_type`, `sub_unit_id`, `created_at`, `updated_at`) VALUES
 (1, 6, 1, 1, 5, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-21 22:36:22', '2019-11-22 00:38:06'),
-(4, 8, 2, 2, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-21 22:39:38', '2019-11-23 23:52:44'),
-(5, 8, 5, 5, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-21 22:39:38', '2019-11-23 23:52:44'),
-(6, 8, 3, 3, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-21 22:39:38', '2019-11-23 23:52:44'),
-(9, 9, 5, 5, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-21 23:46:37', '2019-11-23 23:53:08'),
+(4, 8, 2, 2, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-21 22:39:38', '2019-11-21 22:39:38'),
+(5, 8, 5, 5, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-21 22:39:38', '2019-11-21 22:39:38'),
+(6, 8, 3, 3, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-21 22:39:38', '2019-11-21 22:39:38'),
+(9, 9, 5, 5, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-21 23:46:37', '2019-11-21 23:46:37'),
 (10, 10, 5, 5, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-22 00:29:44', '2019-11-22 00:33:00'),
 (11, 10, 3, 3, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-22 00:29:44', '2019-11-22 00:33:00'),
 (12, 11, 5, 5, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-22 00:29:47', '2019-11-22 00:29:47'),
@@ -3366,14 +3209,7 @@ INSERT INTO `transaction_sell_lines` (`id`, `transaction_id`, `product_id`, `var
 (26, 18, 1, 1, 8, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-22 01:49:18', '2019-11-22 01:49:18'),
 (27, 18, 2, 2, 7, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-22 01:49:18', '2019-11-22 01:49:18'),
 (28, 18, 3, 3, 5, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-22 01:49:18', '2019-11-22 01:49:18'),
-(29, 18, 5, 5, 3, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-22 01:49:18', '2019-11-22 01:49:18'),
-(30, 19, 1, 1, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-23 20:37:02', '2019-11-23 20:37:02'),
-(31, 19, 2, 2, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-23 20:37:02', '2019-11-23 20:37:02'),
-(32, 20, 1, 1, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-23 20:37:56', '2019-11-23 21:07:00'),
-(33, 20, 2, 2, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-23 20:37:57', '2019-11-23 21:07:00'),
-(34, 21, 3, 3, 3, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-23 20:44:35', '2019-11-23 20:44:35'),
-(35, 22, 2, 2, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-23 20:55:19', '2019-11-23 21:09:31'),
-(36, 22, 3, 3, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-23 20:55:19', '2019-11-23 21:09:31');
+(29, 18, 5, 5, 3, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-22 01:49:18', '2019-11-22 01:49:18');
 
 -- --------------------------------------------------------
 
@@ -3387,7 +3223,7 @@ CREATE TABLE `transaction_sell_lines_purchase_lines` (
   `stock_adjustment_line_id` int(10) UNSIGNED DEFAULT NULL COMMENT 'id from stock_adjustment_lines',
   `purchase_line_id` int(10) UNSIGNED NOT NULL COMMENT 'id from purchase_lines',
   `quantity` decimal(22,4) NOT NULL,
-  `qty_returned` decimal(20,4) NOT NULL DEFAULT '0.0000',
+  `qty_returned` decimal(20,4) NOT NULL DEFAULT 0.0000,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3411,14 +3247,7 @@ INSERT INTO `transaction_sell_lines_purchase_lines` (`id`, `sell_line_id`, `stoc
 (12, 22, NULL, 1, '8.0000', '0.0000', '2019-11-22 01:21:07', '2019-11-22 01:21:07'),
 (13, 23, NULL, 2, '7.0000', '0.0000', '2019-11-22 01:21:07', '2019-11-22 01:21:07'),
 (14, 24, NULL, 3, '5.0000', '0.0000', '2019-11-22 01:21:07', '2019-11-22 01:21:07'),
-(15, 25, NULL, 5, '3.0000', '0.0000', '2019-11-22 01:21:07', '2019-11-22 01:21:07'),
-(16, 30, NULL, 1, '1.0000', '0.0000', '2019-11-23 20:37:02', '2019-11-23 20:37:02'),
-(17, 31, NULL, 2, '1.0000', '0.0000', '2019-11-23 20:37:03', '2019-11-23 20:37:03'),
-(18, 32, NULL, 1, '1.0000', '0.0000', '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(19, 33, NULL, 2, '1.0000', '0.0000', '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
-(20, 34, NULL, 3, '3.0000', '0.0000', '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(21, 35, NULL, 2, '1.0000', '0.0000', '2019-11-23 20:55:19', '2019-11-23 20:55:19'),
-(22, 36, NULL, 3, '1.0000', '0.0000', '2019-11-23 20:55:19', '2019-11-23 20:55:19');
+(15, 25, NULL, 5, '3.0000', '0.0000', '2019-11-22 01:21:07', '2019-11-22 01:21:07');
 
 -- --------------------------------------------------------
 
@@ -3463,13 +3292,13 @@ CREATE TABLE `users` (
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `language` char(4) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'en',
   `contact_no` char(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
+  `address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `business_id` int(10) UNSIGNED DEFAULT NULL,
   `status` enum('active','inactive','terminated') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `is_cmmsn_agnt` tinyint(1) NOT NULL DEFAULT '0',
-  `cmmsn_percent` decimal(4,2) NOT NULL DEFAULT '0.00',
-  `selected_contacts` tinyint(1) NOT NULL DEFAULT '0',
+  `is_cmmsn_agnt` tinyint(1) NOT NULL DEFAULT 0,
+  `cmmsn_percent` decimal(4,2) NOT NULL DEFAULT 0.00,
+  `selected_contacts` tinyint(1) NOT NULL DEFAULT 0,
   `dob` date DEFAULT NULL,
   `marital_status` enum('married','unmarried','divorced') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `blood_group` char(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -3478,14 +3307,14 @@ CREATE TABLE `users` (
   `twitter_link` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `social_media_1` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `social_media_2` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `permanent_address` text COLLATE utf8mb4_unicode_ci,
-  `current_address` text COLLATE utf8mb4_unicode_ci,
+  `permanent_address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `current_address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `guardian_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `custom_field_1` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `custom_field_2` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `custom_field_3` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `custom_field_4` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bank_details` longtext COLLATE utf8mb4_unicode_ci,
+  `bank_details` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_proof_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_proof_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -3526,14 +3355,14 @@ CREATE TABLE `variations` (
   `product_variation_id` int(10) UNSIGNED NOT NULL,
   `variation_value_id` int(11) DEFAULT NULL,
   `default_purchase_price` decimal(22,4) DEFAULT NULL,
-  `dpp_inc_tax` decimal(22,4) NOT NULL DEFAULT '0.0000',
-  `profit_percent` decimal(22,4) NOT NULL DEFAULT '0.0000',
+  `dpp_inc_tax` decimal(22,4) NOT NULL DEFAULT 0.0000,
+  `profit_percent` decimal(22,4) NOT NULL DEFAULT 0.0000,
   `default_sell_price` decimal(22,4) DEFAULT NULL,
   `sell_price_inc_tax` decimal(22,4) DEFAULT NULL COMMENT 'Sell price including tax',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `combo_variations` text COLLATE utf8mb4_unicode_ci COMMENT 'Contains the combo variation details'
+  `combo_variations` text COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Contains the combo variation details'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -3584,9 +3413,9 @@ CREATE TABLE `variation_location_details` (
 --
 
 INSERT INTO `variation_location_details` (`id`, `product_id`, `product_variation_id`, `variation_id`, `location_id`, `qty_available`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, '1085.0000', '2019-11-21 22:30:00', '2019-11-23 20:37:57'),
-(2, 2, 2, 2, 1, '988.0000', '2019-11-21 22:31:26', '2019-11-23 20:55:19'),
-(3, 3, 3, 3, 1, '988.0000', '2019-11-21 22:32:05', '2019-11-23 20:55:19'),
+(1, 1, 1, 1, 1, '1087.0000', '2019-11-21 22:30:00', '2019-11-22 02:00:06'),
+(2, 2, 2, 2, 1, '991.0000', '2019-11-21 22:31:26', '2019-11-22 01:21:07'),
+(3, 3, 3, 3, 1, '992.0000', '2019-11-21 22:32:05', '2019-11-22 01:21:07'),
 (4, 4, 4, 4, 1, '1000.0000', '2019-11-21 22:33:02', '2019-11-21 22:33:02'),
 (5, 5, 5, 5, 1, '993.0000', '2019-11-21 22:33:46', '2019-11-22 01:21:07');
 
@@ -4124,7 +3953,7 @@ ALTER TABLE `account_transactions`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `barcodes`
@@ -4184,7 +4013,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `currencies`
@@ -4208,7 +4037,7 @@ ALTER TABLE `discounts`
 -- AUTO_INCREMENT for table `event_menus`
 --
 ALTER TABLE `event_menus`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `event_menu_items`
@@ -4226,7 +4055,7 @@ ALTER TABLE `expense_categories`
 -- AUTO_INCREMENT for table `groceries`
 --
 ALTER TABLE `groceries`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3493;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3425;
 
 --
 -- AUTO_INCREMENT for table `invoice_layouts`
@@ -4262,7 +4091,7 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `menu_items`
 --
 ALTER TABLE `menu_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -4358,25 +4187,25 @@ ALTER TABLE `tax_rates`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `transaction_payments`
 --
 ALTER TABLE `transaction_payments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `transaction_sell_lines`
 --
 ALTER TABLE `transaction_sell_lines`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `transaction_sell_lines_purchase_lines`
 --
 ALTER TABLE `transaction_sell_lines_purchase_lines`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `units`

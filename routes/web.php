@@ -116,6 +116,7 @@ Route::get('/clear-cache', function() {
     Route::get('/sells/subscriptions', 'SellPosController@listSubscriptions');
     Route::get('/sells/invoice-url/{id}', 'SellPosController@showInvoiceUrl');
     Route::get('/sells/grocery-modal/{id}', 'SellPosController@groceryModalShow');
+    Route::get('/sells/menu-modal/{id}', 'SellPosController@menuModalShow');
     Route::get('/sells/duplicate/{id}', 'SellController@duplicateSell');
     Route::get('/sells/drafts', 'SellController@getDrafts');
     Route::get('/sells/quotations', 'SellController@getQuotations');

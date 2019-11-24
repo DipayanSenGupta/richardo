@@ -37,7 +37,7 @@
                 <th>Booking Date & Time </th>
                 <th>Event Date & Time</th>
                 <th>Event Venue</th>
-                <th>Number of Guests</th>
+                <th>No. of Guests</th>
                 <th>Grocery</th>
                 <th>Menu</th>  
                 <th>Action</th>

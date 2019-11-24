@@ -188,7 +188,7 @@
     <a href="{{ asset('files/groceries.xlsx') }}" class="btn btn-success" download><i class="fa fa-download"></i> Download grocery template </a>
 </div>
 <div class="col-sm-3">
-    <a href="{{ asset('files/groceries.xlsx') }}" class="btn btn-success" download><i class="fa fa-download"></i> Download menu template </a>
+    <a href="{{ asset('files/menus.xlsx') }}" class="btn btn-success" download><i class="fa fa-download"></i> Download menu template </a>
 </div>
 
 <div class="clearfix"></div>
