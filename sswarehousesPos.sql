@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 23, 2019 at 08:18 PM
+-- Generation Time: Nov 24, 2019 at 03:16 AM
 -- Server version: 5.6.44-cll-lve
 -- PHP Version: 7.2.7
 
@@ -104,7 +104,8 @@ INSERT INTO `activity_log` (`id`, `log_name`, `description`, `subject_id`, `subj
 (12, 'default', 'edited', 22, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-23 21:09:31', '2019-11-23 21:09:31'),
 (13, 'default', 'edited', 8, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-23 23:51:43', '2019-11-23 23:51:43'),
 (14, 'default', 'edited', 8, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-23 23:52:45', '2019-11-23 23:52:45'),
-(15, 'default', 'edited', 9, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-23 23:53:08', '2019-11-23 23:53:08');
+(15, 'default', 'edited', 9, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
+(16, 'default', 'edited', 24, 'App\\Transaction', 1, 'App\\User', '[]', '2019-11-24 19:28:51', '2019-11-24 19:28:51');
 
 -- --------------------------------------------------------
 
@@ -275,7 +276,7 @@ CREATE TABLE `business` (
 --
 
 INSERT INTO `business` (`id`, `name`, `currency_id`, `start_date`, `tax_number_1`, `tax_label_1`, `tax_number_2`, `tax_label_2`, `default_sales_tax`, `default_profit_percent`, `owner_id`, `time_zone`, `fy_start_month`, `accounting_method`, `default_sales_discount`, `sell_price_tax`, `logo`, `sku_prefix`, `enable_product_expiry`, `expiry_type`, `on_product_expiry`, `stop_selling_before`, `enable_tooltip`, `purchase_in_diff_currency`, `purchase_currency_id`, `p_exchange_rate`, `transaction_edit_days`, `stock_expiry_alert_days`, `keyboard_shortcuts`, `pos_settings`, `enable_brand`, `enable_category`, `enable_sub_category`, `enable_price_tax`, `enable_purchase_status`, `enable_lot_number`, `default_unit`, `enable_sub_units`, `enable_racks`, `enable_row`, `enable_position`, `enable_editing_product_from_purchase`, `sales_cmsn_agnt`, `item_addition_method`, `enable_inline_tax`, `currency_symbol_placement`, `enabled_modules`, `date_format`, `time_format`, `ref_no_prefixes`, `theme_color`, `created_by`, `enable_rp`, `rp_name`, `amount_for_unit_rp`, `min_order_total_for_rp`, `max_rp_per_order`, `redeem_amount_per_unit_rp`, `min_order_total_for_redeem`, `min_redeem_point`, `max_redeem_point`, `rp_expiry_period`, `rp_expiry_type`, `email_settings`, `sms_settings`, `custom_labels`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'sswarehouse', 8, '2019-11-21', NULL, NULL, NULL, NULL, NULL, 25.00, 1, 'Asia/Dhaka', 1, 'fifo', NULL, 'includes', '1574318915_13770518_653212391499359_2924854886557270332_n.jpg', NULL, 0, 'add_expiry', 'keep_selling', 0, 1, 0, NULL, '1.000', 30, 30, '{\"pos\":{\"express_checkout\":\"shift+e\",\"pay_n_ckeckout\":\"shift+p\",\"draft\":\"shift+d\",\"cancel\":\"shift+c\",\"edit_discount\":\"shift+i\",\"edit_order_tax\":\"shift+t\",\"add_payment_row\":\"shift+r\",\"finalize_payment\":\"shift+f\",\"recent_product_quantity\":\"f2\",\"add_new_product\":\"f4\"}}', NULL, 1, 1, 1, 1, 1, 0, NULL, 0, 0, 0, 0, 1, NULL, 1, 0, 'before', NULL, 'm/d/Y', '24', '{\"purchase\":\"PO\",\"stock_transfer\":\"ST\",\"stock_adjustment\":\"SA\",\"sell_return\":\"CN\",\"expense\":\"EP\",\"contacts\":\"CO\",\"purchase_payment\":\"PP\",\"sell_payment\":\"SP\",\"business_location\":\"BL\"}', NULL, NULL, 0, NULL, '1.0000', '1.0000', NULL, '1.0000', '1.0000', NULL, NULL, NULL, 'year', NULL, NULL, NULL, 1, '2019-11-21 19:18:35', '2019-11-21 19:18:35');
+(1, 'sswarehouse', 134, '2019-11-21', NULL, NULL, NULL, NULL, NULL, 25.00, 1, 'Asia/Dhaka', 1, 'fifo', '0.00', 'includes', '1574318915_13770518_653212391499359_2924854886557270332_n.jpg', NULL, 0, 'add_expiry', 'keep_selling', 0, 1, 0, NULL, '1.000', 30, 30, '{\"pos\":{\"express_checkout\":\"shift+e\",\"pay_n_ckeckout\":\"shift+p\",\"draft\":\"shift+d\",\"cancel\":\"shift+c\",\"recent_product_quantity\":\"f2\",\"edit_discount\":\"shift+i\",\"edit_order_tax\":\"shift+t\",\"add_payment_row\":\"shift+r\",\"finalize_payment\":\"shift+f\",\"add_new_product\":\"f4\"}}', '{\"disable_pay_checkout\":0,\"disable_draft\":0,\"disable_express_checkout\":0,\"hide_product_suggestion\":0,\"hide_recent_trans\":0,\"disable_discount\":0,\"disable_order_tax\":0,\"is_pos_subtotal_editable\":0}', 1, 1, 1, 1, 1, 0, NULL, 0, 0, 0, 0, 1, NULL, 1, 0, 'before', NULL, 'd-m-Y', '24', '{\"purchase\":\"PO\",\"purchase_return\":null,\"stock_transfer\":\"ST\",\"stock_adjustment\":\"SA\",\"sell_return\":\"CN\",\"expense\":\"EP\",\"contacts\":\"CO\",\"purchase_payment\":\"PP\",\"sell_payment\":\"SP\",\"expense_payment\":null,\"business_location\":\"BL\",\"username\":null,\"subscription\":null}', NULL, NULL, 0, NULL, '1.0000', '1.0000', NULL, '1.0000', '1.0000', NULL, NULL, NULL, 'year', '{\"mail_driver\":\"smtp\",\"mail_host\":null,\"mail_port\":null,\"mail_username\":null,\"mail_password\":null,\"mail_encryption\":null,\"mail_from_address\":null,\"mail_from_name\":null}', '{\"url\":null,\"send_to_param_name\":\"to\",\"msg_param_name\":\"text\",\"request_method\":\"post\",\"param_1\":null,\"param_val_1\":null,\"param_2\":null,\"param_val_2\":null,\"param_3\":null,\"param_val_3\":null,\"param_4\":null,\"param_val_4\":null,\"param_5\":null,\"param_val_5\":null,\"param_6\":null,\"param_val_6\":null,\"param_7\":null,\"param_val_7\":null,\"param_8\":null,\"param_val_8\":null,\"param_9\":null,\"param_val_9\":null,\"param_10\":null,\"param_val_10\":null}', '{\"payments\":{\"custom_pay_1\":null,\"custom_pay_2\":null,\"custom_pay_3\":null}}', 1, '2019-11-21 19:18:35', '2019-11-24 22:29:38');
 
 -- --------------------------------------------------------
 
@@ -659,6 +660,32 @@ CREATE TABLE `discounts` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `event_bookings`
+--
+
+CREATE TABLE `event_bookings` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `event_menu_id` int(10) UNSIGNED NOT NULL,
+  `business_id` int(10) UNSIGNED NOT NULL,
+  `booking_time` datetime NOT NULL,
+  `event_time` datetime NOT NULL,
+  `booking_status` enum('Proposed','Final','Completed') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `booking_note` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `event_bookings`
+--
+
+INSERT INTO `event_bookings` (`id`, `event_menu_id`, `business_id`, `booking_time`, `event_time`, `booking_status`, `booking_note`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, '2019-11-24 09:45:43', '2019-11-24 09:46:00', 'Completed', NULL, '2019-11-24 03:47:10', '2019-11-24 03:47:10'),
+(3, 17, 1, '2019-11-24 12:16:00', '2019-11-30 12:16:00', 'Proposed', 'Keyamots wedding Celberation', '2019-11-24 19:28:51', '2019-11-24 19:28:51');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `event_menus`
 --
 
@@ -694,7 +721,8 @@ INSERT INTO `event_menus` (`id`, `name`, `type`, `venue`, `attendences`, `bookin
 (13, 'Jahan\'s Reception', 'Reception', 'ShenaKunjo', 500, '2019-11-23 13:34:00', '2019-11-25 13:35:00', 19, '2019-11-23 20:37:04', '2019-11-23 20:37:04'),
 (14, 'Jahan\'s Reception', 'Reception', 'ShenaKunjo', 500, '2019-11-23 13:34:00', '2019-11-25 13:35:00', 20, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
 (15, 'Nurjahans holud', 'Holud', 'Emanuels', 500, '2019-11-23 13:43:00', '2019-11-28 13:43:00', 21, '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
-(16, 'Karuns Reception', 'Reception', 'Jatrabi Biye Ghor', 500, '2019-11-23 13:53:00', '2019-11-27 13:54:00', 22, '2019-11-23 20:55:20', '2019-11-23 20:55:20');
+(16, 'Karuns Reception', 'Reception', 'Jatrabi Biye Ghor', 500, '2019-11-23 13:53:00', '2019-11-27 13:54:00', 22, '2019-11-23 20:55:20', '2019-11-23 20:55:20'),
+(17, 'Keyamots wedding', 'Wedding', 'PSC', 700, '2019-11-24 12:16:00', '2019-11-30 12:16:00', 24, '2019-11-24 19:19:00', '2019-11-24 19:28:51');
 
 -- --------------------------------------------------------
 
@@ -2138,7 +2166,24 @@ INSERT INTO `groceries` (`id`, `name`, `quantity`, `event_menu_id`, `created_at`
 (3489, 'Propane, kerosene and firewood', '12', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
 (3490, 'Flour and prepared flour mixes', '12', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
 (3491, 'Bacon and related products', '12', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
-(3492, 'Fresh, whole chicken', '32', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21');
+(3492, 'Fresh, whole chicken', '32', 16, '2019-11-23 20:55:21', '2019-11-23 20:55:21'),
+(3493, 'Eg', '5', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3494, 'Shelf stable fish and seafood', '5', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3495, 'Rice, pasta, cornmeal\n', '5', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3496, 'Frankfurters\n', '5', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3497, 'Bread', '5', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3498, 'Oranges, including tangerines', '12', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3499, 'Apples', '14', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3500, 'Prescription drugs', '14', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3501, 'Canned vegetables', '12', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3502, 'Pet food', '12', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3503, 'Roasted coffee', '2', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3504, 'Potatoes', '2', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3505, 'Bakery products', '53', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3506, 'Propane, kerosene and firewood', '12', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3507, 'Flour and prepared flour mixes', '12', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3508, 'Bacon and related products', '12', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(3509, 'Fresh, whole chicken', '32', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00');
 
 -- --------------------------------------------------------
 
@@ -2268,7 +2313,7 @@ CREATE TABLE `invoice_schemes` (
 --
 
 INSERT INTO `invoice_schemes` (`id`, `business_id`, `name`, `scheme_type`, `prefix`, `start_number`, `invoice_count`, `total_digits`, `is_default`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Default', 'blank', '', 1, 11, 4, 1, '2019-11-21 19:18:36', '2019-11-23 20:55:19');
+(1, 1, 'Default', 'blank', '', 1, 13, 4, 1, '2019-11-21 19:18:36', '2019-11-24 19:18:58');
 
 -- --------------------------------------------------------
 
@@ -2395,7 +2440,21 @@ INSERT INTO `menu_items` (`id`, `name`, `quantity`, `event_menu_id`, `created_at
 (78, 'Doi Chira', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
 (79, 'Rasmalai', '15kg', 4, '2019-11-23 23:53:08', '2019-11-23 23:53:08'),
 (80, 'Borhani', '15kg', 4, '2019-11-23 23:53:09', '2019-11-23 23:53:09'),
-(81, 'Sweet Lassi', '15kg', 4, '2019-11-23 23:53:09', '2019-11-23 23:53:09');
+(81, 'Sweet Lassi', '15kg', 4, '2019-11-23 23:53:09', '2019-11-23 23:53:09'),
+(82, 'Bhuna Khichuri', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(83, 'Bread', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(84, 'Rice with Curry', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(85, 'Vorta', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(86, 'Daal', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(87, 'Grilled Chicken with Naan Roti', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(88, 'Haleem', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(89, 'Sheek Kabab', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(90, 'Fuchka', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(91, 'Misti Doi', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(92, 'Doi Chira', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(93, 'Rasmalai', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(94, 'Borhani', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00'),
+(95, 'Sweet Lassi', '15kg', 17, '2019-11-24 19:19:00', '2019-11-24 19:19:00');
 
 -- --------------------------------------------------------
 
@@ -2956,12 +3015,12 @@ CREATE TABLE `purchase_lines` (
 --
 
 INSERT INTO `purchase_lines` (`id`, `transaction_id`, `product_id`, `variation_id`, `quantity`, `pp_without_discount`, `discount_percent`, `purchase_price`, `purchase_price_inc_tax`, `item_tax`, `tax_id`, `quantity_sold`, `quantity_adjusted`, `quantity_returned`, `mfg_quantity_used`, `mfg_date`, `exp_date`, `lot_number`, `sub_unit_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '15.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:30:00', '2019-11-23 20:37:57'),
-(2, 2, 2, 2, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '12.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:31:26', '2019-11-23 20:55:19'),
+(1, 1, 1, 1, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '16.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:30:00', '2019-11-24 19:18:58'),
+(2, 2, 2, 2, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '14.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:31:26', '2019-11-24 19:18:59'),
 (3, 3, 3, 3, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '12.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:32:05', '2019-11-23 20:55:19'),
-(4, 4, 4, 4, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '0.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:33:02', '2019-11-21 22:33:02'),
+(4, 4, 4, 4, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '1.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:33:02', '2019-11-24 19:17:47'),
 (5, 5, 5, 5, 1000, '12.0000', '0.00', '12.0000', '12.0000', '0.0000', NULL, '7.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-21 22:33:46', '2019-11-22 01:21:07'),
-(6, 1, 1, 1, 100, '20.0000', '0.00', '20.0000', '20.0000', '0.0000', NULL, '0.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-22 02:00:06', '2019-11-22 02:00:06');
+(6, 1, 1, 1, 100, '20.0000', '0.00', '20.0000', '20.0000', '0.0000', NULL, '1.0000', '0.0000', '0.0000', '0.0000', NULL, NULL, NULL, NULL, '2019-11-22 02:00:06', '2019-11-24 19:17:47');
 
 -- --------------------------------------------------------
 
@@ -2985,7 +3044,7 @@ CREATE TABLE `reference_counts` (
 INSERT INTO `reference_counts` (`id`, `ref_type`, `ref_count`, `business_id`, `created_at`, `updated_at`) VALUES
 (1, 'contacts', 8, 1, '2019-11-21 19:18:35', '2019-11-23 20:54:08'),
 (2, 'business_location', 1, 1, '2019-11-21 19:18:36', '2019-11-21 19:18:36'),
-(3, 'sell_payment', 11, 1, '2019-11-21 22:36:22', '2019-11-23 20:55:19');
+(3, 'sell_payment', 13, 1, '2019-11-21 22:36:22', '2019-11-24 19:18:58');
 
 -- --------------------------------------------------------
 
@@ -3252,7 +3311,9 @@ INSERT INTO `transactions` (`id`, `business_id`, `location_id`, `res_table_id`, 
 (19, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 6, NULL, '0008', '', NULL, '2019-11-23 13:37:01', '30.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', 'good', NULL, '30.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-23 20:37:01', '2019-11-23 20:37:02'),
 (20, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 6, NULL, '0009', '', NULL, '2019-11-23 13:37:56', '30.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '30.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-23 20:37:56', '2019-11-23 21:07:00'),
 (21, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 7, NULL, '0010', '', NULL, '2019-11-23 13:44:35', '45.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', 'good', NULL, '45.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-23 20:44:35', '2019-11-23 20:44:36'),
-(22, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 8, NULL, '0011', '', NULL, '2019-11-23 13:55:19', '30.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '30.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-23 20:55:19', '2019-11-23 21:09:31');
+(22, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 8, NULL, '0011', '', NULL, '2019-11-23 13:55:19', '30.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', NULL, NULL, '30.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-23 20:55:19', '2019-11-23 21:09:31'),
+(23, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 7, NULL, '0012', '', NULL, '2019-11-24 12:17:46', '45.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', 'Keyamots wedding', NULL, '45.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'days', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-24 19:17:46', '2019-11-24 19:17:47'),
+(24, 1, 1, NULL, NULL, NULL, 'sell', NULL, 'final', 0, 'paid', NULL, 1, NULL, '0013', '', NULL, '2019-11-24 12:18:58', '30.0000', NULL, '0.0000', 'percentage', '0', 0, '0.0000', NULL, '0.0000', 'Keyamots wedding Celberation', NULL, '30.0000', NULL, NULL, NULL, NULL, 1, 0, '1.000', NULL, NULL, NULL, NULL, 1, 0, 0, NULL, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-24 19:18:58', '2019-11-24 19:28:51');
 
 -- --------------------------------------------------------
 
@@ -3304,7 +3365,9 @@ INSERT INTO `transaction_payments` (`id`, `transaction_id`, `business_id`, `is_r
 (8, 19, 1, 0, '30.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-23 13:37:02', 1, 6, NULL, NULL, NULL, 'SP2019/0008', NULL, '2019-11-23 20:37:02', '2019-11-23 20:37:02'),
 (9, 20, 1, 0, '30.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-23 13:37:57', 1, 6, NULL, NULL, NULL, 'SP2019/0009', NULL, '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
 (10, 21, 1, 0, '45.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-23 13:44:35', 1, 7, NULL, NULL, NULL, 'SP2019/0010', NULL, '2019-11-23 20:44:35', '2019-11-23 20:44:35'),
-(11, 22, 1, 0, '30.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-23 13:55:19', 1, 8, NULL, NULL, NULL, 'SP2019/0011', NULL, '2019-11-23 20:55:19', '2019-11-23 20:55:19');
+(11, 22, 1, 0, '30.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-23 13:55:19', 1, 8, NULL, NULL, NULL, 'SP2019/0011', NULL, '2019-11-23 20:55:19', '2019-11-23 20:55:19'),
+(12, 23, 1, 0, '45.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-24 12:17:47', 1, 7, NULL, NULL, NULL, 'SP2019/0012', NULL, '2019-11-24 19:17:47', '2019-11-24 19:17:47'),
+(13, 24, 1, 0, '30.0000', 'cash', NULL, NULL, NULL, 'credit', NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-24 12:18:58', 1, 1, NULL, NULL, NULL, 'SP2019/0013', NULL, '2019-11-24 19:18:58', '2019-11-24 19:18:58');
 
 -- --------------------------------------------------------
 
@@ -3373,7 +3436,12 @@ INSERT INTO `transaction_sell_lines` (`id`, `transaction_id`, `product_id`, `var
 (33, 20, 2, 2, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-23 20:37:57', '2019-11-23 21:07:00'),
 (34, 21, 3, 3, 3, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-23 20:44:35', '2019-11-23 20:44:35'),
 (35, 22, 2, 2, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-23 20:55:19', '2019-11-23 21:09:31'),
-(36, 22, 3, 3, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-23 20:55:19', '2019-11-23 21:09:31');
+(36, 22, 3, 3, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-23 20:55:19', '2019-11-23 21:09:31'),
+(37, 23, 1, 1, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-24 19:17:46', '2019-11-24 19:17:46'),
+(38, 23, 2, 2, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-24 19:17:47', '2019-11-24 19:17:47'),
+(39, 23, 4, 4, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-24 19:17:47', '2019-11-24 19:17:47'),
+(40, 24, 1, 1, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-24 19:18:58', '2019-11-24 19:28:51'),
+(41, 24, 2, 2, 1, '0.0000', '15.0000', '15.0000', 'fixed', '0.0000', '15.0000', '0.0000', NULL, NULL, NULL, '', NULL, NULL, NULL, '', NULL, '2019-11-24 19:18:58', '2019-11-24 19:28:51');
 
 -- --------------------------------------------------------
 
@@ -3418,7 +3486,12 @@ INSERT INTO `transaction_sell_lines_purchase_lines` (`id`, `sell_line_id`, `stoc
 (19, 33, NULL, 2, '1.0000', '0.0000', '2019-11-23 20:37:57', '2019-11-23 20:37:57'),
 (20, 34, NULL, 3, '3.0000', '0.0000', '2019-11-23 20:44:36', '2019-11-23 20:44:36'),
 (21, 35, NULL, 2, '1.0000', '0.0000', '2019-11-23 20:55:19', '2019-11-23 20:55:19'),
-(22, 36, NULL, 3, '1.0000', '0.0000', '2019-11-23 20:55:19', '2019-11-23 20:55:19');
+(22, 36, NULL, 3, '1.0000', '0.0000', '2019-11-23 20:55:19', '2019-11-23 20:55:19'),
+(23, 37, NULL, 6, '1.0000', '0.0000', '2019-11-24 19:17:47', '2019-11-24 19:17:47'),
+(24, 38, NULL, 2, '1.0000', '0.0000', '2019-11-24 19:17:47', '2019-11-24 19:17:47'),
+(25, 39, NULL, 4, '1.0000', '0.0000', '2019-11-24 19:17:47', '2019-11-24 19:17:47'),
+(26, 40, NULL, 1, '1.0000', '0.0000', '2019-11-24 19:18:58', '2019-11-24 19:18:58'),
+(27, 41, NULL, 2, '1.0000', '0.0000', '2019-11-24 19:18:59', '2019-11-24 19:18:59');
 
 -- --------------------------------------------------------
 
@@ -3498,7 +3571,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `surname`, `first_name`, `last_name`, `username`, `email`, `password`, `language`, `contact_no`, `address`, `remember_token`, `business_id`, `status`, `is_cmmsn_agnt`, `cmmsn_percent`, `selected_contacts`, `dob`, `marital_status`, `blood_group`, `contact_number`, `fb_link`, `twitter_link`, `social_media_1`, `social_media_2`, `permanent_address`, `current_address`, `guardian_name`, `custom_field_1`, `custom_field_2`, `custom_field_3`, `custom_field_4`, `bank_details`, `id_proof_name`, `id_proof_number`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Mr', 'Shiraji', 'Islam', 'sygmaz', 'info@sswarehouses.com', '$2y$10$1E4JLV.TRapNRvuirh7gouK8pnLyN9gDjY0THw0La87EAdqRzreta', 'en', NULL, NULL, 'MKOsYkZV31XGuueRL1uw8pRzuhz94a0cWDG1UDkJUqYPzgbMqaE1ENMrsZa4', 1, 'active', 0, '0.00', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-21 19:18:35', '2019-11-21 19:18:35');
+(1, 'Mr', 'Shiraji', 'Islam', 'sygmaz', 'info@sswarehouses.com', '$2y$10$1E4JLV.TRapNRvuirh7gouK8pnLyN9gDjY0THw0La87EAdqRzreta', 'en', NULL, NULL, 'xIeyIgY2HSCQIrCEGegLe2vBYdcsRbaedIUUEKzqCNYWWQj5hpVtpqd5HXQx', 1, 'active', 0, '0.00', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-11-21 19:18:35', '2019-11-21 19:18:35');
 
 -- --------------------------------------------------------
 
@@ -3584,10 +3657,10 @@ CREATE TABLE `variation_location_details` (
 --
 
 INSERT INTO `variation_location_details` (`id`, `product_id`, `product_variation_id`, `variation_id`, `location_id`, `qty_available`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, '1085.0000', '2019-11-21 22:30:00', '2019-11-23 20:37:57'),
-(2, 2, 2, 2, 1, '988.0000', '2019-11-21 22:31:26', '2019-11-23 20:55:19'),
+(1, 1, 1, 1, 1, '1083.0000', '2019-11-21 22:30:00', '2019-11-24 19:18:58'),
+(2, 2, 2, 2, 1, '986.0000', '2019-11-21 22:31:26', '2019-11-24 19:18:58'),
 (3, 3, 3, 3, 1, '988.0000', '2019-11-21 22:32:05', '2019-11-23 20:55:19'),
-(4, 4, 4, 4, 1, '1000.0000', '2019-11-21 22:33:02', '2019-11-21 22:33:02'),
+(4, 4, 4, 4, 1, '999.0000', '2019-11-21 22:33:02', '2019-11-24 19:17:47'),
 (5, 5, 5, 5, 1, '993.0000', '2019-11-21 22:33:46', '2019-11-22 01:21:07');
 
 -- --------------------------------------------------------
@@ -3752,6 +3825,14 @@ ALTER TABLE `discounts`
   ADD KEY `discounts_category_id_index` (`category_id`),
   ADD KEY `discounts_location_id_index` (`location_id`),
   ADD KEY `discounts_priority_index` (`priority`);
+
+--
+-- Indexes for table `event_bookings`
+--
+ALTER TABLE `event_bookings`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `event_bookings_event_menu_id_foreign` (`event_menu_id`),
+  ADD KEY `event_bookings_business_id_foreign` (`business_id`);
 
 --
 -- Indexes for table `event_menus`
@@ -4124,7 +4205,7 @@ ALTER TABLE `account_transactions`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `barcodes`
@@ -4205,10 +4286,16 @@ ALTER TABLE `discounts`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `event_bookings`
+--
+ALTER TABLE `event_bookings`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `event_menus`
 --
 ALTER TABLE `event_menus`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `event_menu_items`
@@ -4226,7 +4313,7 @@ ALTER TABLE `expense_categories`
 -- AUTO_INCREMENT for table `groceries`
 --
 ALTER TABLE `groceries`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3493;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3510;
 
 --
 -- AUTO_INCREMENT for table `invoice_layouts`
@@ -4262,7 +4349,7 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `menu_items`
 --
 ALTER TABLE `menu_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -4358,25 +4445,25 @@ ALTER TABLE `tax_rates`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `transaction_payments`
 --
 ALTER TABLE `transaction_payments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `transaction_sell_lines`
 --
 ALTER TABLE `transaction_sell_lines`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `transaction_sell_lines_purchase_lines`
 --
 ALTER TABLE `transaction_sell_lines_purchase_lines`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `units`
@@ -4499,6 +4586,13 @@ ALTER TABLE `contacts`
 --
 ALTER TABLE `customer_groups`
   ADD CONSTRAINT `customer_groups_business_id_foreign` FOREIGN KEY (`business_id`) REFERENCES `business` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `event_bookings`
+--
+ALTER TABLE `event_bookings`
+  ADD CONSTRAINT `event_bookings_business_id_foreign` FOREIGN KEY (`business_id`) REFERENCES `business` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `event_bookings_event_menu_id_foreign` FOREIGN KEY (`event_menu_id`) REFERENCES `event_menus` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `event_menus`
