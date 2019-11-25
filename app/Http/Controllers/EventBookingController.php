@@ -47,17 +47,42 @@ class EventBookingController extends Controller
             $customer_name = Contact::find($contact_id)->name;
             $backgroundColor = '#3c8dbc';
             $borderColor = '#3c8dbc';
-            if ($booking->booking_status == 'completed') {
+            if ($booking->booking_status == 'Completed') {
                 $backgroundColor = '#00a65a';
                 $borderColor = '#00a65a';
-            } elseif ($booking->booking_status == 'cancelled') {
-                $backgroundColor = '#f56954';
-                $borderColor = '#f56954';
+            }elseif ($booking->booking_status == 'Final') {
+                if($booking->event_time < \Carbon::now()){
+                    $booking->booking_status = 'Completed';
+                    $booking->save();
+                    $backgroundColor = '#00a65a';
+                    $borderColor = '##00a65a';
+                }
+                else{
+                    $backgroundColor = '#3c8dbc';
+                    $borderColor = '#3c8dbc';
+                }
+            } elseif ($booking->booking_status == 'Proposed') {
+                if($booking->event_time < \Carbon::now()){
+                    $booking->booking_status = 'Completed';
+                    $booking->save();
+                    $backgroundColor = '#00a65a';
+                    $borderColor = '#00a65a';
+                }
+                else  {
+                    $backgroundColor = '#f39c12';
+                    $borderColor = '#f39c12';
+                }
             }
                 $title = $event_name;
     
-                $title .= ' - ' .'( '. $customer_name.' )';
-            
+                // $grocery_html= ' <button type="button" class="btn btn-info btn-xs"><a href="#" data-href="' . action("SellPosController@groceryModalShow", [$booking->eventmenu->transaction->id]) . '" 
+                //                         class="btn-modal" data-container=".view_modal" style="color:white;"> 
+                //                          '. "grocery" . '</a></button> &nbsp;';
+                // $menu_html= ' <button type="button" class="btn btn-info btn-xs"><a href="#" data-href="' . action("SellPosController@menuModalShow", [$booking->eventmenu->transaction->id]) . '" 
+                //                         class="btn-modal" data-container=".view_modal" style="color:white;"> 
+                //                          '. "grocery" . '</a></button> &nbsp;';
+                
+                // $title = $title . $grocery_html . $menu_html;
                 $events[] = [
                     'title' => $title,
                     'start' => $booking->event_time,
@@ -66,7 +91,7 @@ class EventBookingController extends Controller
                     'url' => action('EventBookingController@show', [ $booking->id ]),
                     'backgroundColor' => $backgroundColor,
                     'borderColor'     => $borderColor,
-                    'allDay'          => true
+                    // 'allDay'          => true
                 ];
         }
         

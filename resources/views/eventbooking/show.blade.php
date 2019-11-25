@@ -3,7 +3,7 @@
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<h4 class="modal-title">Event Details</h4>
-			</div>
+		</div>
 
 			<div class="modal-body">
 				<div class="row">
@@ -18,18 +18,29 @@
 						<strong>Booking Time:</strong> {{@format_date($eventMenu->booking_time)}} <br>
 						<strong>Event Time:</strong> {{@format_date($eventMenu->event_time)}} <br>
 						<br>
-                        <button type="button" class="btn btn-info"><a href="#" data-href="{{route('sells.edit', $eventMenu->id)}}" 
-                        class="btn-modal" data-container=".view_modal" style="color:white;"> 
-                        Edit</a></button>
 					</div>
 				</div>
 		
 	
 			<br>
 			<div class="modal-footer">
+			 <button type="button" class="btn btn-info"><a href="{{route('sells.edit',  ['id'=>$eventMenu->id])}}" 
+                        target="_blank" style="color:white;"> 
+                        Edit</a></button>
+                        
+            <button type="button" class="btn btn-info"><a href="#" 
+                        data-href="{{route('event.grocery',  ['id'=>$eventMenu->transaction->id])}}" 
+                                        class="btn-modal" data-container=".view_modal" style="color:white;">
+                                         Grocery</a></button>
+            <button type="button" class="btn btn-info"><a href="#" 
+                        data-href="{{route('event.menu',  ['id'=>$eventMenu->transaction->id])}}" 
+                                        class="btn-modal" data-container=".view_modal" style="color:white;">
+                                         Menu</a></button>
+                                         
 			<button type="button" class="btn btn-default" data-dismiss="modal">@lang( 'messages.close' )</button>
+            
 			</div>
-		
+	    </div>
 
 	</div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->

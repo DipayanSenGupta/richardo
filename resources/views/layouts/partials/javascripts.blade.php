@@ -124,6 +124,49 @@
     <script src="{{ asset('js/lang/en.js?v=' . $asset_v) }}"></script>
 @endif
 
+<!--Event booking js -->
+    <script src="{{ asset('plugins/fullcalendar/fullcalendar.min.js?v=' . $asset_v) }}"></script>
+
+@php
+    $fullcalendar_lang_file = session()->get('user.language', config('app.locale') ) . '.js';
+@endphp
+@if(file_exists(public_path() . '/plugins/fullcalendar/locale/' . $fullcalendar_lang_file))
+    <script src="{{ asset('plugins/fullcalendar/locale/' . $fullcalendar_lang_file . '?v=' . $asset_v) }}"></script>
+@endif
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+            clickCount = 0;
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listWeek'
+                },
+                eventLimit: 2,
+                events: '/event-bookings',
+                eventRender: function (event, element) {
+                    var title_html = event.title;
+                    element.find('.fc-title').html(title_html);
+                    element.attr('data-href', event.url);
+                    element.attr('data-container', '.view_modal');
+                    element.addClass('btn-modal');
+                }
+            });
+        });
+        
+        $(document).on('change', 'select#booking_location_id', function(){
+            getLocationTables($(this).val());
+        });
+
+        $(document).on('change', 'select#business_location_id', function(){
+            reload_calendar();
+            todays_bookings_table.ajax.reload();
+        });
+
+    </script>
+<!--Event booking js -->
+
 <script src="{{ asset('js/functions.js?v=' . $asset_v) }}"></script>
 <script src="{{ asset('js/common.js?v=' . $asset_v) }}"></script>
 <script src="{{ asset('js/app.js?v=' . $asset_v) }}"></script>

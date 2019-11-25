@@ -14,10 +14,10 @@ class Transaction extends Model
      * @var array
      */
     protected $guarded = ['id'];
-    
+    // Doesnot work
     public function eventMenu()
     {
-     return $this->hasOne(\App\EventMenu::class,'transaction_id');
+     return $this->hasOne('App\EventMenu');
     }
     
     public function purchase_lines()

@@ -724,17 +724,9 @@ class SellController extends Controller
         $edit_price = auth()->user()->can('edit_product_price_from_sale_screen');
         $menus = Menu::pluck('name', 'id');
 
-        $eventMenu = Transaction::find($transaction->id)->eventMenu;
+        $eventMenu = EventMenu::find($transaction->id);
         $eventMenu->booking_time = $this->transactionUtil->format_date($eventMenu->booking_time, true);
         $eventMenu->event_time = $this->transactionUtil->format_date($eventMenu->event_time, true);
-        $items = EventMenu::find($eventMenu->id)->items;
-        DB::table('cache_items')->truncate();
-         foreach($items as $item){
-            $cacheItem = new CacheItem();
-            $cacheItem->name = $item->name;
-            $cacheItem->quantity = $item->quantity;
-            $cacheItem->save();
-        }
         return view('sell.edit')
             ->with(compact('business_details', 'taxes', 'sell_details', 'transaction', 'commission_agent', 'types', 'customer_groups', 'price_groups', 'pos_settings', 'waiters', 'invoice_schemes', 'default_invoice_schemes', 'redeem_details', 'edit_discount', 'edit_price','menus','eventMenu','categories','brands'));
     }

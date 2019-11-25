@@ -61,7 +61,7 @@ Route::get('/clear-cache', function() {
 
     Route::resource('brands', 'BrandController');
     
-    Route::resource('payment-account', 'PaymentAccountController');
+    // Route::resource('payment-account', 'PaymentAccountController');
 
     Route::resource('tax-rates', 'TaxRateController');
 
@@ -115,8 +115,8 @@ Route::get('/clear-cache', function() {
     Route::get('/toggle-subscription/{id}', 'SellPosController@toggleRecurringInvoices');
     Route::get('/sells/subscriptions', 'SellPosController@listSubscriptions');
     Route::get('/sells/invoice-url/{id}', 'SellPosController@showInvoiceUrl');
-    Route::get('/sells/grocery-modal/{id}', 'SellPosController@groceryModalShow');
-    Route::get('/sells/menu-modal/{id}', 'SellPosController@menuModalShow');
+    Route::get('/sells/grocery-modal/{id}', 'SellPosController@groceryModalShow')->name('event.grocery');
+    Route::get('/sells/menu-modal/{id}', 'SellPosController@menuModalShow')->name('event.menu');
     Route::get('/sells/duplicate/{id}', 'SellController@duplicateSell');
     Route::get('/sells/drafts', 'SellController@getDrafts');
     Route::get('/sells/quotations', 'SellController@getQuotations');

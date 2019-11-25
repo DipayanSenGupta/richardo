@@ -15,7 +15,7 @@ class EventMenu extends Model
     }
 
     public function transaction(){
-        return $this->belongsTo('App\Transaction');     
+        return $this->belongsTo('App\Transaction','transaction_id');     
     }
     public function groceries()
     {

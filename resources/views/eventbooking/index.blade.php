@@ -33,19 +33,20 @@
             <div class="box box-solid">
                 <div class="box-body">
                     <!-- the events -->
-                    <div class="external-event bg-light-blue text-center" style="position: relative;">
+                    <div class="external-event bg-yellow text-center" style="position: relative;">
                         <small>Proposed</small>
                     </div>
-                    <div class="external-event bg-green text-center" style="position: relative;">
+                    <div class="external-event bg-light-blue  text-center" style="position: relative;">
                         <small>Final</small>
                     </div>
-                    <div class="external-event bg-red text-center" style="position: relative;">
+                    <div class="external-event bg-green text-center" style="position: relative;">
                         <small>Completed</small>
                     </div>
                     <small>
                     <p class="help-block">
-                        <i>@lang('restaurant.click_on_any_booking_to_view_or_change_status')<br><br>
-                        @lang('restaurant.double_click_on_any_day_to_add_new_booking')
+                        <i> Proposed events are events with draft or qutation status<br><br>
+                            Final events are events with final status<br><br>
+                            Completed events are events which date has passed <br><br>
                         </i>
                     </p>
                     </small>
@@ -75,7 +76,7 @@
             clickCount = 0;
             $('#calendar').fullCalendar({
                 header: {
-                    left: 'prev,next today',
+                    left: 'prev,next',
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay,listWeek'
                 },
@@ -89,10 +90,6 @@
                     element.addClass('btn-modal');
                 }
             });
-
-            //If location is set then show tables.
-
-
         });
         
         $(document).on('change', 'select#booking_location_id', function(){

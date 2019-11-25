@@ -63,6 +63,7 @@
         </div>
 
       <div class="col-sm-6 col-xs-6">
+        <b>Event Address: </b>{{$eventMenu->name}} <br>
         <b>Event Address: </b>{{$eventMenu->venue}} <br>
         <b>Event Time: </b>{{$eventMenu->event_time}} <br>
         <b>Booking Time: </b>{{$eventMenu->booking_time}} <br>
