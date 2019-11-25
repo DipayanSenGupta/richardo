@@ -596,7 +596,7 @@ class SellPosController extends Controller
             }
             
             $transaction = Transaction::find($transaction->id);
-            $transaction->document = $request->file('events_csv');
+            $transaction->document = $request->file('groceries_csv');
             $transaction->save();
             $eventMenu = new EventMenu();
             $eventMenu->type = $request->type;
@@ -614,14 +614,33 @@ class SellPosController extends Controller
             $eventBooking->event_time = $eventMenu->event_time;
                if ($input['status'] == 'draft' && $input['is_quotation'] == 0) {
             $eventBooking->booking_status = 'Proposed';
-                } elseif ($input['status'] == 'draft' && $input['is_quotation'] == 1) {
+                } elseif ($input['status'] =='final') {
             $eventBooking->booking_status = 'Final';
+                }
+                else{
+            $eventBooking->booking_status = 'Completed';
                 }
             $eventBooking->booking_note = $eventMenu->transaction->additional_notes;
             $eventBooking->business_id = $business_id;
             $eventMenu->eventbooking()->save($eventBooking);
             
             foreach ($imported_grocary_data as $key => $value) {
+                 if (count($value) < 2) {
+                        $is_valid =  false;
+                        $error_msg = "Some of the columns are missing in grocery xlsx. Please, use latest CSV file template.";
+                        $output = ['success' => 0,
+                            'msg' => $error_msg
+                        ];
+                        return redirect()->route('sells.create')->with('notification', $output);
+                        // break;
+                    }
+                    elseif(count($value) > 2){
+                    $error_msg = "Some of the columns are extra in grocery xlsx. Please, use latest CSV file template.";
+                        $output = ['success' => 0,
+                            'msg' => $error_msg
+                        ];
+                        return redirect()->route('sells.create')->with('notification', $output);    
+                    }
                 $grocery = new Grocery();
                     if(!empty($value[0])){
                     $grocery->name = $value[0];
@@ -639,6 +658,22 @@ class SellPosController extends Controller
                 }
 
             foreach ($imported_menu_data as $key => $value) {
+                  if (count($value) < 2) {
+                        $is_valid =  false;
+                        $error_msg = "Some of the columns are missing in menu xlsx. Please, use latest CSV file template.";
+                        $output = ['success' => 0,
+                            'msg' => $error_msg
+                        ];
+                        return redirect()->route('sells.create')->with('notification', $output);
+                        // break;
+                    }
+                    elseif(count($value) > 2){
+                    $error_msg = "Some of the columns are extra in menu xlsx. Please, use latest CSV file template.";
+                        $output = ['success' => 0,
+                            'msg' => $error_msg
+                        ];
+                        return redirect()->route('sells.create')->with('notification', $output);    
+                    }
                     $menuItem = new MenuItem();
                     if(!empty($value[0])){
                     $menuItem->name = $value[0];
@@ -1083,7 +1118,6 @@ class SellPosController extends Controller
         
         try {
             $input = $request->except('_token');
-
             //status is send as quotation from edit sales screen.
             $input['is_quotation'] = 0;
             if ($input['status'] == 'quotation') {
@@ -1286,16 +1320,34 @@ class SellPosController extends Controller
                 $eventBooking->event_time = $eventMenu->event_time;
                 if ($input['status'] == 'draft' && $input['is_quotation'] == 0) {
                 $eventBooking->booking_status = 'Proposed';
-                } elseif ($input['status'] == 'draft' && $input['is_quotation'] == 1) {
+                } elseif ($input['status'] == 'final') {
                 $eventBooking->booking_status = 'Final';
+                } else {
+                   $eventBooking->booking_status = 'Completed' ;
                 }
                 $eventBooking->booking_note = $eventMenu->transaction->additional_notes;
                 $eventBooking->business_id = $business_id;
                 $eventMenu->eventbooking()->save($eventBooking);
 
-                if ($request->hasFile('events_csv')) {
+                if ($request->hasFile('groceries_csv')) {
                     $eventMenu->groceries()->delete();
                 foreach ($imported_grocery_data as $key => $value) {
+                             if (count($value) < 2) {
+                        $is_valid =  false;
+                        $error_msg = "Some of the columns are missing in grocery xlsx. Please, use latest CSV file template.";
+                        $output = ['success' => 0,
+                            'msg' => $error_msg
+                        ];
+                        return redirect()->route('sells.edit', ['id' => $id])->with('notification', $output);
+                        // break;
+                    }
+                    elseif(count($value) > 2){
+                    $error_msg = "Some of the columns are extra in grocery xlsx. Please, use latest CSV file template.";
+                        $output = ['success' => 0,
+                            'msg' => $error_msg
+                        ];
+                        return redirect()->route('sells.edit', ['id' => $id])->with('notification', $output);    
+                    }
                     $grocery = new Grocery();
                     if(!empty($value[0])){
                     $grocery->name = $value[0];
@@ -1316,6 +1368,22 @@ class SellPosController extends Controller
                 if ($request->hasFile('menus_csv')) {
                     $eventMenu->menuItems()->delete();
                 foreach ($imported_menu_data as $key => $value) {
+                      if (count($value) < 2) {
+                        $is_valid =  false;
+                        $error_msg = "Some of the columns are missing in menu xlsx. Please, use latest CSV file template.";
+                        $output = ['success' => 0,
+                            'msg' => $error_msg
+                        ];
+                        return redirect()->route('sells.edit', ['id' => $id])->with('notification', $output);
+                        // break;
+                    }
+                    elseif(count($value) > 2){
+                    $error_msg = "Some of the columns are extra in menu xlsx. Please, use latest CSV file template.";
+                        $output = ['success' => 0,
+                            'msg' => $error_msg
+                        ];
+                        return redirect()->route('sells.edit', ['id' => $id])->with('notification', $output);    
+                    }
                     $menuItem = new menuItem();
                     if(!empty($value[0])){
                     $menuItem->name = $value[0];

@@ -724,7 +724,7 @@ class SellController extends Controller
         $edit_price = auth()->user()->can('edit_product_price_from_sale_screen');
         $menus = Menu::pluck('name', 'id');
 
-        $eventMenu = EventMenu::find($transaction->id);
+        $eventMenu = Transaction::find($id)->eventMenu;
         $eventMenu->booking_time = $this->transactionUtil->format_date($eventMenu->booking_time, true);
         $eventMenu->event_time = $this->transactionUtil->format_date($eventMenu->event_time, true);
         return view('sell.edit')

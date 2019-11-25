@@ -3,10 +3,25 @@
 @section('title', 'Edit Event')
 
 @section('content')
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>Edit Event <small>(@lang('sale.invoice_no'): <span class="text-success">#{{$transaction->invoice_no}})</span></small></h1>
 </section>
+    @if (session('notification') || !empty($notification))
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    @if(!empty($notification['msg']))
+                        {{$notification['msg']}}
+                    @elseif(session('notification.msg'))
+                        {{ session('notification.msg') }}
+                    @endif
+                </div>
+            </div>  
+        </div>     
+    @endif
 <!-- Main content -->
 <section class="content">
 @if(!empty($pos_settings['allow_overselling']))

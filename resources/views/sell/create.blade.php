@@ -8,6 +8,20 @@
 <h1>Add Event</h1>
 </section>
 <!-- Main content -->
+    @if (session('notification') || !empty($notification))
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    @if(!empty($notification['msg']))
+                        {{$notification['msg']}}
+                    @elseif(session('notification.msg'))
+                        {{ session('notification.msg') }}
+                    @endif
+                </div>
+            </div>  
+        </div>     
+    @endif
 <section class="content no-print">
 @if(!empty($pos_settings['allow_overselling']))
 <input type="hidden" id="is_overselling_allowed">
