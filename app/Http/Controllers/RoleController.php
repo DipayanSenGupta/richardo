@@ -218,6 +218,7 @@ class RoleController extends Controller
         }
 
         try {
+            dd($request);
             $role_name = $request->input('name');
             $permissions = $request->input('permissions');
             $business_id = $request->session()->get('user.business_id');

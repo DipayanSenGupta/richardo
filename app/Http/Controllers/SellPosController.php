@@ -1313,9 +1313,9 @@ class SellPosController extends Controller
                 $eventMenu->event_time = $this->productUtil->uf_date($request->event_time, true);
                 $eventMenu->save(); 
                 
-                $eventMenu->eventbooking()->delete();
-
-                $eventBooking = new EventBooking;
+                // $eventMenu->eventbooking()->delete();
+                $eventBooking = $eventMenu->eventbooking;
+                // $eventBooking = new EventBooking;
                 $eventBooking->booking_time = $eventMenu->booking_time;
                 $eventBooking->event_time = $eventMenu->event_time;
                 if ($input['status'] == 'draft' && $input['is_quotation'] == 0) {
