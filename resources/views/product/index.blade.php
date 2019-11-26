@@ -114,7 +114,8 @@
 @section('javascript')
     <script src="{{ asset('js/product.js?v=' . $asset_v) }}"></script>
     <script src="{{ asset('js/opening_stock.js?v=' . $asset_v) }}"></script>
-    <script type="text/javascript">
+    <script src="{{ asset('js/report.js?v=' . $asset_v) }}"></script>
+  <script type="text/javascript">
         $(document).ready( function(){
             product_table = $('#product_table').DataTable({
                 processing: true,
@@ -328,32 +329,6 @@
                     if ($('th.current_stock_mfg').length) {
                         stock_report_cols.push({ data: 'total_mfg_stock', name: 'total_mfg_stock', searchable: false });
                     }
-                    stock_report_table = $('#stock_report_table').DataTable({
-                        processing: true,
-                        serverSide: true,
-                        ajax: {
-                            url: '/reports/stock-report',
-                            data: function(d) {
-                                d.location_id = $('#location_id').val();
-                                d.category_id = $('#product_list_filter_category_id').val();
-                                d.brand_id = $('#product_list_filter_brand_id').val();
-                                d.unit_id = $('#product_list_filter_unit_id').val();
-                                d.type = $('#product_list_filter_type').val();
-                            }
-                        },
-                        columns: stock_report_cols,
-                        fnDrawCallback: function(oSettings) {
-                            $('#footer_total_stock').html(__sum_stock($('#stock_report_table'), 'current_stock'));
-                            $('#footer_total_sold').html(__sum_stock($('#stock_report_table'), 'total_sold'));
-                            $('#footer_total_transfered').html(
-                                __sum_stock($('#stock_report_table'), 'total_transfered')
-                            );
-                            $('#footer_total_adjusted').html(
-                                __sum_stock($('#stock_report_table'), 'total_adjusted')
-                            );
-                            __currency_convert_recursively($('#stock_report_table'));
-                        },
-                    });
                     data_table_initailized = true;
                 } else {
                     stock_report_table.ajax.reload();
@@ -374,4 +349,5 @@
             return selected_rows; 
         }
     </script>
+
 @endsection
