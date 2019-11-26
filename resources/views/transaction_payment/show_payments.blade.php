@@ -141,24 +141,24 @@
             @can('send_notification')
                 @if($transaction->type == 'purchase')
                     <div class="row no-print">
-                        <div class="col-md-12 text-right">
-                            <button type="button" class="btn btn-info btn-modal btn-xs" 
-                            data-href="{{action('NotificationController@getTemplate', ['transaction_id' => $transaction->id,'template_for' => 'payment_paid'])}}" data-container=".view_modal"><i class="fa fa-envelope"></i> @lang('lang_v1.payment_paid_notification')</button>
-                        </div>
+                        <!--<div class="col-md-12 text-right">-->
+                        <!--    <button type="button" class="btn btn-info btn-modal btn-xs" -->
+                        <!--    data-href="{{action('NotificationController@getTemplate', ['transaction_id' => $transaction->id,'template_for' => 'payment_paid'])}}" data-container=".view_modal"><i class="fa fa-envelope"></i> @lang('lang_v1.payment_paid_notification')</button>-->
+                        <!--</div>-->
                     </div>
                     <br>
                 @endif
                 @if($transaction->type == 'sell')
                     <div class="row no-print">
-                        <div class="col-md-12 text-right">
-                            <button type="button" class="btn btn-info btn-modal btn-xs" 
-                            data-href="{{action('NotificationController@getTemplate', ['transaction_id' => $transaction->id,'template_for' => 'payment_received'])}}" data-container=".view_modal"><i class="fa fa-envelope"></i> @lang('lang_v1.payment_received_notification')</button>
+                        <!--<div class="col-md-12 text-right">-->
+                        <!--    <button type="button" class="btn btn-info btn-modal btn-xs" -->
+                        <!--    data-href="{{action('NotificationController@getTemplate', ['transaction_id' => $transaction->id,'template_for' => 'payment_received'])}}" data-container=".view_modal"><i class="fa fa-envelope"></i> @lang('lang_v1.payment_received_notification')</button>-->
                           
-                            @if($transaction->payment_status != 'paid')
-                                &nbsp;
-                                <button type="button" class="btn btn-warning btn-modal btn-xs" data-href="{{action('NotificationController@getTemplate', ['transaction_id' => $transaction->id,'template_for' => 'payment_reminder'])}}" data-container=".view_modal"><i class="fa fa-envelope"></i> @lang('lang_v1.send_payment_reminder')</button>
-                            @endif
-                        </div>
+                        <!--    @if($transaction->payment_status != 'paid')-->
+                        <!--        &nbsp;-->
+                        <!--        <button type="button" class="btn btn-warning btn-modal btn-xs" data-href="{{action('NotificationController@getTemplate', ['transaction_id' => $transaction->id,'template_for' => 'payment_reminder'])}}" data-container=".view_modal"><i class="fa fa-envelope"></i> @lang('lang_v1.send_payment_reminder')</button>-->
+                        <!--    @endif-->
+                        <!--</div>-->
                     </div>
                     <br>
                 @endif
