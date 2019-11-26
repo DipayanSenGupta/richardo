@@ -115,8 +115,8 @@ Route::get('/clear-cache', function() {
     Route::get('/toggle-subscription/{id}', 'SellPosController@toggleRecurringInvoices');
     Route::get('/sells/subscriptions', 'SellPosController@listSubscriptions');
     Route::get('/sells/invoice-url/{id}', 'SellPosController@showInvoiceUrl');
-    Route::get('/sells/grocery-modal/{id}', 'SellPosController@groceryModalShow')->name('event.grocery');
-    Route::get('/sells/menu-modal/{id}', 'SellPosController@menuModalShow')->name('event.menu');
+    Route::get('/sells/grocery-modal/{id}', 'SellPosController@groceryModalShow');
+    Route::get('/sells/menu-modal/{id}', 'SellPosController@menuModalShow');
     Route::get('/sells/duplicate/{id}', 'SellController@duplicateSell');
     Route::get('/sells/drafts', 'SellController@getDrafts');
     Route::get('/sells/quotations', 'SellController@getQuotations');
@@ -129,8 +129,33 @@ Route::get('/clear-cache', function() {
     Route::get('/sells/pos/get-recent-transactions', 'SellPosController@getRecentTransactions');
     Route::get('/sells/{transaction_id}/print', 'SellPosController@printInvoice')->name('sell.printInvoice');
     Route::get('/sells/pos/get-product-suggestion', 'SellPosController@getProductSuggestion');
-    Route::resource('pos', 'SellPosController');
+    // Route::resource('pos', 'SellPosController');
 
+    // Event route
+    Route::get('/events/subscriptions', 'EventPosController@listSubscriptions');
+    Route::get('/events/invoice-url/{id}', 'EventPosController@showInvoiceUrl');
+    Route::get('/events/grocery-modal/{id}', 'EventPosController@groceryModalShow')->name('event.grocery');
+    Route::get('/events/menu-modal/{id}', 'EventPosController@menuModalShow')->name('event.menu');
+    Route::get('/events/duplicate/{id}', 'EventController@duplicateSell');
+    Route::get('/events/drafts', 'EventController@getDrafts');
+    Route::get('/events/quotations', 'EventController@getQuotations');
+    Route::get('/events/draft-dt', 'EventController@getDraftDatables');
+    Route::resource('events', 'EventController');    
+    
+    Route::get('/events/pos/get_product_row/{variation_id}/{location_id}', 'EventPosController@getProductRow');
+    Route::post('/events/pos/get_payment_row', 'EventPosController@getPaymentRow');
+    Route::post('/events/pos/get-reward-details', 'EventPosController@getRewardDetails');
+    Route::get('/events/pos/get-recent-transactions', 'EventPosController@getRecentTransactions');
+    Route::get('/events/{transaction_id}/print', 'EventPosController@printInvoice')->name('event.printInvoice');
+    Route::get('/events/pos/get-product-suggestion', 'EventPosController@getProductSuggestion');
+    Route::resource('pos', 'EventPosController');
+
+    Route::resource('event-return', 'EventReturnController');
+    Route::get('event-return/get-product-row', 'EventReturnController@getProductRow');
+    Route::get('/event-return/print/{id}', 'EventReturnController@printInvoice');
+    Route::get('/event-return/add/{id}', 'EventReturnController@add');
+
+    // Event route
     Route::resource('roles', 'RoleController');
 
     Route::resource('users', 'ManageUserController');
