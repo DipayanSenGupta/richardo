@@ -1,10 +1,10 @@
 @extends('layouts.app')
-@section('title', __( 'sale.drafts'))
+@section('title', 'Quotations')
 @section('content')
 
 <!-- Content Header (Page header) -->
 <section class="content-header no-print">
-    <h1>@lang('sale.drafts')
+    <h1>Quotations
     </h1>
 </section>
 

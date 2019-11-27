@@ -29,11 +29,11 @@
                         Edit</a></button>
                         
             <button type="button" class="btn btn-info"><a href="#" 
-                        data-href="{{route('event.grocery',  ['id'=>$eventMenu->transaction->id])}}" 
+                        data-href="{{route('events.grocery',  ['id'=>$eventMenu->transaction->id])}}" 
                                         class="btn-modal" data-container=".view_modal" style="color:white;">
                                          Grocery</a></button>
             <button type="button" class="btn btn-info"><a href="#" 
-                        data-href="{{route('event.menu',  ['id'=>$eventMenu->transaction->id])}}" 
+                        data-href="{{route('events.menu',  ['id'=>$eventMenu->transaction->id])}}" 
                                         class="btn-modal" data-container=".view_modal" style="color:white;">
                                          Menu</a></button>
                                          

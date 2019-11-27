@@ -114,7 +114,7 @@ class EventPosController extends Controller
      */
     public function index()
     {
-        if (!auth()->user()->can('events.show') && !auth()->user()->can('events.create')) {
+        if (!auth()->user()->can('sell.view') && !auth()->user()->can('sell.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -137,7 +137,7 @@ class EventPosController extends Controller
             $service_staffs = $this->productUtil->serviceStaffDropdown($business_id);
         }
 
-        return view('sale_pos.index')->with(compact('business_locations', 'customers', 'sales_representative', 'is_cmsn_agent_enabled', 'commission_agents', 'service_staffs'));
+        return view('event_pos.index')->with(compact('business_locations', 'customers', 'sales_representative', 'is_cmsn_agent_enabled', 'commission_agents', 'service_staffs'));
     }
 
     /**
@@ -147,7 +147,7 @@ class EventPosController extends Controller
      */
     public function create()
     {
-        if (!auth()->user()->can('events.create')) {
+        if (!auth()->user()->can('sell.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -224,7 +224,7 @@ class EventPosController extends Controller
         //Selling Price Group Dropdown
         $price_groups = SellingPriceGroup::forDropdown($business_id);
 
-        return view('sale_pos.create')
+        return view('event_pos.create')
             ->with(compact(
                 'business_details',
                 'taxes',
@@ -367,7 +367,7 @@ class EventPosController extends Controller
     public function store(Request $request)
     {
         
-        if (!auth()->user()->can('events.create') && !auth()->user()->can('direct_sell.access')) {
+        if (!auth()->user()->can('sell.create') && !auth()->user()->can('direct_sell.access')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -815,7 +815,7 @@ class EventPosController extends Controller
         $receipt_details->currency = $currency_details;
         
         if ($is_package_slip) {
-            $output['html_content'] = view('sale_pos.receipts.packing_slip', compact('receipt_details'))->render();
+            $output['html_content'] = view('event_pos.receipts.packing_slip', compact('receipt_details'))->render();
             return $output;
         }
         //If print type browser - return the content, printer - return printer config data, and invoice format config
@@ -824,7 +824,7 @@ class EventPosController extends Controller
             $output['printer_config'] = $this->businessUtil->printerConfig($business_id, $location_details->printer_id);
             $output['data'] = $receipt_details;
         } else {
-            $layout = !empty($receipt_details->design) ? 'sale_pos.receipts.' . $receipt_details->design : 'sale_pos.receipts.classic';
+            $layout = !empty($receipt_details->design) ? 'event_pos.receipts.' . $receipt_details->design : 'event_pos.receipts.classic';
 
             $output['html_content'] = view($layout, compact('receipt_details'))->render();
         }
@@ -851,7 +851,7 @@ class EventPosController extends Controller
      */
     public function edit($id)
     {
-        if (!auth()->user()->can('events.update')) {
+        if (!auth()->user()->can('sell.update')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -1098,7 +1098,7 @@ class EventPosController extends Controller
         $edit_discount = auth()->user()->can('edit_product_discount_from_pos_screen');
         $edit_price = auth()->user()->can('edit_product_price_from_pos_screen');
         
-        return view('sale_pos.edit')
+        return view('event_pos.edit')
             ->with(compact('business_details', 'taxes', 'payment_types', 'walk_in_customer', 'sell_details', 'transaction', 'payment_lines', 'location_printer_type', 'shortcuts', 'commission_agent', 'categories', 'pos_settings', 'change_return', 'types', 'customer_groups', 'brands', 'accounts', 'price_groups', 'waiters', 'redeem_details', 'edit_price', 'edit_discount'));
     }
 
@@ -1112,7 +1112,7 @@ class EventPosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!auth()->user()->can('events.update') && !auth()->user()->can('direct_sell.access')) {
+        if (!auth()->user()->can('sell.update') && !auth()->user()->can('direct_sell.access')) {
             abort(403, 'Unauthorized action.');
         }
         
@@ -1474,7 +1474,7 @@ class EventPosController extends Controller
      */
     public function destroy($id)
     {
-        if (!auth()->user()->can('events.delete')) {
+        if (!auth()->user()->can('sell.delete')) {
             abort(403, 'Unauthorized action.');
         }
         if (request()->ajax()) {
@@ -1644,7 +1644,7 @@ class EventPosController extends Controller
                     $edit_price = auth()->user()->can('edit_product_price_from_pos_screen');
                 }
 
-                $output['html_content'] =  view('sale_pos.product_row')
+                $output['html_content'] =  view('event_pos.product_row')
                             ->with(compact('product', 'row_count', 'tax_dropdown', 'enabled_modules', 'pos_settings', 'sub_units', 'discount', 'waiters', 'edit_discount', 'edit_price'))
                             ->render();
             }
@@ -1692,7 +1692,7 @@ class EventPosController extends Controller
             $accounts = Account::forDropdown($business_id, true, false);
         }
 
-        return view('sale_pos.partials.payment_row')
+        return view('event_pos.partials.payment_row')
             ->with(compact('payment_types', 'row_index', 'removable', 'payment_line', 'accounts'));
     }
 
@@ -1739,7 +1739,7 @@ class EventPosController extends Controller
                             ->limit(10)
                             ->get();
 
-        return view('sale_pos.partials.recent_transactions')
+        return view('event_pos.partials.recent_transactions')
             ->with(compact('transactions'));
     }
 
@@ -1872,7 +1872,7 @@ class EventPosController extends Controller
             ->orderBy('p.name', 'asc')
             ->paginate(20);
 
-            return view('sale_pos.partials.product_list')
+            return view('event_pos.partials.product_list')
                     ->with(compact('products'));
         }
     }
@@ -1885,7 +1885,7 @@ class EventPosController extends Controller
      */
     public function showInvoiceUrl($id)
     {
-        if (!auth()->user()->can('events.update')) {
+        if (!auth()->user()->can('sell.update')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -1895,7 +1895,7 @@ class EventPosController extends Controller
                                    ->findorfail($id);
             $url = $this->transactionUtil->getInvoiceUrl($id, $business_id);
 
-            return view('sale_pos.partials.invoice_url_modal')
+            return view('event_pos.partials.invoice_url_modal')
                     ->with(compact('transaction', 'url'));
         }
     }
@@ -1914,7 +1914,7 @@ class EventPosController extends Controller
             $receipt = $this->receiptContent($transaction->business_id, $transaction->location_id, $transaction->id, 'browser');
 
             $title = $transaction->business->name . ' | ' . $transaction->invoice_no;
-            return view('sale_pos.partials.show_invoice')
+            return view('event_pos.partials.show_invoice')
                     ->with(compact('receipt', 'title'));
         } else {
             die(__("messages.something_went_wrong"));
@@ -1928,7 +1928,7 @@ class EventPosController extends Controller
      */
     public function listSubscriptions()
     {
-        if (!auth()->user()->can('events.show') && !auth()->user()->can('direct_sell.access')) {
+        if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -2048,7 +2048,7 @@ class EventPosController extends Controller
                 
             return $datatable;
         }
-        return view('sale_pos.subscriptions');
+        return view('event_pos.subscriptions');
     }
 
     /**
@@ -2059,7 +2059,7 @@ class EventPosController extends Controller
      */
     public function toggleRecurringInvoices($id)
     {
-        if (!auth()->user()->can('events.create')) {
+        if (!auth()->user()->can('sell.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -2275,7 +2275,7 @@ class EventPosController extends Controller
                         $q->whereNull('parent_sell_line_id');
                     },'sell_lines.product', 'sell_lines.product.unit', 'sell_lines.variations', 'sell_lines.variations.product_variation', 'payment_lines', 'sell_lines.modifiers', 'sell_lines.lot_details', 'tax', 'sell_lines.sub_unit', 'table', 'service_staff', 'sell_lines.service_staff']);
 
-        if (!auth()->user()->can('events.show') && !auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
+        if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
             $query->where('transactions.created_by', request()->session()->get('user.id'));
         }
 
@@ -2293,7 +2293,7 @@ class EventPosController extends Controller
         $groceries = Grocery::where('event_menu_id', $eventMenu->id)
                ->get();        
                
-        return view('sale_pos.grocery')
+        return view('event_pos.grocery')
                     ->with(compact('groceries','sell','eventMenu'));      
     }
     
@@ -2307,7 +2307,7 @@ class EventPosController extends Controller
                     $q->whereNull('parent_sell_line_id');
                 },'sell_lines.product', 'sell_lines.product.unit', 'sell_lines.variations', 'sell_lines.variations.product_variation', 'payment_lines', 'sell_lines.modifiers', 'sell_lines.lot_details', 'tax', 'sell_lines.sub_unit', 'table', 'service_staff', 'sell_lines.service_staff']);
     
-    if (!auth()->user()->can('events.show') && !auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
+    if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
         $query->where('transactions.created_by', request()->session()->get('user.id'));
     }
     
@@ -2325,7 +2325,7 @@ class EventPosController extends Controller
     $menuItems = MenuItem::where('event_menu_id', $eventMenu->id)
            ->get();        
            
-    return view('sale_pos.menu')
+    return view('event_pos.menu')
                 ->with(compact('menuItems','sell','eventMenu'));      
     }
 

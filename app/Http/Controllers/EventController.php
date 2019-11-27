@@ -70,7 +70,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        if (!auth()->user()->can('events.show') && !auth()->user()->can('events.create') && !auth()->user()->can('direct_sell.access') && !auth()->user()->can('view_own_sell_only')) {
+        if (!auth()->user()->can('sell.view') && !auth()->user()->can('sell.create') && !auth()->user()->can('direct_sell.access') && !auth()->user()->can('view_own_sell_only')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -204,31 +204,31 @@ class EventController extends Controller
                         }
 
                         if ($row->is_direct_sale == 0) {
-                            if (auth()->user()->can("events.update")) {
+                            if (auth()->user()->can("sell.update")) {
                                 $html .= '<li><a target="_blank" href="' . action('EventPosController@edit', [$row->id]) . '"><i class="glyphicon glyphicon-edit"></i> ' . __("messages.edit") . '</a></li>';
                             }
                         } else {
-                            if (auth()->user()->can("direct_sell.access")) {
+                            if (auth()->user()->can("sell.update")) {
                                 $html .= '<li><a target="_blank" href="' . action('EventController@edit', [$row->id]) . '"><i class="glyphicon glyphicon-edit"></i> ' . __("messages.edit") . '</a></li>';
                             }
                         }
 
-                        if (auth()->user()->can("direct_sell.delete") || auth()->user()->can("sell.delete")) {
+                        if (auth()->user()->can("sell.delete")) {
                             $html .= '<li><a href="' . action('EventPosController@destroy', [$row->id]) . '" class="delete-sale"><i class="fa fa-trash"></i> ' . __("messages.delete") . '</a></li>';
                         }
 
-                        if (auth()->user()->can("events.show") || auth()->user()->can("direct_sell.access")) {
+                        if (auth()->user()->can("sell.view")) {
                             $html .= '<li><a href="#" class="print-invoice" data-href="' . route('events.printInvoice', [$row->id]) . '"><i class="fa fa-print" aria-hidden="true"></i> ' . __("messages.print") . '</a></li>
                                 <li><a href="#" class="print-invoice" data-href="' . route('events.printInvoice', [$row->id]) . '?package_slip=true"><i class="fa fa-file-text-o" aria-hidden="true"></i> ' . __("lang_v1.packing_slip") . '</a></li>';
                         }
                         $html .= '<li class="divider"></li>';
-                        if ($row->payment_status != "paid" && (auth()->user()->can("events.create") || auth()->user()->can("direct_sell.access"))) {
+                        if ($row->payment_status != "paid" && (auth()->user()->can("sell.create"))) {
                             $html .= '<li><a href="' . action('TransactionPaymentController@addPayment', [$row->id]) . '" class="add_payment_modal"><i class="fa fa-money"></i> ' . __("purchase.add_payment") . '</a></li>';
                         }
 
                         $html .= '<li><a href="' . action('TransactionPaymentController@show', [$row->id]) . '" class="view_payment_modal"><i class="fa fa-money"></i> ' . __("purchase.view_payments") . '</a></li>';
 
-                        if (auth()->user()->can("events.create")) {
+                        if (auth()->user()->can("sell.create")) {
 
                             $html .= '<li><a href="' . action('EventReturnController@add', [$row->id]) . '"><i class="fa fa-undo"></i> ' ."Event Return". '</a></li>
 
@@ -243,7 +243,7 @@ class EventController extends Controller
                 ->removeColumn('id')
                 ->setRowAttr([
                     'data-href' => function ($row) {
-                        if (auth()->user()->can("events.show") || auth()->user()->can("view_own_sell_only")) {
+                        if (auth()->user()->can("sell.view") || auth()->user()->can("view_own_sell_only")) {
                             return  action('EventController@show', [$row->id]) ;
                         } else {
                             return '';
@@ -273,7 +273,7 @@ class EventController extends Controller
             $service_staffs = $this->productUtil->serviceStaffDropdown($business_id);
         }
 
-        return view('events.index')
+        return view('event.index')
         ->with(compact('business_locations', 'customers', 'is_woocommerce', 'sales_representative', 'is_cmsn_agent_enabled', 'commission_agents', 'service_staffs'));
     }
     
@@ -285,7 +285,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        if (!auth()->user()->can('direct_sell.access')) {
+        if (!auth()->user()->can('sell.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -355,7 +355,7 @@ class EventController extends Controller
         // $menus = Menu::pluck('name', 'id');
 
         
-        return view('events.create')
+        return view('event.create')
             ->with(compact(
                 'business_details',
                 'taxes',
@@ -398,7 +398,7 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        if (!auth()->user()->can('events.show') && !auth()->user()->can('direct_sell.access') && !auth()->user()->can('view_own_sell_only')) {
+        if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access') && !auth()->user()->can('view_own_sell_only')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -411,7 +411,7 @@ class EventController extends Controller
                         $q->whereNull('parent_sell_line_id');
                     },'sell_lines.product', 'sell_lines.product.unit', 'sell_lines.variations', 'sell_lines.variations.product_variation', 'payment_lines', 'sell_lines.modifiers', 'sell_lines.lot_details', 'tax', 'sell_lines.sub_unit', 'table', 'service_staff', 'sell_lines.service_staff']);
 
-        if (!auth()->user()->can('events.show') && !auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
+        if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
             $query->where('transactions.created_by', request()->session()->get('user.id'));
         }
 
@@ -445,11 +445,11 @@ class EventController extends Controller
                 $groceries = Grocery::where('event_menu_id', $eventMenu->id)
                ->get();
                if($groceries){
-                return view('sale_pos.show')
+                return view('event_pos.show')
                     ->with(compact('taxes', 'sell', 'payment_types', 'order_taxes', 'pos_settings','items','eventMenu','groceries')); 
                }
                else{
-                return view('sale_pos.show')
+                return view('event_pos.show')
                     ->with(compact('taxes', 'sell', 'payment_types', 'order_taxes', 'pos_settings','items','eventMenu'));  
                }
             // event section end
@@ -464,7 +464,7 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        if (!auth()->user()->can('direct_sell.access')) {
+        if (!auth()->user()->can('sell.update')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -646,7 +646,7 @@ class EventController extends Controller
         $eventMenu = Transaction::find($id)->eventMenu;
         $eventMenu->booking_time = $this->transactionUtil->format_date($eventMenu->booking_time, true);
         $eventMenu->event_time = $this->transactionUtil->format_date($eventMenu->event_time, true);
-        return view('events.edit')
+        return view('event.edit')
             ->with(compact('business_details', 'taxes', 'sell_details', 'transaction', 'commission_agent', 'types', 'customer_groups', 'price_groups', 'pos_settings', 'waiters', 'invoice_schemes', 'default_invoice_schemes', 'redeem_details', 'edit_discount', 'edit_price','menus','eventMenu','categories','brands'));
     }
 
@@ -680,7 +680,7 @@ class EventController extends Controller
      */
     public function getDrafts()
     {
-        if (!auth()->user()->can('events.show') && !auth()->user()->can('direct_sell.access')) {
+        if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -694,11 +694,11 @@ class EventController extends Controller
      */
     public function getQuotations()
     {
-        if (!auth()->user()->can('events.show') && !auth()->user()->can('direct_sell.access')) {
+        if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access')) {
             abort(403, 'Unauthorized action.');
         }
 
-        return view('sale_pos.quotations');
+        return view('event_pos.quotations');
     }
 
     /**
@@ -771,22 +771,39 @@ class EventController extends Controller
                     
                     return $menu_html;
                 })
-                ->addColumn(
-                    'action',
-                    '<a href="#" data-href="{{action(\'EventController@show\', [$id])}}" class="btn btn-xs btn-success btn-modal" data-container=".view_modal"><i class="fa fa-external-link" aria-hidden="true"></i> @lang("messages.view")</a>
-                    &nbsp;
-                    @if($is_direct_sale == 1)
-                        <a target="_blank" href="{{action(\'EventController@edit\', [$id])}}" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>  @lang("messages.edit")</a>
-                    @else
-                    <a target="_blank" href="{{action(\'EventPosController@edit\', [$id])}}" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>  @lang("messages.edit")</a>
-                    @endif
+                ->addColumn('action',
+                    function ($row) {
+                        $html = '<div class="btn-group">
+                                    <button type="button" class="btn btn-info dropdown-toggle btn-xs" 
+                                        data-toggle="dropdown" aria-expanded="false">' .
+                                        __("messages.actions") .
+                                        '<span class="caret"></span><span class="sr-only">Toggle Dropdown
+                                        </span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">' ;
 
-                    &nbsp; 
-                    <a href="#" class="print-invoice btn btn-xs btn-info" data-href="{{route(\'events.printInvoice\', [$id])}}"><i class="fa fa-print" aria-hidden="true"></i> @lang("messages.print")</a>
+                        if (auth()->user()->can("sell.view") || auth()->user()->can("direct_sell.access") || auth()->user()->can("view_own_sell_only")) {
+                            $html .= '<li><a href="#" data-href="' . action("EventController@show", [$row->id]) . '" class="btn-modal" data-container=".view_modal"><i class="fa fa-external-link" aria-hidden="true"></i> ' . __("messages.view") . '</a></li>';
+                        }
 
-                    &nbsp; <a href="{{action(\'EventPosController@destroy\', [$id])}}" class="btn btn-xs btn-danger delete-sale"><i class="fa fa-trash"></i>  @lang("messages.delete")</a>
-                    '
-                )
+                        if ($row->is_direct_sale == 0) {
+                            if (auth()->user()->can("sell.update")) {
+                                $html .= '<li><a target="_blank" href="' . action('EventPosController@edit', [$row->id]) . '"><i class="glyphicon glyphicon-edit"></i> ' . __("messages.edit") . '</a></li>';
+                            }
+                        } else {
+                            if (auth()->user()->can("sell.update")) {
+                                $html .= '<li><a target="_blank" href="' . action('EventController@edit', [$row->id]) . '"><i class="glyphicon glyphicon-edit"></i> ' . __("messages.edit") . '</a></li>';
+                            }
+                        }
+
+                        if (auth()->user()->can("sell.delete")) {
+                            $html .= '<li><a href="' . action('EventPosController@destroy', [$row->id]) . '" class="delete-sale"><i class="fa fa-trash"></i> ' . __("messages.delete") . '</a></li>';
+                        }
+
+                        $html .= '</ul></div>';
+
+                        return $html;
+                    })
                 ->removeColumn('id')
                 ->setRowAttr([
                     'data-href' => function ($row) {
@@ -809,7 +826,7 @@ class EventController extends Controller
      */
     public function duplicateSell($id)
     {
-        if (!auth()->user()->can('events.create')) {
+        if (!auth()->user()->can('sell.create')) {
             abort(403, 'Unauthorized action.');
         }
 

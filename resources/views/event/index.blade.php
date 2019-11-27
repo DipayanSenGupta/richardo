@@ -26,7 +26,7 @@
                 </div>
             @endslot
         @endcan
-        @if(auth()->user()->can('direct_sell.access') ||  auth()->user()->can('view_own_sell_only'))
+        @if(auth()->user()->can('sell.view') )
             <div class="table-responsive">
                 <table class="table table-bordered table-striped ajax_view" id="sell_table">
                     <thead>

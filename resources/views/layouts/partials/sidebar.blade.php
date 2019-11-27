@@ -199,7 +199,7 @@
         </li>
         @endif
 
-        @if(auth()->user()->can('sell.view') || auth()->user()->can('sell.create') || auth()->user()->can('direct_sell.access') ||  auth()->user()->can('view_own_sell_only'))
+        @if( auth()->user()->can('sell.view') )
           <li class="treeview {{  in_array( $request->segment(1), ['sells', 'pos', 'sell-return', 'ecommerce', 'discount']) ? 'active active-sub' : '' }}" id="tour_step7">
             <a href="#" id="tour_step7_menu"><i class="fa fa-arrow-circle-up"></i> <span>Event</span>
               <span class="pull-right-container">
@@ -208,18 +208,13 @@
             </a>
             <ul class="treeview-menu">
                 <!--change sell to event-->
-              @if(auth()->user()->can('direct_sell.access') ||  auth()->user()->can('view_own_sell_only'))
                 <li class="{{ $request->segment(1) == 'sells' && $request->segment(2) == null ? 'active' : '' }}" ><a href="{{action('EventController@index')}}"><i class="fa fa-list"></i>All Events</a></li>
-              @endif
-              <!-- Call superadmin module if defined -->
-              @if(Module::has('Ecommerce'))
-                @includeIf('ecommerce::layouts.partials.sell_sidebar')
-              @endif
-              @can('direct_sell.access')
+
+              @can('sell.create')
                 <li class="{{ $request->segment(1) == 'sells' && $request->segment(2) == 'create' ? 'active' : '' }}"><a href="{{action('EventController@create')}}"><i class="fa fa-plus-circle"></i>Add Event</a></li>
               @endcan
               
-            @can('sell.create')
+            @can('sell.view')
             <li class="{{ $request->segment(1) == 'sells' && $request->segment(2) == 'drafts' ? 'active' : '' }}" ><a href="{{action('EventController@getDrafts')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>@lang('lang_v1.list_drafts')</a></li>
             
             <li class="{{ $request->segment(1) == 'sells' && $request->segment(2) == 'quotations' ? 'active' : '' }}" ><a href="{{action('EventController@getQuotations')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>@lang('lang_v1.list_quotations')</a></li>
