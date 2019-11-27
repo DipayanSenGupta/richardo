@@ -134,8 +134,8 @@ Route::get('/clear-cache', function() {
     // Event route
     Route::get('/events/subscriptions', 'EventPosController@listSubscriptions');
     Route::get('/events/invoice-url/{id}', 'EventPosController@showInvoiceUrl');
-    Route::get('/events/grocery-modal/{id}', 'EventPosController@groceryModalShow')->name('event.grocery');
-    Route::get('/events/menu-modal/{id}', 'EventPosController@menuModalShow')->name('event.menu');
+    Route::get('/events/grocery-modal/{id}', 'EventPosController@groceryModalShow')->name('events.grocery');
+    Route::get('/events/menu-modal/{id}', 'EventPosController@menuModalShow')->name('events.menu');
     Route::get('/events/duplicate/{id}', 'EventController@duplicateSell');
     Route::get('/events/drafts', 'EventController@getDrafts');
     Route::get('/events/quotations', 'EventController@getQuotations');
@@ -146,7 +146,7 @@ Route::get('/clear-cache', function() {
     Route::post('/events/pos/get_payment_row', 'EventPosController@getPaymentRow');
     Route::post('/events/pos/get-reward-details', 'EventPosController@getRewardDetails');
     Route::get('/events/pos/get-recent-transactions', 'EventPosController@getRecentTransactions');
-    Route::get('/events/{transaction_id}/print', 'EventPosController@printInvoice')->name('event.printInvoice');
+    Route::get('/events/{transaction_id}/print', 'EventPosController@printInvoice')->name('events.printInvoice');
     Route::get('/events/pos/get-product-suggestion', 'EventPosController@getProductSuggestion');
     Route::resource('pos', 'EventPosController');
 

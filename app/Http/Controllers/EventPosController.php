@@ -114,7 +114,7 @@ class EventPosController extends Controller
      */
     public function index()
     {
-        if (!auth()->user()->can('sell.view') && !auth()->user()->can('sell.create')) {
+        if (!auth()->user()->can('events.show') && !auth()->user()->can('events.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -147,7 +147,7 @@ class EventPosController extends Controller
      */
     public function create()
     {
-        if (!auth()->user()->can('sell.create')) {
+        if (!auth()->user()->can('events.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -367,7 +367,7 @@ class EventPosController extends Controller
     public function store(Request $request)
     {
         
-        if (!auth()->user()->can('sell.create') && !auth()->user()->can('direct_sell.access')) {
+        if (!auth()->user()->can('events.create') && !auth()->user()->can('direct_sell.access')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -851,7 +851,7 @@ class EventPosController extends Controller
      */
     public function edit($id)
     {
-        if (!auth()->user()->can('sell.update')) {
+        if (!auth()->user()->can('events.update')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -1112,7 +1112,7 @@ class EventPosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!auth()->user()->can('sell.update') && !auth()->user()->can('direct_sell.access')) {
+        if (!auth()->user()->can('events.update') && !auth()->user()->can('direct_sell.access')) {
             abort(403, 'Unauthorized action.');
         }
         
@@ -1474,7 +1474,7 @@ class EventPosController extends Controller
      */
     public function destroy($id)
     {
-        if (!auth()->user()->can('sell.delete')) {
+        if (!auth()->user()->can('events.delete')) {
             abort(403, 'Unauthorized action.');
         }
         if (request()->ajax()) {
@@ -1885,7 +1885,7 @@ class EventPosController extends Controller
      */
     public function showInvoiceUrl($id)
     {
-        if (!auth()->user()->can('sell.update')) {
+        if (!auth()->user()->can('events.update')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -1928,7 +1928,7 @@ class EventPosController extends Controller
      */
     public function listSubscriptions()
     {
-        if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access')) {
+        if (!auth()->user()->can('events.show') && !auth()->user()->can('direct_sell.access')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -2059,7 +2059,7 @@ class EventPosController extends Controller
      */
     public function toggleRecurringInvoices($id)
     {
-        if (!auth()->user()->can('sell.create')) {
+        if (!auth()->user()->can('events.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -2275,7 +2275,7 @@ class EventPosController extends Controller
                         $q->whereNull('parent_sell_line_id');
                     },'sell_lines.product', 'sell_lines.product.unit', 'sell_lines.variations', 'sell_lines.variations.product_variation', 'payment_lines', 'sell_lines.modifiers', 'sell_lines.lot_details', 'tax', 'sell_lines.sub_unit', 'table', 'service_staff', 'sell_lines.service_staff']);
 
-        if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
+        if (!auth()->user()->can('events.show') && !auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
             $query->where('transactions.created_by', request()->session()->get('user.id'));
         }
 
@@ -2307,7 +2307,7 @@ class EventPosController extends Controller
                     $q->whereNull('parent_sell_line_id');
                 },'sell_lines.product', 'sell_lines.product.unit', 'sell_lines.variations', 'sell_lines.variations.product_variation', 'payment_lines', 'sell_lines.modifiers', 'sell_lines.lot_details', 'tax', 'sell_lines.sub_unit', 'table', 'service_staff', 'sell_lines.service_staff']);
     
-    if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
+    if (!auth()->user()->can('events.show') && !auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
         $query->where('transactions.created_by', request()->session()->get('user.id'));
     }
     

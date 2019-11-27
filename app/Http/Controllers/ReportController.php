@@ -480,7 +480,6 @@ class ReportController extends Controller
                 );
             }
             $products->groupBy('variations.id');
-
             $datatable =  Datatables::of($products)
                 ->editColumn('stock', function ($row) {
                     if ($row->enable_stock) {

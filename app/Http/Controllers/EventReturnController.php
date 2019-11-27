@@ -50,7 +50,7 @@ class EventReturnController extends Controller
      */
     public function index()
     {
-        if (!auth()->user()->can('sell.view') && !auth()->user()->can('sell.create')) {
+        if (!auth()->user()->can('events.show') && !auth()->user()->can('events.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -188,7 +188,7 @@ class EventReturnController extends Controller
      */
     // public function create()
     // {
-    //     if (!auth()->user()->can('sell.create')) {
+    //     if (!auth()->user()->can('events.create')) {
     //         abort(403, 'Unauthorized action.');
     //     }
 
@@ -213,7 +213,7 @@ class EventReturnController extends Controller
      */
     public function add($id)
     {
-        if (!auth()->user()->can('sell.create')) {
+        if (!auth()->user()->can('events.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -248,7 +248,7 @@ class EventReturnController extends Controller
      */
     public function store(Request $request)
     {
-        if (!auth()->user()->can('sell.create')) {
+        if (!auth()->user()->can('events.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -392,7 +392,7 @@ class EventReturnController extends Controller
      */
     public function show($id)
     {
-        if (!auth()->user()->can('sell.view')) {
+        if (!auth()->user()->can('events.show')) {
             abort(403, 'Unauthorized action.');
         }
 
