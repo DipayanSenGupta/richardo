@@ -351,9 +351,57 @@
         </div>
         </div>
         <hr>
+        <!--Event-->
         <div class="row check_group">
         <div class="col-md-1">
-          <h4>@lang( 'sale.sale' )</h4>
+          <h4>Event</h4>
+        </div>
+        <div class="col-md-2">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" class="check_all input-icheck" > {{ __( 'role.select_all' ) }}
+              </label>
+            </div>
+        </div>
+        <div class="col-md-9">
+          <div class="col-md-12">
+            <div class="checkbox">
+              <label>
+                {!! Form::checkbox('permissions[]', 'events.index', in_array('events.index', $role_permissions), 
+                [ 'class' => 'input-icheck']); !!} Event view
+              </label>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="checkbox">
+              <label>
+                {!! Form::checkbox('permissions[]', 'events.create', in_array('events.create', $role_permissions), 
+                [ 'class' => 'input-icheck']); !!} Event create
+              </label>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="checkbox">
+              <label>
+                {!! Form::checkbox('permissions[]', 'events.update', in_array('events.update', $role_permissions), 
+                [ 'class' => 'input-icheck']); !!} Event update
+              </label>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="checkbox">
+              <label>
+                {!! Form::checkbox('permissions[]', 'events.delete', in_array('events.delete', $role_permissions), 
+                [ 'class' => 'input-icheck']); !!} Event delete
+              </label>
+            </div>
+          </div>
+        </div>
+        </div>
+        <hr>
+        <div class="row check_group">
+        <div class="col-md-1">
+          <h4>Sale</h4>
         </div>
         <div class="col-md-2">
             <div class="checkbox">
